@@ -1,0 +1,611 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            30.52355,
+            50.450441
+          ],
+          [
+            131.095336,
+            47.693379
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "ukraina->amurzet_first_settlers",
+        "name": "ukraina → amurzet (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_1"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            27.561831,
+            53.902283999999995
+          ],
+          [
+            132.797023,
+            48.420356
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "belarus->birofeld_first_settlers",
+        "name": "belarus → birofeld (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_2"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            30.52355,
+            50.450441
+          ],
+          [
+            132.924746,
+            48.78992
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "ukraina->bir_first_settlers",
+        "name": "ukraina → bir (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_3",
+          "route_6",
+          "route_31"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            132.924746,
+            48.78992
+          ],
+          [
+            35.205172999999995,
+            31.777497999999998
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "bir->israel_aliyah",
+        "name": "bir → israel (aliyah)",
+        "wave": "aliyah",
+        "route_ids": [
+          "route_4",
+          "route_14",
+          "route_26",
+          "route_27"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            33.367643,
+            45.190635
+          ],
+          [
+            132.924746,
+            48.78992
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "evpatoria->bir_first_settlers",
+        "name": "evpatoria → bir (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_5"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            43.44003,
+            45.095656
+          ],
+          [
+            132.924746,
+            48.78992
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "blagodarniy->bir_settlers_60-80",
+        "name": "blagodarniy → bir (settlers_60-80)",
+        "wave": "settlers_60-80",
+        "route_ids": [
+          "route_7"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            35.205172999999995,
+            31.777497999999998
+          ],
+          [
+            132.924746,
+            48.78992
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "israel->bir_return_to_JAO",
+        "name": "israel → bir (return_to_JAO)",
+        "wave": "return_to_JAO",
+        "route_ids": [
+          "route_8",
+          "route_28"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            30.52355,
+            50.450441
+          ],
+          [
+            132.973389,
+            48.693492
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "ukraina->vald_first_settlers",
+        "name": "ukraina → vald (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_9"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            132.924746,
+            48.78992
+          ],
+          [
+            135.07191699999998,
+            48.480229
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "bir->khabarovsk_internal_emigration",
+        "name": "bir → khabarovsk (internal_emigration)",
+        "wave": "internal_emigration",
+        "route_ids": [
+          "route_10"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            28.46868,
+            49.232559
+          ],
+          [
+            132.924746,
+            48.78992
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "vinnitsa->bir_post_war_settlers",
+        "name": "vinnitsa → bir (post_war_settlers)",
+        "wave": "post_war_settlers",
+        "route_ids": [
+          "route_11"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            30.52355,
+            50.450441
+          ],
+          [
+            132.797023,
+            48.420356
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "ukraina->birofeld_first_settlers",
+        "name": "ukraina → birofeld (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_12"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            30.52355,
+            50.450441
+          ],
+          [
+            132.924746,
+            48.78992
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "ukraina->bir_post_war_settlers",
+        "name": "ukraina → bir (post_war_settlers)",
+        "wave": "post_war_settlers",
+        "route_ids": [
+          "route_13"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            25.845591,
+            52.517289
+          ],
+          [
+            132.924746,
+            48.78992
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "telekhan->bir_first_settlers",
+        "name": "telekhan → bir (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_15"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -77.036527,
+            38.899513
+          ],
+          [
+            134.58000800000002,
+            48.592534
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "amerika->socgorodok_first_settlers",
+        "name": "amerika → socgorodok (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_16"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            30.731689000000003,
+            46.484213000000004
+          ],
+          [
+            132.924746,
+            48.78992
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "odessa->bir_first_settlers",
+        "name": "odessa → bir (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_17"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            35.205172999999995,
+            31.777497999999998
+          ],
+          [
+            132.924746,
+            48.78992
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "israel->bir_aliyah",
+        "name": "israel → bir (aliyah)",
+        "wave": "aliyah",
+        "route_ids": [
+          "route_18"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            30.52355,
+            50.450441
+          ],
+          [
+            131.721596,
+            48.994125
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "ukraina->birakan_first_settlers",
+        "name": "ukraina → birakan (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_19"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            35.383911,
+            45.026654
+          ],
+          [
+            132.924746,
+            48.78992
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "feodosia->bir_first_settlers",
+        "name": "feodosia → bir (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_20"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            28.591048999999998,
+            49.892628
+          ],
+          [
+            132.924746,
+            48.78992
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "berdichev->bir_first_settlers",
+        "name": "berdichev → bir (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_21"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            30.52355,
+            50.450441
+          ],
+          [
+            131.05969,
+            49.020286999999996
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "ukraina->obluchie_post_war_settlers",
+        "name": "ukraina → obluchie (post_war_settlers)",
+        "wave": "post_war_settlers",
+        "route_ids": [
+          "route_22"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.014281,
+            52.42416
+          ],
+          [
+            131.721596,
+            48.994125
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "gomel->birakan_first_settlers",
+        "name": "gomel → birakan (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_23"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            26.585146999999996,
+            48.678069
+          ],
+          [
+            131.721596,
+            48.994125
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "kamenets_podolsky->birakan_first_settlers",
+        "name": "kamenets_podolsky → birakan (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_24"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            27.802165999999996,
+            48.441053000000004
+          ],
+          [
+            132.797023,
+            48.420356
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "mogilev_podolsky->birofeld_first_settlers",
+        "name": "mogilev_podolsky → birofeld (first_settlers)",
+        "wave": "first_settlers",
+        "route_ids": [
+          "route_25"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            135.07191699999998,
+            48.480229
+          ],
+          [
+            132.973389,
+            48.693492
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "khabarovsk->vald_settlers_60-80",
+        "name": "khabarovsk → vald (settlers_60-80)",
+        "wave": "settlers_60-80",
+        "route_ids": [
+          "route_29"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.106075,
+            56.946844999999996
+          ],
+          [
+            132.924746,
+            48.78992
+          ]
+        ]
+      },
+      "properties": {
+        "group_id": "riga->bir_settlers_60-80",
+        "name": "riga → bir (settlers_60-80)",
+        "wave": "settlers_60-80",
+        "route_ids": [
+          "route_30"
+        ]
+      }
+    }
+  ]
+}

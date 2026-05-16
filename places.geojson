@@ -1,0 +1,434 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          132.924746,
+          48.78992
+        ]
+      },
+      "properties": {
+        "place_id": "bir",
+        "name": "Биробиджан",
+        "short_history": "Биробиджан\nБиробиджан был основан в 1916 году как станция Тихонькая в рамках освоения земель вокруг Амурской железной дороги. При станции был основан поселок. В 1928 году, после принятия постановления Президиума ЦИК СССР о закреплении за трудящимися евреями свободных земель в Приамурье Тихонькая стала базой приема переселенцев и центром снабжения переселенческого района. В 1931 году поселку было присвоено название Биробиджан – в честь протекающих в нем рек, а в 1937 году он уже стал городом.\nВ 1930-х годах Биробиджан активно застраивался и развивался: возникали артели, строились дома, школы, издавались газеты и журналы, работало радио, увеличивалось население. Биробиджан являлся распределительным железнодорожным центром Еврейской автономной области.\nВ годы репрессий и Великой Отечественной войны население города сильно пострадало: многие были арестованы и сосланы в лагеря, во время войны ушли на фронт и не вернулись. После войны Биробиджан не избежал гонений в связи с борьбой с космополитизмом.\nПослевоенные репрессии нанесли решающий удар проекту развития Биробиджана как национального центра. Практически прекратилась официальная поддержка инициатив, связанных с развитием и поддержанием еврейской культуры.\nВ 1990-е годы подавляющее большинство биробиджанских евреев эмигрировало из России, преимущественно, в Израиль, отчего количество еврейского населения в городе сильно упало. Постепенно стали закрываться городские предприятия. Однако, произошло значительное оживление в развитии еврейской культуры: в городе начали работать еврейские общины, в университете открыта кафедра по изучению идиша, проводятся регулярные фестивали и праздники.",
+        "layers": [
+          "repression",
+          "identity_of_place",
+          "toponymy",
+          "identity_with_place"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          131.095336,
+          47.693379
+        ]
+      },
+      "properties": {
+        "place_id": "amurzet",
+        "name": "Амурзет",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.52355,
+          50.450441
+        ]
+      },
+      "properties": {
+        "place_id": "ukraina",
+        "name": "Украина",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          27.561831,
+          53.902283999999995
+        ]
+      },
+      "properties": {
+        "place_id": "belarus",
+        "name": "Беларусь",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          132.797023,
+          48.420356
+        ]
+      },
+      "properties": {
+        "place_id": "birofeld",
+        "name": "Бирофельд",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.205172999999995,
+          31.777497999999998
+        ]
+      },
+      "properties": {
+        "place_id": "israel",
+        "name": "Израиль",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.367643,
+          45.190635
+        ]
+      },
+      "properties": {
+        "place_id": "evpatoria",
+        "name": "Евпатория",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          43.44003,
+          45.095656
+        ]
+      },
+      "properties": {
+        "place_id": "blagodarniy",
+        "name": "Благодарный",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          132.973389,
+          48.693492
+        ]
+      },
+      "properties": {
+        "place_id": "vald",
+        "name": "Валдгейм",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.07191699999998,
+          48.480229
+        ]
+      },
+      "properties": {
+        "place_id": "khabarovsk",
+        "name": "Хабаровск",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          131.721596,
+          48.994125
+        ]
+      },
+      "properties": {
+        "place_id": "birakan",
+        "name": "Биракан",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.46868,
+          49.232559
+        ]
+      },
+      "properties": {
+        "place_id": "vinnitsa",
+        "name": "Винницкая область",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.845591,
+          52.517289
+        ]
+      },
+      "properties": {
+        "place_id": "telekhan",
+        "name": "Телеханы",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          134.58000800000002,
+          48.592534
+        ]
+      },
+      "properties": {
+        "place_id": "socgorodok",
+        "name": "Соцгородок",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.731689000000003,
+          46.484213000000004
+        ]
+      },
+      "properties": {
+        "place_id": "odessa",
+        "name": "Одесса",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.383911,
+          45.026654
+        ]
+      },
+      "properties": {
+        "place_id": "feodosia",
+        "name": "Феодосия",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.591048999999998,
+          49.892628
+        ]
+      },
+      "properties": {
+        "place_id": "berdichev",
+        "name": "Бердичев",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.014281,
+          52.42416
+        ]
+      },
+      "properties": {
+        "place_id": "gomel",
+        "name": "Гомель",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          131.05969,
+          49.020286999999996
+        ]
+      },
+      "properties": {
+        "place_id": "obluchie",
+        "name": "Облучье",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          27.802165999999996,
+          48.441053000000004
+        ]
+      },
+      "properties": {
+        "place_id": "mogilev_podolsky",
+        "name": "Могилев-Подольский",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.585146999999996,
+          48.678069
+        ]
+      },
+      "properties": {
+        "place_id": "kamenets_podolsky",
+        "name": "Каменец-Подольский",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.106075,
+          56.946844999999996
+        ]
+      },
+      "properties": {
+        "place_id": "riga",
+        "name": "Рига",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.036527,
+          38.899513
+        ]
+      },
+      "properties": {
+        "place_id": "amerika",
+        "name": "Америка",
+        "short_history": "",
+        "layers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          132.887052,
+          48.808186
+        ]
+      },
+      "properties": {
+        "place_id": "bir_dalselmash",
+        "name": "Завод \"Дальсельмаш\"",
+        "short_history": "",
+        "layers": [
+          "identity_of_place",
+          "toponymy",
+          "identity_with_place"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          132.93013100000002,
+          48.792041
+        ]
+      },
+      "properties": {
+        "place_id": "bir_memorial_kholokost",
+        "name": "Обелиск жертвам Холокоста",
+        "short_history": "",
+        "layers": [
+          "holocaust"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          132.932999,
+          48.791199
+        ]
+      },
+      "properties": {
+        "place_id": "bir_memorial",
+        "name": "Мемориал воинам ВОВ",
+        "short_history": "",
+        "layers": [
+          "war"
+        ]
+      }
+    }
+  ]
+}
