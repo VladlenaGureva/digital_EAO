@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Цифровой маршрут по ЕАО</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -21,84 +20,128 @@
             overflow: hidden;
             background: #f0f2f5;
         }
-
         .top-section {
             display: flex;
             flex: 1;
             overflow: hidden;
         }
-
         .panel-left {
-            width: 280px;
+            width: 380px;
             background: #f4eed1;
             border-right: 1px solid #ccc;
             padding: 20px;
-            box-shadow: 2px 0 8px rgba(0,0,0,0.05);
             z-index: 10;
-            overflow: visible;
+            overflow-y: auto;
         }
         .panel-left h2 {
             font-size: 1.3rem;
             margin-bottom: 20px;
-            color: #2c3e50;
+            color: #583b35;
         }
-        .legend-item {
+        .filter-group {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0d7b0;
+            padding-bottom: 8px;
+        }
+        .filter-group summary {
+            font-weight: bold;
+            cursor: pointer;
+            color: #583b35;
+            margin-bottom: 5px;
+            list-style: none;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .legend-item i {
-            font-size: 1.2rem;
-            color: #2c3e50;
-            width: 24px;
-            text-align: center;
+        .filter-group summary::-webkit-details-marker {
+            display: none;
         }
-        .layer-name {
-            font-weight: 600;
-            color: #2c3e50;
-            cursor: default;
-            border-bottom: 1px dashed #aaa;
+        .filter-group summary::before {
+            content: "▶";
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+            margin-right: 5px;
         }
-
+        .filter-group[open] summary::before {
+            transform: rotate(90deg);
+        }
+        .sub-filters {
+            margin-left: 28px;
+            padding-left: 10px;
+            border-left: 2px solid #d0c8a0;
+        }
+        .filter-item, .simple-filter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        .filter-item input, .simple-filter input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            margin: 0;
+        }
+        .filter-item label, .simple-filter label {
+            cursor: pointer;
+            font-size: 1rem;
+            color: #583b35;
+            line-height: 1.2;
+        }
+        .simple-filter label {
+            font-weight: bold;
+        }
+        .sub-filters .filter-item label {
+            font-size: 0.9rem;
+        }
+        .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 80%;
+            background: #583b35;
+            color: #efead8;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+        .info-icon:hover {
+            background: #a0986a;
+            color: white;
+        }
         .map-wrapper {
             flex: 1;
             position: relative;
-            overflow: hidden;
         }
         #map {
             height: 100%;
             width: 100%;
             background: #c8e0e0;
         }
-
         .project-info {
             position: absolute;
             top: 20px;
-            left: 50px;
+            left: 20px;
             z-index: 1000;
-            background: rgb(108, 53, 12);
-            padding: 10px 18px;
+            background: rgba(108, 53, 12, 0.9);
+            padding: 8px 16px;
             border-radius: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             font-weight: 600;
             font-size: 1rem;
             color: #f2e9ba;
             cursor: pointer;
-            border: 1px solid #ddd;
-            transition: background 0.2s, box-shadow 0.2s;
             backdrop-filter: blur(4px);
-            background: rgba(108, 53, 12);
         }
-        .project-info:hover {
-            background: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-        }
-
         .zoom-control {
             position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 20px;
+            right: 20px;
             z-index: 1000;
             background: white;
             border-radius: 6px;
@@ -106,329 +149,1435 @@
             display: flex;
             flex-direction: column;
             width: 40px;
-            border: 1px solid #ddd;
-            overflow: hidden;
         }
         .zoom-control button {
-            width: 100%;
+            width: 40px;
             height: 40px;
             border: none;
             background: white;
             font-size: 20px;
-            font-weight: bold;
             cursor: pointer;
-            transition: background 0.2s;
-            color: #333;
-        }
-        .zoom-control button:hover {
-            background: #f5f5f5;
         }
         .zoom-control button:first-child {
             border-bottom: 1px solid #ddd;
         }
-
-        /* Нижняя информационная панель */
+        .zoom-control button:hover {
+            background: #f5f5f5;
+        }
         .bottom-panel {
-            left: 0;
+            position: absolute;
+            left: 380px;
             right: 0;
             bottom: 0;
-            height: 0;
-            overflow: hidden;
+            height: 65vh;
             background: #f4eed1;
             border-top: 1px solid #ccc;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-            transition: height 0.3s ease;
-            position: absolute;
+            transition: transform 0.3s ease;
             z-index: 500;
-        }
-        .bottom-panel.open {
-            height: 450px; /* можно регулировать */
-            overflow-y: auto;
-        }
-        .bottom-panel .panel-content {
-            padding: 20px;
-            position: relative;
-        }
-        .bottom-panel .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #666;
-            z-index: 21;
-        }
-        .bottom-panel .close-btn:hover {
-            color: #000;
-        }
-        .bottom-panel h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #2c3e50;
-            padding-right: 40px;
-        }
-
-        /* Двухколоночный макет: текст слева, галерея справа */
-        .bottom-panel .place-content {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap; /* на узких экранах */
-        }
-        .bottom-panel .place-content .description {
-            flex: 1 1 350px;
-            max-width: 600px;
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #333;
-        }
-        .bottom-panel .place-content .description p {
-            margin-bottom: 1em;
-        }
-        .bottom-panel .place-content .photo-gallery {
-            flex: 1 1 280px;
-            min-width: 240px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            align-content: start;
-        }
-        .photo-item {
+            overflow: hidden;
             display: flex;
             flex-direction: column;
+            transform: translateY(100%);
         }
-        .photo-item img {
+        .bottom-panel.open {
+            transform: translateY(0);
+        }
+        .panel-header {
+            padding: 12px 20px;
+            background: #e8e0c0;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .panel-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .place-content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .left-column {
+            flex: 2;
+            min-width: 250px;
+        }
+        .right-column {
+            flex: 1;
+            min-width: 280px;
+            max-width: 400px;
+        }
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            background: #e0d7b8;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px 20px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .tab-btn.active {
+            background: #fff2cf;
+            border-bottom: 2px solid #2c3e50;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .historical-note {
+            background: #fef7e0;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .narrative-item {
+            margin-bottom: 24px;
+            border-left: 3px solid #2c3e50;
+            padding-left: 15px;
+        }
+        .narrative-speaker {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        audio {
             width: 100%;
+            min-width: 200px;
+            margin-top: 8px;
+        }
+        .transcript-toggle {
+            background: none;
+            border: none;
+            color: #2c3e50;
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 4px 0;
+            margin-top: 8px;
+            text-decoration: underline;
+        }
+        .narrative-quote {
+            margin: 8px 0;
+            line-height: 1.5;
+            display: none;
+        }
+        .photo-carousel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            background: #fff8ed;
+            padding: 15px;
+            border-radius: 12px;
+            position: relative;
+        }
+        .photo-frame {
+            text-align: center;
+            width: 100%;
+            background: #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+        .photo-frame img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
             height: auto;
             object-fit: contain;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
         }
-        .photo-item .photo-caption {
-            font-size: 0.8rem;
+        .zoom-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 18px;
+            transition: 0.2s;
+        }
+        .zoom-icon:hover {
+            background: rgba(0,0,0,0.8);
+            transform: scale(1.05);
+        }
+        .photo-caption {
+            font-size: 0.85rem;
             color: #555;
             margin-top: 4px;
-            line-height: 1.4;
         }
-        .photo-item .photo-caption .source {
-            font-style: italic;
-            display: block;
-            color: #777;
+        .photo-source {
+            font-size: 0.75rem;
+            margin-top: 2px;
         }
-        /* Если фото одно, растягиваем на две колонки */
-        .photo-gallery:has(:only-child) {
-            grid-template-columns: 1fr;
-        }
-        .photo-gallery:has(:only-child) .photo-item img {
-            height: auto;
-            object-fit: contain;
-        }
-
-        /* Информация об аудио */
-        .audio-info {
-            font-size: 0.9rem;
+        .photo-source a {
             color: #2c3e50;
-            background: #f0f7ff;
-            padding: 8px 12px;
-            border-radius: 4px;
-            margin: 15px 0 5px 0;
-            border-left: 4px solid #2c3e50;
-            clear: both;
-            width: 100%;
-            box-sizing: border-box;
+            text-decoration: none;
+            border-bottom: 1px dotted #2c3e50;
         }
-        /* Аудиоплеер на всю ширину */
-        .place-content audio {
-            width: 100%;
-            margin-top: 10px;
+        .photo-source a:hover {
+            text-decoration: underline;
+        }
+        .carousel-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .carousel-controls button {
+            background: #e0d7b8;
+            border: none;
+            font-size: 1.2rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .carousel-controls button:hover {
+            background: #c0b68a;
+        }
+        .photo-index {
+            font-size: 0.8rem;
+            color: #2c3e50;
         }
         .empty-message {
             color: #95a5a6;
             font-style: italic;
         }
-
         .custom-marker {
             background: white;
             border-radius: 50%;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             border: 2px solid #2c3e50;
-            color: #2c3e50;
-            font-size: 16px;
-            line-height: 30px;
             width: 30px;
             height: 30px;
+            line-height: 26px;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        .short-history {
+            background: #fff4e0;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .short-history p {
+            margin-bottom: 10px;
+        }
+        .logos {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+            align-items: center;
+        }
+        .logos img {
+            width: 70%;
+            max-width: 180px;
+            height: auto;
+        }
+        .project-block {
+            margin-bottom: 24px;
+        }
+        .project-block strong {
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1.05rem;
+        }
+        .project-block p, .project-block ul {
+            margin-left: 0;
+            margin-top: 4px;
+            line-height: 1.45;
+        }
+        .project-block ul {
+            padding-left: 20px;
+        }
+        hr.sep {
+            margin: 16px 0;
+            border: 0;
+            height: 1px;
+            background: #e0d7b0;
+        }
+        .layer-tooltip {
+            position: absolute;
+            background: #fffef7;
+            color: #1e2a36;
+            padding: 12px 16px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            font-size: 0.85rem;
+            line-height: 1.45;
+            max-width: 280px;
+            z-index: 2000;
+            border: 1px solid #e0d7b0;
+            pointer-events: auto;
+            display: none;
+        }
+        .layer-tooltip .tooltip-close {
+            float: right;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            line-height: 1;
+            margin-left: 12px;
+            color: #8b7a5c;
+        }
+        .show-all-btn {
+            background: #c0b68a;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 16px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .show-all-btn:hover {
+            background: #a0986a;
+            color: white;
+        }
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .image-modal img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.5);
+        }
+        .image-modal .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .arrow-marker {
+            background: transparent !important;
+            border: none !important;
+            pointer-events: none;
+        }
+        .legend-route-symbol {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .legend-dash {
+            display: inline-block;
+            width: 30px;
+            height: 4px;
+            background: repeating-linear-gradient(90deg, currentColor, currentColor 6px, transparent 6px, transparent 12px);
+        }
+        .legend-arrow {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .leaflet-interactive {
+            cursor: pointer;
+        }
+        /* Стили для расширенного tooltip */
+        .custom-tooltip {
+            font-size: 12px;
+            line-height: 1.4;
+            text-align: center;
+        }
+        .tooltip-icons {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+        .tooltip-icons img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+        .leaflet-control-attribution a:first-child {
+    display: none;
         }
     </style>
 </head>
 <body>
-    <div class="top-section">
-        <div class="panel-left">
-            <h2>Легенда</h2>
-            <div class="legend-item">
-                <i class="fas fa-map-pin"></i>
-                <span class="layer-name" title="Населенные пункты, основанные или застроенные еврейскими переселенцами в 1920–1950‑е годы.">
-                    Поселения еврейских переселенцев
-                </span>
-            </div>
-        </div>
-
-        <div class="map-wrapper">
-            <div id="map"></div>
-            <div class="project-info" id="project-info">
-                ⓘ По следам искателей счастья
-            </div>
-            <div class="zoom-control">
-                <button id="zoom-in">+</button>
-                <button id="zoom-out">−</button>
-            </div>
-            <!-- Нижняя панель теперь внутри map-wrapper -->
-    <div class="bottom-panel" id="bottom-panel">
-        <div class="panel-content">
-            <button class="close-btn" id="close-panel">&times;</button>
-            <h3 id="place-title">Информация о месте</h3>
-            <div id="place-content" class="place-content">
-                <p class="empty-message">Выберите точку на карте</p>
+<div class="top-section">
+    <div class="panel-left">
+        <h2>Легенда</h2>
+        <div id="filters-container"></div>
+        <div class="legend-item">
+            <i class="fas fa-map-pin"></i>
+            <span>Точки на карте</span>
         </div>
     </div>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        // ---------- Инициализация карты ----------
-        const map = L.map('map', { zoomControl: false }).setView([48.8, 132.0], 8);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
-        // ---------- Кастомная иконка ----------
-        const settlementIcon = L.divIcon({
-            className: 'custom-marker',
-            html: '<i class="fas fa-map-pin"></i>',
-            iconSize: [30, 30],
-            iconAnchor: [15, 30],
-            popupAnchor: [0, -30]
-        });
-
-        function showPlaceInfo(props) {
-    document.getElementById('place-title').textContent = props.name;
-
-    let html = `<div class="description">${props.description}</div>`;
-
-    // ---- Обработка изображений ----
-    let images = [];
-    if (props.images && Array.isArray(props.images)) {
-        images = props.images;
-    } else if (props.image && props.image.trim() !== '') {
-        images = [{ url: props.image, caption: '', source: '' }];
-    }
-
-    if (images.length > 0) {
-        html += '<div class="photo-gallery">';
-        images.forEach(img => {
-            if (img.url && img.url.trim() !== '') {
-                html += '<div class="photo-item">';
-                html += `<img src="${img.url}" alt="${props.name}">`;
-                if (img.caption || img.source) {
-                    html += '<div class="photo-caption">';
-                    if (img.caption) html += `<span class="caption">${img.caption}</span>`;
-                    if (img.source) html += `<span class="source">Источник: ${img.source}</span>`;
-                    html += '</div>';
-                }
-                html += '</div>';
-            }
-        });
-        html += '</div>';
-    }
-
-    // ---- Обработка аудио (обёрнуто в div с шириной 100%) ----
-    if (props.audio) {
-        html += '<div class="audio-wrapper" style="width:100%;">';
-        if (typeof props.audio === 'string' && props.audio.trim() !== '') {
-            html += `<audio controls src="${props.audio}"></audio>`;
-        } else if (typeof props.audio === 'object' && props.audio.url) {
-            if (props.audio.info) {
-                html += `<p class="audio-info">${props.audio.info}</p>`;
-            }
-            html += `<audio controls src="${props.audio.url}"></audio>`;
-        }
-        html += '</div>';
-    }
-
-    document.getElementById('place-content').innerHTML = html;
-}
-
-        // ---------- Функция показа информации о проекте ----------
-        function showProjectInfo() {
-    document.getElementById('place-title').textContent = 'О проекте';
-    
-    let html = `
-        <div class="description">
-            <p><strong>«По следам искателей счастья»</strong></p>
-            <p>Цифровой туристический маршрут по Еврейской автономной области, созданный на основе корпуса устных свидетельств.</p> 
-            <p>Корпус представляет собой 57 интервью с местными жителями, экспертами в области культуры и эмигрантами ЕАО, собранные в ходе экспедиции центра "Сэфер" в 2025 году. В работе также использованы фотографии из личных архивов информантов и сделанные в ходе экспедиции, архивные документы и опубликованные материалы.</p>
-            <p>Цель маршрута — сохранить и передать сложность памяти о еврейской истории и культуре ЕАО, соединив места с живыми голосами.</p>
-            <p>Проект реализуется в рамках магистерской диссертации при поддержке АНО Научно-гуманитарного центра «Сэфер».</p> 
+    <div class="map-wrapper">
+        <div id="map"></div>
+        <div class="project-info" id="project-info">ⓘ По следам искателей счастья</div>
+        <div class="zoom-control">
+            <button id="zoom-in">+</button>
+            <button id="zoom-out">−</button>
         </div>
-    `;
+    </div>
+</div>
+<div class="bottom-panel" id="bottom-panel">
+    <div class="panel-header">
+        <h3 id="place-title">Информация о месте</h3>
+        <button class="close-btn" id="close-panel">×</button>
+    </div>
+    <div class="panel-body" id="panel-body">
+        <div id="place-content" class="place-content"></div>
+    </div>
+</div>
+<div id="layer-tooltip" class="layer-tooltip"></div>
+<div id="image-modal" class="image-modal">
+    <span class="close-modal">&times;</span>
+    <img id="modal-image" src="" alt="Увеличенное фото">
+</div>
 
-    // Добавляем галерею фотографий проекта (пример с двумя фото)
-    html += '<div class="photo-gallery">';
-    html += `
-        <div class="photo-item">
-            <img src="images/logo3.png" alt="Логотип проекта">
-            <div class="photo-caption">Логотип АНО Научно-гуманитарный Центр "Сэфер"</div>
-        </div>
-    `;
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // ---------- Глобальные переменные ----------
+    let map;
+    let geoJSONLayer;
+    let routesLayer;
+    let activeFilters = new Set();
+    let allLayersSet = new Set();
+    let currentPlaceId = null;
+    let currentPlaceData = null;
+    let showingAllLayers = false;
+    let arrowGroup = null;
 
-    document.getElementById('place-content').innerHTML = html;
-    openBottomPanel();
-}
+    // Порядок слоёв для группы "Маршруты искателей счастья"
+    const routesOrder = [
+        "first_settlers",
+        "post_war_settlers",
+        "settlers_60-80",
+        "aliyah",
+        "internal_emigration",
+        "return_to_JAO",
+        "settlers_90-2000"
+    ];
 
-        // ---------- Управление нижней панелью ----------
-        const bottomPanel = document.getElementById('bottom-panel');
-        const closeBtn = document.getElementById('close-panel');
+    // Каталог слоёв
+    const layerCatalog = {
+        "first_settlers": { label: "Первые переселенцы", group: "Маршруты искателей счастья" },
+        "post_war_settlers": { label: "Послевоенные переселенцы", group: "Маршруты искателей счастья" },
+        "settlers_60-80": { label: "Переселенцы 1960‑1980", group: "Маршруты искателей счастья" },
+        "settlers_90-2000": { label: "Переселенцы 1990‑2000", group: "Маршруты искателей счастья" },
+        "aliyah": { label: "Алия (репатриация в Израиль)", group: "Маршруты искателей счастья" },
+        "internal_emigration": { label: "Внутренняя миграция", group: "Маршруты искателей счастья" },
+        "return_to_JAO": { label: "Возвращение в ЕАО", group: "Маршруты искателей счастья" },
+        "repression": { label: "Репрессии", group: "Места памяти" },
+        "holocaust": { label: "Холокост", group: "Места памяти" },
+        "war": { label: "Великая Отечественная война", group: "Места памяти" },
+        "professional_trajectory": { label: "Профессиональная траектория", group: "Места, формирующие идентичность" },
+        "educational_trajectory": { label: "Образовательная траектория", group: "Места, формирующие идентичность" },
+        "family_personal_trajectory": { label: "Семейная (личная) траектория", group: "Места, формирующие идентичность" },
+        "toponymy": { label: "Народная топонимика", group: null },
+        "identity_of_place": { label: "Идентичность места", group: null },
+        "identity_with_place": { label: "Идентификация с местом", group: null }
+    };
 
-        function openBottomPanel() {
-            bottomPanel.classList.add('open');
-        }
+    const waveColors = {
+        "first_settlers": "rgb(246, 18, 18)",
+        "post_war_settlers": "rgb(235, 134, 12)",
+        "settlers_60-80": "rgb(244, 254, 55)",
+        "settlers_90-2000": "rgb(7, 174, 88)",
+        "aliyah": "rgb(19, 159, 209)",
+        "internal_emigration": "rgb(46, 68, 156)",
+        "return_to_JAO": "rgb(130, 7, 171)"
+    };
+    const defaultLineColor = "#888888";
 
-        function closeBottomPanel() {
-            bottomPanel.classList.remove('open');
-        }
+    const tooltipTexts = {
+        "Маршруты искателей счастья": "волны миграций в ЕАО и за ее пределы в разные временные периоды.",
+        "Места памяти": "материальные или символические объекты, в которых общество кристаллизует коллективную память.",
+        "Места, формирующие идентичность": "место, через которое человек себя осознает, связывает свою жизнь и судьбу с ним.",
+        "Народная топонимика": "неофициальные названия мест, а также народные легенды и истории, связанные с ними.",
+        "Идентичность места": "устойчивое представление, позволяющее отличать одно место от другого через физическое окружение места, его деятельность, ситуации и события, индивидуальные и групповые значения, создаваемые через опыт и интенции людей в отношении этого места.",
+        "Идентификация с местом": "степень привязанности, вовлеченности и заботы, которую человек или группа испытывает к конкретному месте."
+    };
 
-        closeBtn.addEventListener('click', closeBottomPanel);
-        map.on('click', closeBottomPanel);
+    // ---------- Инициализация карты ----------
+    map = L.map('map', { zoomControl: false }).setView([48.78, 132.92], 8);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
 
-        document.getElementById('project-info').addEventListener('click', showProjectInfo);
-        document.getElementById('zoom-in').addEventListener('click', () => map.zoomIn());
-        document.getElementById('zoom-out').addEventListener('click', () => map.zoomOut());
+    L.control.scale({ metric: true, imperial: false, position: 'bottomright' }).addTo(map);
 
-        // ---------- Загрузка данных из GeoJSON ----------
-fetch('data.geojson')
-    .then(response => {
-        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
-        return response.json();
-    })
-    .then(data => {
-        L.geoJSON(data, {
-            pointToLayer: (feature, latlng) => {
-                return L.marker(latlng, { icon: settlementIcon });
-            },
-            onEachFeature: (feature, layer) => {
-                const props = feature.properties;
-                layer.bindTooltip(props.name, { permanent: true, direction: 'top', offset: [0, -20] });
-                layer.on('click', () => {
-                    showPlaceInfo(props);
-                    openBottomPanel();
-                });
-            }
-        }).addTo(map); // ← добавили .addTo(map) и закрыли объект опций
-    })
-    .catch(error => {
-        console.error('Ошибка загрузки GeoJSON:', error);
-        document.getElementById('place-content').innerHTML = '<p class="empty-message">Не удалось загрузить данные</p>';
+    map.on('zoomend', function() {
+        if (routesLayer) addArrowsToRoutes();
     });
-    </script>
+
+    const settlementIcon = L.divIcon({
+        className: 'custom-marker',
+        html: '<i class="fas fa-map-pin"></i>',
+        iconSize: [30, 30],
+        iconAnchor: [15, 30],
+        popupAnchor: [0, -30]
+    });
+
+    // ---------- Вспомогательные функции ----------
+    const tooltipDiv = document.getElementById('layer-tooltip');
+    let currentVisible = false;
+    function showLayerTooltip(text, event) {
+        tooltipDiv.innerHTML = `<span class="tooltip-close">✕</span><p>${text}</p>`;
+        const rect = event.target.getBoundingClientRect();
+        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        let left = rect.left + scrollLeft + 22;
+        let top = rect.top + scrollTop - 10;
+        if (left + 280 > window.innerWidth + scrollLeft) left = rect.left + scrollLeft - 280;
+        if (top + 100 > window.innerHeight + scrollTop) top = rect.top + scrollTop - 100;
+        tooltipDiv.style.left = left + 'px';
+        tooltipDiv.style.top = top + 'px';
+        tooltipDiv.style.display = 'block';
+        currentVisible = true;
+        const closeSpan = tooltipDiv.querySelector('.tooltip-close');
+        closeSpan.onclick = (e) => {
+            e.stopPropagation();
+            tooltipDiv.style.display = 'none';
+            currentVisible = false;
+        };
+    }
+    function hideLayerTooltip() {
+        tooltipDiv.style.display = 'none';
+        currentVisible = false;
+    }
+    document.addEventListener('click', function(e) {
+        if (currentVisible && !tooltipDiv.contains(e.target) && !e.target.classList.contains('info-icon')) {
+            hideLayerTooltip();
+        }
+    });
+
+    function fixAudioUrl(url) {
+        if (!url) return '';
+        if (url.startsWith('http') || url.includes('.mp3') || url.includes('.ogg') || url.includes('.wav')) return url;
+        return url + '.mp3';
+    }
+
+    // ========== Функция для генерации HTML всплывающей подсказки с иконками ==========
+    function getTooltipContent(feature) {
+        const name = feature.properties?.name || 'Без названия';
+        const layers = feature.properties?.layers || [];
+        // Выбираем только те слои, которые активны в фильтрах и есть у места
+        const activeLayers = layers.filter(l => activeFilters.has(l));
+        let iconsHtml = '';
+        if (activeLayers.length > 0) {
+            iconsHtml = '<div class="tooltip-icons">';
+            activeLayers.forEach(layer => {
+                const iconUrl = `images/${layer}.svg`;
+                iconsHtml += `<img src="${iconUrl}" alt="${layerCatalog[layer]?.label || layer}" title="${layerCatalog[layer]?.label || layer}" onerror="this.style.display='none'">`;
+            });
+            iconsHtml += '</div>';
+        }
+        return `<div class="custom-tooltip"><strong>${name}</strong>${iconsHtml}</div>`;
+    }
+
+    // ========== ФИЛЬТРАЦИЯ ==========
+    let allGeoJSONFeatures = [];
+    let allRouteFeatures = [];
+
+    function applyFilterToMarkers() {
+        if (!geoJSONLayer || !routesLayer) return;
+
+        // 1. Точки
+        geoJSONLayer.clearLayers();
+        allGeoJSONFeatures.forEach(feature => {
+            const featureLayers = feature.properties?.layers || [];
+            if (activeFilters.size === 0 || featureLayers.length === 0 || Array.from(activeFilters).some(f => featureLayers.includes(f))) {
+                geoJSONLayer.addData(feature);
+            }
+        });
+
+        // 2. Маршруты
+        routesLayer.clearLayers();
+        allRouteFeatures.forEach(feature => {
+            const wave = feature.properties?.wave;
+            if (activeFilters.size === 0 || (wave && activeFilters.has(wave))) {
+                routesLayer.addData(feature);
+            }
+        });
+        addArrowsToRoutes();
+    }
+
+    // ---------- Стрелки на маршрутах ----------
+    function addArrowsToRoutes() {
+        if (arrowGroup) map.removeLayer(arrowGroup);
+        arrowGroup = L.layerGroup().addTo(map);
+        if (!routesLayer) return;
+        routesLayer.eachLayer(function(layer) {
+            if (!layer.getLatLngs || !layer.getLatLngs().length) return;
+            const latlngs = layer.getLatLngs();
+            if (latlngs.length < 2) return;
+            let totalLength = 0;
+            const segments = [];
+            for (let i = 0; i < latlngs.length - 1; i++) {
+                const segLength = latlngs[i].distanceTo(latlngs[i+1]);
+                segments.push({ start: latlngs[i], end: latlngs[i+1], length: segLength });
+                totalLength += segLength;
+            }
+            let target = totalLength / 2;
+            let accumulated = 0;
+            let arrowPoint = null;
+            let angle = 0;
+            for (let seg of segments) {
+                if (target <= accumulated + seg.length) {
+                    const t = (target - accumulated) / seg.length;
+                    const lat = seg.start.lat + (seg.end.lat - seg.start.lat) * t;
+                    const lng = seg.start.lng + (seg.end.lng - seg.start.lng) * t;
+                    arrowPoint = L.latLng(lat, lng);
+                    const dx = seg.end.lng - seg.start.lng;
+                    const dy = seg.end.lat - seg.start.lat;
+                    angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                    break;
+                }
+                accumulated += seg.length;
+            }
+            if (arrowPoint) {
+                const wave = layer.feature?.properties?.wave;
+                const color = waveColors[wave] || defaultLineColor;
+                const arrowIcon = L.divIcon({
+                    html: `<div style="transform: rotate(${angle}deg); font-size: 22px; line-height: 1; color: ${color}; text-shadow: 0 0 1px white;">➔</div>`,
+                    iconSize: [22, 22],
+                    className: 'arrow-marker'
+                });
+                L.marker(arrowPoint, { icon: arrowIcon }).addTo(arrowGroup);
+            }
+        });
+    }
+
+    // ---------- Построение панели фильтров (с иконками и вызовом applyFilter) ----------
+    function buildFilterPanel() {
+        const container = document.getElementById('filters-container');
+        container.innerHTML = '';
+        const groups = new Map();
+        const standalone = [];
+        allLayersSet.forEach(layer => {
+            const info = layerCatalog[layer];
+            if (info && info.group) {
+                if (!groups.has(info.group)) groups.set(info.group, []);
+                groups.get(info.group).push(layer);
+            } else if (info && !info.group) {
+                standalone.push(layer);
+            } else {
+                standalone.push(layer);
+            }
+        });
+        if (groups.has("Маршруты искателей счастья")) {
+            const routeLayers = groups.get("Маршруты искателей счастья");
+            routeLayers.sort((a, b) => {
+                const idxA = routesOrder.indexOf(a);
+                const idxB = routesOrder.indexOf(b);
+                if (idxA === -1 && idxB === -1) return 0;
+                if (idxA === -1) return 1;
+                if (idxB === -1) return -1;
+                return idxA - idxB;
+            });
+            groups.set("Маршруты искателей счастья", routeLayers);
+        }
+
+        function updateGroupAllCheckbox(groupDiv, groupLayers, allChk) {
+            if (!allChk) return;
+            const allChecked = groupLayers.every(l => activeFilters.has(l));
+            allChk.checked = allChecked;
+            allChk.indeterminate = !allChecked && groupLayers.some(l => activeFilters.has(l));
+        }
+
+        for (const [groupName, groupLayers] of groups.entries()) {
+            const details = document.createElement('details');
+            details.className = 'filter-group';
+            details.open = true;
+            const summary = document.createElement('summary');
+            const allCheckbox = document.createElement('input');
+            allCheckbox.type = 'checkbox';
+            allCheckbox.id = `group-${groupName.replace(/\s/g, '-')}`;
+            allCheckbox.addEventListener('change', (e) => {
+                if (e.target.checked) groupLayers.forEach(l => activeFilters.add(l));
+                else groupLayers.forEach(l => activeFilters.delete(l));
+                groupLayers.forEach(l => {
+                    const chk = document.getElementById(`filter-${l}`);
+                    if (chk) chk.checked = e.target.checked;
+                });
+                updateGroupAllCheckbox(details, groupLayers, allCheckbox);
+                applyFilterToMarkers();
+            });
+            summary.appendChild(allCheckbox);
+            const spanText = document.createElement('span');
+            spanText.textContent = groupName;
+            summary.appendChild(spanText);
+            if (tooltipTexts[groupName]) {
+                const infoSpan = document.createElement('span');
+                infoSpan.className = 'info-icon';
+                infoSpan.textContent = 'ⓘ';
+                infoSpan.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showLayerTooltip(tooltipTexts[groupName], e);
+                });
+                summary.appendChild(infoSpan);
+            }
+            details.appendChild(summary);
+            const subDiv = document.createElement('div');
+            subDiv.className = 'sub-filters';
+            groupLayers.forEach(layer => {
+                const info = layerCatalog[layer];
+                const div = document.createElement('div');
+                div.className = 'filter-item';
+                const chk = document.createElement('input');
+                chk.type = 'checkbox';
+                chk.value = layer;
+                chk.id = `filter-${layer}`;
+                chk.checked = activeFilters.has(layer);
+                chk.addEventListener('change', (e) => {
+                    if (e.target.checked) activeFilters.add(layer);
+                    else activeFilters.delete(layer);
+                    updateGroupAllCheckbox(details, groupLayers, allCheckbox);
+                    applyFilterToMarkers();
+                });
+                const symbolSpan = document.createElement('span');
+                symbolSpan.className = 'legend-route-symbol';
+                if (groupName === "Маршруты искателей счастья" && waveColors[layer]) {
+                    const dashSpan = document.createElement('span');
+                    dashSpan.className = 'legend-dash';
+                    dashSpan.style.background = `repeating-linear-gradient(90deg, ${waveColors[layer]}, ${waveColors[layer]} 6px, transparent 6px, transparent 12px)`;
+                    const arrowSpan = document.createElement('span');
+                    arrowSpan.className = 'legend-arrow';
+                    arrowSpan.textContent = '→';
+                    arrowSpan.style.color = waveColors[layer];
+                    symbolSpan.appendChild(dashSpan);
+                    symbolSpan.appendChild(arrowSpan);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = `images/${layer}.svg`;
+                    img.alt = info ? info.label : layer;
+                    img.style.width = '24px';
+                    img.style.height = '24px';
+                    img.style.verticalAlign = 'middle';
+                    img.style.marginRight = '0';
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                        const fallback = document.createElement('span');
+                        fallback.style.display = 'inline-block';
+                        fallback.style.width = '12px';
+                        fallback.style.height = '12px';
+                        fallback.style.backgroundColor = '#888';
+                        fallback.style.borderRadius = '50%';
+                        fallback.style.marginRight = '0';
+                        symbolSpan.appendChild(fallback);
+                    };
+                    symbolSpan.appendChild(img);
+                }
+                const label = document.createElement('label');
+                label.htmlFor = `filter-${layer}`;
+                label.textContent = info ? info.label : layer;
+                div.appendChild(chk);
+                div.appendChild(symbolSpan);
+                div.appendChild(label);
+                subDiv.appendChild(div);
+            });
+            details.appendChild(subDiv);
+            container.appendChild(details);
+            updateGroupAllCheckbox(details, groupLayers, allCheckbox);
+        }
+
+        standalone.forEach(layer => {
+            const info = layerCatalog[layer];
+            const div = document.createElement('div');
+            div.className = 'simple-filter';
+            const chk = document.createElement('input');
+            chk.type = 'checkbox';
+            chk.id = `filter-${layer}`;
+            chk.checked = activeFilters.has(layer);
+            chk.addEventListener('change', (e) => {
+                if (e.target.checked) activeFilters.add(layer);
+                else activeFilters.delete(layer);
+                applyFilterToMarkers();
+            });
+            const symbolSpan = document.createElement('span');
+            symbolSpan.className = 'legend-route-symbol';
+            const img = document.createElement('img');
+            img.src = `images/${layer}.svg`;
+            img.alt = info ? info.label : layer;
+            img.style.width = '24px';
+            img.style.height = '24px';
+            img.style.verticalAlign = 'middle';
+            img.style.marginRight = '0';
+            img.onerror = function() {
+                this.style.display = 'none';
+                const fallback = document.createElement('span');
+                fallback.style.display = 'inline-block';
+                fallback.style.width = '12px';
+                fallback.style.height = '12px';
+                fallback.style.backgroundColor = '#888';
+                fallback.style.borderRadius = '50%';
+                fallback.style.marginRight = '0';
+                symbolSpan.appendChild(fallback);
+            };
+            symbolSpan.appendChild(img);
+            const label = document.createElement('label');
+            label.htmlFor = `filter-${layer}`;
+            const layerLabel = info ? info.label : layer;
+            label.textContent = layerLabel;
+            div.appendChild(chk);
+            div.appendChild(symbolSpan);
+            div.appendChild(label);
+            if (tooltipTexts[layerLabel]) {
+                const infoSpan = document.createElement('span');
+                infoSpan.className = 'info-icon';
+                infoSpan.textContent = 'ⓘ';
+                infoSpan.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showLayerTooltip(tooltipTexts[layerLabel], e);
+                });
+                div.appendChild(infoSpan);
+            }
+            container.appendChild(div);
+        });
+    }
+
+    // ---------- Загрузка маршрутов ----------
+    async function loadRoutes() {
+        try {
+            const response = await fetch('routes.geojson');
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            if (!data.features || !data.features.length) {
+                console.warn('Нет маршрутов');
+                return;
+            }
+            data.features.forEach(f => {
+                const wave = f.properties?.wave;
+                if (wave) allLayersSet.add(wave);
+                allRouteFeatures.push(f);
+            });
+            buildFilterPanel();
+            activeFilters.clear();
+            allLayersSet.forEach(l => activeFilters.add(l));
+            document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+                if (chk.id.startsWith('filter-') || chk.id.startsWith('group-')) {
+                    const layerName = chk.id.replace('filter-', '').replace('group-', '');
+                    if (allLayersSet.has(layerName) || chk.id.startsWith('group-')) {
+                        chk.checked = true;
+                    }
+                }
+            });
+            routesLayer = L.geoJSON(null, {
+                style: function(feature) {
+                    const wave = feature.properties.wave;
+                    return {
+                        color: waveColors[wave] || defaultLineColor,
+                        weight: 4,
+                        dashArray: '8, 12',
+                        opacity: 0.8
+                    };
+                },
+                onEachFeature: function(feature, layer) {
+                    layer.on('click', async () => {
+                        const props = feature.properties;
+                        let startId, endId, wave;
+                        if (props.group_id) {
+                            let arrowIdx = props.group_id.indexOf('→');
+                            if (arrowIdx === -1) arrowIdx = props.group_id.indexOf('->');
+                            if (arrowIdx !== -1) {
+                                startId = props.group_id.substring(0, arrowIdx);
+                                const rest = props.group_id.substring(arrowIdx + (props.group_id[arrowIdx+1] === '>' ? 2 : 1));
+                                const lastUnderscore = rest.lastIndexOf('_');
+                                if (lastUnderscore !== -1) {
+                                    endId = rest.substring(0, lastUnderscore);
+                                    wave = rest.substring(lastUnderscore + 1);
+                                } else {
+                                    endId = rest;
+                                    wave = props.wave;
+                                }
+                            } else {
+                                startId = props.start_id || 'unknown';
+                                endId = props.end_id || 'unknown';
+                                wave = props.wave;
+                            }
+                        } else {
+                            startId = props.start_id || 'unknown';
+                            endId = props.end_id || 'unknown';
+                            wave = props.wave;
+                        }
+                        const fileName = `${startId}_to_${endId}_${wave}.json`;
+                        try {
+                            const routeRes = await fetch(`routes/${fileName}`);
+                            if (!routeRes.ok) throw new Error(`HTTP ${routeRes.status}`);
+                            const routeData = await routeRes.json();
+                            showRouteInfo(routeData);
+                        } catch (err) {
+                            console.error(err);
+                            document.getElementById('place-title').textContent = 'Ошибка загрузки маршрута';
+                            document.getElementById('place-content').innerHTML = '<div class="empty-message">Не удалось загрузить данные маршрута</div>';
+                            openBottomPanel();
+                        }
+                    });
+                }
+            }).addTo(map);
+            applyFilterToMarkers();
+        } catch (err) {
+            console.warn('Ошибка загрузки routes.geojson:', err);
+        }
+    }
+
+    // Упрощённая showRouteInfo (без nameMap)
+    function showRouteInfo(routeData) {
+        let startRu = routeData.start_name_ru || routeData.start_id || '?';
+        let endRu = routeData.end_name_ru || routeData.end_id || '?';
+        let title = `${startRu} → ${endRu}`;
+        document.getElementById('place-title').textContent = title;
+        
+        const container = document.getElementById('place-content');
+        container.innerHTML = '';
+        const leftCol = document.createElement('div');
+        leftCol.className = 'left-column';
+        if (routeData.short_history && routeData.short_history.trim() !== '') {
+            const historyDiv = document.createElement('div');
+            historyDiv.className = 'short-history';
+            historyDiv.innerHTML = `<strong>Историческая справка</strong><br><p>${routeData.short_history}</p>`;
+            leftCol.appendChild(historyDiv);
+        }
+        if (routeData.audio_fragments && routeData.audio_fragments.length) {
+            routeData.audio_fragments.forEach(frag => {
+                const fragDiv = document.createElement('div');
+                fragDiv.className = 'narrative-item';
+                if (frag.speaker) {
+                    const sp = document.createElement('div');
+                    sp.className = 'narrative-speaker';
+                    sp.textContent = `Информант: ${frag.speaker}`;
+                    fragDiv.appendChild(sp);
+                }
+                if (frag.subtitle) {
+                    const sub = document.createElement('div');
+                    sub.style.fontStyle = 'italic';
+                    sub.style.marginBottom = '4px';
+                    sub.textContent = frag.subtitle;
+                    fragDiv.appendChild(sub);
+                }
+                if (frag.audio_url) {
+                    const aud = document.createElement('audio');
+                    aud.controls = true;
+                    aud.src = fixAudioUrl(frag.audio_url);
+                    fragDiv.appendChild(aud);
+                }
+                if (frag.quote) {
+                    const toggleBtn = document.createElement('button');
+                    toggleBtn.textContent = '📄 Показать транскрипт';
+                    toggleBtn.className = 'transcript-toggle';
+                    const quoteDiv = document.createElement('div');
+                    quoteDiv.className = 'narrative-quote';
+                    quoteDiv.textContent = frag.quote;
+                    toggleBtn.addEventListener('click', () => {
+                        if (quoteDiv.style.display === 'none' || quoteDiv.style.display === '') {
+                            quoteDiv.style.display = 'block';
+                            toggleBtn.textContent = '📄 Скрыть транскрипт';
+                        } else {
+                            quoteDiv.style.display = 'none';
+                            toggleBtn.textContent = '📄 Показать транскрипт';
+                        }
+                    });
+                    fragDiv.appendChild(toggleBtn);
+                    fragDiv.appendChild(quoteDiv);
+                }
+                leftCol.appendChild(fragDiv);
+            });
+        } else {
+            leftCol.innerHTML += '<div class="empty-message">Нет аудиозаписей для этого маршрута</div>';
+        }
+        const rightCol = document.createElement('div');
+        rightCol.className = 'right-column';
+        if (routeData.photos && routeData.photos.length) {
+            const carousel = createPhotoCarousel(routeData.photos);
+            if (carousel) rightCol.appendChild(carousel);
+            else rightCol.innerHTML = '<div class="empty-message">Нет фотографий</div>';
+        } else {
+            rightCol.innerHTML = '<div class="empty-message">Нет фотографий</div>';
+        }
+        container.appendChild(leftCol);
+        container.appendChild(rightCol);
+        openBottomPanel();
+    }
+
+    // ---------- Точки на карте ----------
+    async function loadPlaceData(placeId) {
+        try {
+            const response = await fetch(`places/${placeId}.json`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+        } catch (err) {
+            console.error(`Ошибка загрузки ${placeId}:`, err);
+            return null;
+        }
+    }
+
+    function formatShortHistory(text, placeName) {
+        if (!text) return '';
+        let lines = text.split(/\n/);
+        if (lines.length > 0 && lines[0].trim() === placeName.trim()) lines.shift();
+        let processedText = lines.join('\n').trim();
+        if (!processedText) return '';
+        const paragraphs = processedText.split(/\n\n+/);
+        if (paragraphs.length === 1) {
+            const sublines = processedText.split(/\n/);
+            if (sublines.length > 1) return sublines.map(line => `<p>${line}</p>`).join('');
+            else return `<p>${processedText}</p>`;
+        }
+        return paragraphs.map(p => `<p>${p}</p>`).join('');
+    }
+
+    function openImageModal(imgSrc) {
+        const modal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-image');
+        modal.style.display = 'flex';
+        modalImg.src = imgSrc;
+    }
+
+    function createPhotoCarousel(photos) {
+        if (!photos || photos.length === 0) return null;
+        let currentIndex = 0;
+        const container = document.createElement('div');
+        container.className = 'photo-carousel';
+        
+        const photoContainer = document.createElement('div');
+        photoContainer.className = 'photo-frame';
+        photoContainer.style.position = 'relative';
+        photoContainer.style.height = '300px';
+        photoContainer.style.width = '100%';
+        photoContainer.style.backgroundColor = '#f0f0f0';
+        photoContainer.style.borderRadius = '8px';
+        photoContainer.style.overflow = 'hidden';
+        
+        const img = document.createElement('img');
+        img.style.position = 'absolute';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '100%';
+        img.style.width = 'auto';
+        img.style.height = 'auto';
+        img.style.cursor = 'pointer';
+        
+        const zoomBtn = document.createElement('div');
+        zoomBtn.className = 'zoom-icon';
+        zoomBtn.innerHTML = '<i class="fas fa-search-plus"></i>';
+        zoomBtn.style.position = 'absolute';
+        zoomBtn.style.bottom = '10px';
+        zoomBtn.style.right = '10px';
+        zoomBtn.style.zIndex = '10';
+        zoomBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openImageModal(img.src);
+        });
+        
+        const prevBtn = document.createElement('button');
+        prevBtn.innerHTML = '❮';
+        prevBtn.style.position = 'absolute';
+        prevBtn.style.left = '10px';
+        prevBtn.style.top = '50%';
+        prevBtn.style.transform = 'translateY(-50%)';
+        prevBtn.style.backgroundColor = 'rgba(0,0,0,0.5)';
+        prevBtn.style.color = 'white';
+        prevBtn.style.border = 'none';
+        prevBtn.style.fontSize = '24px';
+        prevBtn.style.width = '36px';
+        prevBtn.style.height = '36px';
+        prevBtn.style.borderRadius = '50%';
+        prevBtn.style.cursor = 'pointer';
+        prevBtn.style.zIndex = '10';
+        prevBtn.style.display = 'flex';
+        prevBtn.style.alignItems = 'center';
+        prevBtn.style.justifyContent = 'center';
+        
+        const nextBtn = document.createElement('button');
+        nextBtn.innerHTML = '❯';
+        nextBtn.style.position = 'absolute';
+        nextBtn.style.right = '10px';
+        nextBtn.style.top = '50%';
+        nextBtn.style.transform = 'translateY(-50%)';
+        nextBtn.style.backgroundColor = 'rgba(0,0,0,0.5)';
+        nextBtn.style.color = 'white';
+        nextBtn.style.border = 'none';
+        nextBtn.style.fontSize = '24px';
+        nextBtn.style.width = '36px';
+        nextBtn.style.height = '36px';
+        nextBtn.style.borderRadius = '50%';
+        nextBtn.style.cursor = 'pointer';
+        nextBtn.style.zIndex = '10';
+        nextBtn.style.display = 'flex';
+        nextBtn.style.alignItems = 'center';
+        nextBtn.style.justifyContent = 'center';
+        
+        function updateCarousel() {
+            const p = photos[currentIndex];
+            img.src = p.url || '';
+            img.alt = p.caption || 'Фото';
+            captionDiv.textContent = p.caption || '';
+            sourceDiv.innerHTML = '';
+            if (p.source) {
+                const link = document.createElement('a');
+                link.href = p.source;
+                link.textContent = 'Источник';
+                link.target = '_blank';
+                sourceDiv.appendChild(link);
+            }
+        }
+        
+        img.addEventListener('click', () => openImageModal(img.src));
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+            updateCarousel();
+        });
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % photos.length;
+            updateCarousel();
+        });
+        
+        photoContainer.appendChild(img);
+        photoContainer.appendChild(zoomBtn);
+        photoContainer.appendChild(prevBtn);
+        photoContainer.appendChild(nextBtn);
+        
+        const captionDiv = document.createElement('div');
+        captionDiv.className = 'photo-caption';
+        const sourceDiv = document.createElement('div');
+        sourceDiv.className = 'photo-source';
+        
+        container.appendChild(photoContainer);
+        container.appendChild(captionDiv);
+        container.appendChild(sourceDiv);
+        
+        updateCarousel();
+        return container;
+    }
+
+    function renderTabsForLayers(container, layersToShow, allLayersData, placeName) {
+        if (!layersToShow.length) {
+            container.innerHTML += '<div class="empty-message">Нет данных для выбранных слоёв</div>';
+            return;
+        }
+        const tabsDiv = document.createElement('div');
+        tabsDiv.className = 'tabs';
+        const contentsDiv = document.createElement('div');
+        contentsDiv.className = 'tab-contents';
+        layersToShow.forEach((layer, idx) => {
+            const tabData = allLayersData[layer];
+            if (!tabData) return;
+            const label = layerCatalog[layer]?.label || tabData.label || layer;
+            const btn = document.createElement('button');
+            btn.className = 'tab-btn' + (idx === 0 ? ' active' : '');
+            btn.textContent = label;
+            const content = document.createElement('div');
+            content.className = 'tab-content' + (idx === 0 ? ' active' : '');
+            if (tabData.historical_note) {
+                const note = document.createElement('div');
+                note.className = 'historical-note';
+                note.textContent = tabData.historical_note;
+                content.appendChild(note);
+            }
+            if (tabData.narratives && tabData.narratives.length) {
+                tabData.narratives.forEach(nar => {
+                    const narrDiv = document.createElement('div');
+                    narrDiv.className = 'narrative-item';
+                    if (nar.speaker) {
+                        const sp = document.createElement('div');
+                        sp.className = 'narrative-speaker';
+                        sp.textContent = `Информант: ${nar.speaker}`;
+                        narrDiv.appendChild(sp);
+                    }
+                    if (nar.audio_url) {
+                        const aud = document.createElement('audio');
+                        aud.controls = true;
+                        aud.src = fixAudioUrl(nar.audio_url);
+                        narrDiv.appendChild(aud);
+                    }
+                    if (nar.quote) {
+                        const toggleBtn = document.createElement('button');
+                        toggleBtn.textContent = '📄 Показать транскрипт';
+                        toggleBtn.className = 'transcript-toggle';
+                        const quoteDiv = document.createElement('div');
+                        quoteDiv.className = 'narrative-quote';
+                        quoteDiv.textContent = nar.quote;
+                        toggleBtn.addEventListener('click', () => {
+                            if (quoteDiv.style.display === 'none' || quoteDiv.style.display === '') {
+                                quoteDiv.style.display = 'block';
+                                toggleBtn.textContent = '📄 Скрыть транскрипт';
+                            } else {
+                                quoteDiv.style.display = 'none';
+                                toggleBtn.textContent = '📄 Показать транскрипт';
+                            }
+                        });
+                        narrDiv.appendChild(toggleBtn);
+                        narrDiv.appendChild(quoteDiv);
+                    }
+                    content.appendChild(narrDiv);
+                });
+            } else {
+                content.innerHTML += '<div class="empty-message">Нет записей</div>';
+            }
+            btn.addEventListener('click', () => {
+                tabsDiv.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                contentsDiv.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                content.classList.add('active');
+            });
+            tabsDiv.appendChild(btn);
+            contentsDiv.appendChild(content);
+        });
+        container.appendChild(tabsDiv);
+        container.appendChild(contentsDiv);
+    }
+
+    function renderPlaceContent(data, showAll = false) {
+        const container = document.getElementById('place-content');
+        container.innerHTML = '';
+        const leftCol = document.createElement('div');
+        leftCol.className = 'left-column';
+
+        if (data.short_history && data.short_history.trim() !== '') {
+            const historyDiv = document.createElement('div');
+            historyDiv.className = 'short-history';
+            const formatted = formatShortHistory(data.short_history, data.name);
+            if (formatted) {
+                historyDiv.innerHTML = `<strong>Историческая справка</strong><br>${formatted}`;
+                leftCol.appendChild(historyDiv);
+            }
+        }
+
+        const allPlaceLayers = data.layers || [];
+        const tabsData = data.tabs || {};
+        const selectedLayers = allPlaceLayers.filter(layer => activeFilters.has(layer));
+        const otherLayers = allPlaceLayers.filter(layer => !activeFilters.has(layer));
+
+        let layersToRender = showAll ? allPlaceLayers : selectedLayers;
+
+        if (!showAll && otherLayers.length > 0) {
+            const showAllBtn = document.createElement('button');
+            showAllBtn.textContent = '⋮ Посмотреть все слои для этого места';
+            showAllBtn.className = 'show-all-btn';
+            showAllBtn.addEventListener('click', () => {
+                showingAllLayers = true;
+                renderPlaceContent(currentPlaceData, true);
+            });
+            leftCol.appendChild(showAllBtn);
+        } else if (showAll && otherLayers.length > 0) {
+            const backBtn = document.createElement('button');
+            backBtn.textContent = '← Вернуться к выбранным слоям';
+            backBtn.className = 'show-all-btn';
+            backBtn.addEventListener('click', () => {
+                showingAllLayers = false;
+                renderPlaceContent(currentPlaceData, false);
+            });
+            leftCol.appendChild(backBtn);
+        }
+
+        if (layersToRender.length === 0) {
+            leftCol.innerHTML += '<div class="empty-message">Нет информации для выбранных слоёв. Возможно, вы не выбрали ни одного слоя, относящегося к этому месту.</div>';
+        } else {
+            renderTabsForLayers(leftCol, layersToRender, tabsData, data.name);
+        }
+
+        const rightCol = document.createElement('div');
+        rightCol.className = 'right-column';
+        const carousel = createPhotoCarousel(data.photos);
+        if (carousel) rightCol.appendChild(carousel);
+        else rightCol.innerHTML = '<div class="empty-message">Нет фотографий</div>';
+
+        container.appendChild(leftCol);
+        container.appendChild(rightCol);
+    }
+
+    function openBottomPanel() { document.getElementById('bottom-panel').classList.add('open'); }
+    function closeBottomPanel() {
+        document.getElementById('bottom-panel').classList.remove('open');
+        document.getElementById('place-title').textContent = 'Информация о месте';
+        document.getElementById('place-content').innerHTML = '';
+        currentPlaceId = null;
+        currentPlaceData = null;
+        showingAllLayers = false;
+    }
+
+    async function showPlaceInfo(placeId, name) {
+        document.getElementById('place-title').textContent = name;
+        document.getElementById('place-content').innerHTML = '<div class="empty-message">Загрузка...</div>';
+        openBottomPanel();
+        const data = await loadPlaceData(placeId);
+        if (data) {
+            currentPlaceId = placeId;
+            currentPlaceData = data;
+            showingAllLayers = false;
+            renderPlaceContent(data, false);
+        } else {
+            document.getElementById('place-content').innerHTML = '<div class="empty-message">Не удалось загрузить данные</div>';
+            currentPlaceData = null;
+        }
+    }
+
+    // ---------- Загрузка GeoJSON точек ----------
+    async function loadGeoJSON() {
+        try {
+            const response = await fetch('places.geojson');
+            if (!response.ok) throw new Error(`HTTP ${response.status} – places.geojson не найден`);
+            const data = await response.json();
+            if (!data.features || !data.features.length) throw new Error('Нет объектов в GeoJSON');
+            data.features.forEach(f => {
+                const layers = f.properties?.layers || [];
+                layers.forEach(l => allLayersSet.add(l));
+                allGeoJSONFeatures.push(f);
+            });
+            await loadRoutes();
+            buildFilterPanel();
+            activeFilters.clear();
+            allLayersSet.forEach(l => activeFilters.add(l));
+            document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+                if (chk.id.startsWith('filter-') || chk.id.startsWith('group-')) {
+                    const layerName = chk.id.replace('filter-', '').replace('group-', '');
+                    if (allLayersSet.has(layerName) || chk.id.startsWith('group-')) {
+                        chk.checked = true;
+                    }
+                }
+            });
+            geoJSONLayer = L.geoJSON(null, {
+                pointToLayer: (feature, latlng) => L.marker(latlng, { icon: settlementIcon }),
+                onEachFeature: (feature, layer) => {
+                    // Устанавливаем динамический tooltip с иконками слоёв
+                    const tooltipContent = getTooltipContent(feature);
+                    layer.bindTooltip(tooltipContent, { 
+                        permanent: false, 
+                        direction: 'top', 
+                        offset: [0, -20],
+                        className: 'custom-tooltip'
+                    });
+                    layer.on('click', () => {
+                        showPlaceInfo(feature.properties.place_id, feature.properties.name || 'Без названия');
+                    });
+                }
+            }).addTo(map);
+            applyFilterToMarkers();
+            if (geoJSONLayer.getBounds().isValid()) {
+                map.fitBounds(geoJSONLayer.getBounds(), { maxZoom: 9 });
+            }
+        } catch (err) {
+            console.error('Ошибка загрузки places.geojson:', err);
+            document.getElementById('place-content').innerHTML = '<div class="empty-message">Ошибка загрузки данных карты</div>';
+        }
+    }
+
+    loadGeoJSON();
+
+    // ---------- UI обработчики ----------
+    document.getElementById('project-info').addEventListener('click', () => {
+        document.getElementById('place-title').textContent = 'О проекте';
+        const contentHtml = `
+    <div class="left-column">
+        <div class="short-history">
+            <div class="project-block"><strong>«По следам искателей счастья: цифровой туристический маршрут в Еврейскую автономную область»</strong></div>
+            <div class="project-block"><strong>Цель проекта</strong><p>Репрезентация памяти о еврейском переселении на Дальний Восток — через голоса самих людей, их истории и смыслы, которыми они наделяют места.</p></div>
+            <div class="project-block"><strong>Ключевая особенность</strong><p>Место представлено как палимпсест: на одной территории одновременно существуют разные, порой противоречивые значения, возникшие из личного опыта взаимодействия с пространством. Проект не даёт единственной «правильной» версии, а показывает множественность восприятия региона. Пользователь может увидеть одно и то же место глазами разных людей: переселенцев разных волн и их потомков, местных жителей и эмигрантов.</p></div>
+            <div class="project-block"><strong>Источники</strong>
+                <ul>
+                    <li>60 интервью, собранные в ходе экспедиции АНО Научно-гуманитарного Центра «Сэфер» в Еврейскую автономную область в 2025 году.</li>
+                    <li>Фотоматериалы из личных архивов информантов и собранные в ходе экспедиции.</li>
+                    <li>Фотоматериалы из открытых источников.</li>
+                </ul>
+            </div>
+            <div class="project-block"><strong>Как пользоваться картой</strong>
+                <ol style="margin-left:20px;margin-top:5px;">
+                    <li>В Легенде (слева) выберите интересующие вас тематические слои.</li>
+                    <li>Нажмите на маркер на карте – во всплывающем окне вы увидите краткую историческую справку о месте, аудиофрагменты, соответствующие выбранным слоям, фотогалерею.</li>
+                    <li>Если вы выбрали не все слои, относящиеся к месту, нажмите на вкладку «Посмотреть все слои для этого места».</li>
+                    <li>По умолчанию на карте отображаются все места для всех слоёв.</li>
+                </ol>
+            </div>
+            <hr class="sep">
+            <div class="project-block"><strong>Экспедиция</strong>
+                <p><strong>Руководитель экспедиции:</strong> А.Б. Юдкина (менеджер образовательных программ Центра «Сэфер»).</p>
+                <p><strong>Наставники экспедиции:</strong> д-р В.А. Дымшиц (МФЦ «Петербургская иудаика» Европейского университета в Санкт-Петербурге) и к.филол.н. М.Д. Алексеевский (приглашенный преподаватель НИУ ВШЭ).</p>
+            </div>
+            <div class="project-block"><strong>Благодарности</strong>
+                <ul>
+                    <li>Всем собеседникам, которые поделились своими историями во время экспедиции.</li>
+                    <li>Участникам экспедиции, волонтерам и практикантам Центра «Сэфер», выполнившим расшифровку, тематическую разметку и загрузку корпуса интервью в онлайн-архив SFIRA.</li>
+                    <li>Федерации еврейских организаций Еврейской автономной области.</li>
+                    <li>Местной религиозной организации ортодоксального иудаизма "Биробиджанская еврейская религиозная община «Фрейд»".</li>
+                    <li>Местной религиозной организации ортодоксального иудаизма г.Хабаровска «Мизрах».</li>
+                    <li>МУП «Транспортная компания» г.Биробиджан.</li>
+                </ul>
+            </div>
+            <div class="project-block"><strong>Контакты</strong>
+                <p>Гурьева Владлена: <a href="mailto:vgureva@hse.ru">vgureva@hse.ru</a><br>Центр «Сэфер»: <a href="mailto:sefer@sefer.ru">sefer@sefer.ru</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="right-column">
+        <div class="logos">
+            <img src="images/hse_logo.png" alt="НИУ ВШЭ" onerror="console.warn('Логотип ВШЭ не найден')">
+            <img src="images/logo_sefer.png" alt="Сэфер" onerror="console.warn('Логотип Сэфер не найден')">
+        </div>
+    </div>
+`;
+        document.getElementById('place-content').innerHTML = contentHtml;
+        openBottomPanel();
+    });
+    document.getElementById('close-panel').addEventListener('click', closeBottomPanel);
+    document.getElementById('zoom-in').addEventListener('click', () => map.zoomIn());
+    document.getElementById('zoom-out').addEventListener('click', () => map.zoomOut());
+
+    const modal = document.getElementById('image-modal');
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.classList.contains('close-modal')) {
+            modal.style.display = 'none';
+        }
+    });
+</script>
 </body>
 </html>
