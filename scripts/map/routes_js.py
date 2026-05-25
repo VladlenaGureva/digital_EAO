@@ -4,7 +4,7 @@ import os
 from collections import defaultdict
 
 # Загружаем данные
-df_routes = pd.read_excel('Датасет(АвтоматическиВосстановлено).xlsx', sheet_name='routes', engine='openpyxl')
+df_routes = pd.read_excel('Датасет.xlsx', sheet_name='routes', engine='openpyxl')
 
 # Группировка по (start_place_id, end_place_id, layer)
 groups = defaultdict(list)
@@ -29,7 +29,6 @@ for (start_id, end_id, layer), fragments in groups.items():
     
     group_id = f"{start_id}→{end_id}_{layer}"
     safe_file_name = f"{start_id}_to_{end_id}_{layer}.json"
-    # Читаемое название маршрута - русские названия, без указания слоя
     display_name = f"{start_rus} → {end_rus}"
     
     data = {
