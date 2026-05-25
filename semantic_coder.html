@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Семантический кодировщик (сочетания тегов)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 20px; }
+        h1 { color: #2c3e50; margin-top: 0; }
+        .controls { background: #f8f9fa; padding: 15px; border-radius: 6px; margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
+        .controls button, .controls input { padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; background: white; cursor: pointer; }
+        .controls button:hover { background: #e9ecef; }
+        .nav-panel { background: #eef2fa; padding: 10px; border-radius: 6px; margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .nav-panel select { padding: 5px; }
+        .fragment-card { border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 20px; background: #fff; }
+        .fragment-meta { font-size: 0.85rem; color: #666; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .fragment-text { background: #fafafa; padding: 15px; border-radius: 6px; margin: 15px 0; font-size: 1rem; line-height: 1.5; white-space: pre-wrap; }
+        .primary-tags { margin: 10px 0; font-size: 0.9rem; color: #2c3e50; }
+        .suggestions { margin: 15px 0; padding: 10px; background: #eef2fa; border-radius: 6px; }
+        .suggestions label { display: inline-block; margin-right: 15px; margin-bottom: 8px; cursor: pointer; }
+        .manual-codes { margin: 15px 0; }
+        select, textarea { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ddd; border-radius: 4px; }
+        textarea { height: 80px; }
+        .status { margin-top: 10px; font-size: 0.9rem; color: #555; }
+        .progress { background: #e9ecef; border-radius: 4px; height: 8px; margin: 10px 0; }
+        .progress-bar { background: #2c3e50; width: 0%; height: 8px; border-radius: 4px; }
+        .tag { display: inline-block; background: #e9ecef; padding: 2px 6px; margin: 2px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
+        .tag:hover { background: #d4d8dd; }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Семантический кодировщик (на основе сочетаний тегов)</h1>
+
+    <div class="controls">
+        <input type="file" id="csvFile" accept=".csv">
+        <input type="file" id="comboStatsFile" accept=".json">
+        <input type="file" id="codesFile" accept=".txt">
+        <button id="loadBtn">Загрузить</button>
+        <button id="exportBtn" disabled>Экспорт результатов</button>
+        <button id="resetBtn" disabled>Сбросить прогресс</button>
+        <button id="exportStatsBtn" disabled>Сохранить статистику</button>
+    </div>
+
+    <div id="mainArea" style="display: none;">
+        <div class="nav-panel">
+            <span id="fragmentCounter"></span>
+            <button id="prevBtn" disabled>◀ Предыдущий</button>
+            <button id="nextBtn" disabled>Следующий ▶</button>
+            <span>Перейти к фрагменту: </span>
+            <select id="fragmentSelect" style="width: 200px;"></select>
+        </div>
+        <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+        <div class="status" id="status"></div>
+        <div id="fragmentContainer"></div>
+    </div>
+</div>
+
+<script>
+    let fragments = [];
+    let comboStats = {};
+    let allCodesList = [];
+    let results = {};
+    let currentIndex = -1;
+    let processedIds = new Set();
+
+    const csvFileInput = document.getElementById('csvFile');
+    const comboStatsFileInput = document.getElementById('comboStatsFile');
+    const codesFileInput = document.getElementById('codesFile');
+    const loadBtn = document.getElementById('loadBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const exportStatsBtn = document.getElementById('exportStatsBtn');
+    const mainArea = document.getElementById('mainArea');
+    const fragmentContainer = document.getElementById('fragmentContainer');
+    const statusDiv = document.getElementById('status');
+    const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const fragmentSelect = document.getElementById('fragmentSelect');
+    const fragmentCounterSpan = document.getElementById('fragmentCounter');
+
+    function cleanCode(str) {
+        if (!str) return '';
+        return str.replace(/✖/g, '').trim();
+    }
+
+    // Генерация всех подмножеств (кроме пустого и полного)
+    function getAllSubsets(tags) {
+        const n = tags.length;
+        const subsets = [];
+        for (let i = 1; i < (1 << n); i++) {
+            if (i === (1 << n) - 1) continue; // пропускаем полное множество
+            const subset = [];
+            for (let j = 0; j < n; j++) {
+                if (i & (1 << j)) subset.push(tags[j]);
+            }
+            subset.sort();
+            subsets.push(subset.join('|'));
+        }
+        return subsets;
+    }
+
+    function suggestCodesByTags(allTagsStr) {
+        if (!allTagsStr) return [];
+        let tags = allTagsStr.split(/[,;]+/).map(t => t.trim());
+        tags.sort();
+        const fullKey = tags.join('|');
+        // 1. Точное совпадение
+        if (comboStats[fullKey]) {
+            const codes = Object.entries(comboStats[fullKey]);
+            codes.sort((a,b) => b[1] - a[1]);
+            return codes.map(([code]) => code);
+        }
+        // 2. Fallback: все подмножества (кроме пустого и полного)
+        const subsets = getAllSubsets(tags);
+        let scores = {};
+        for (let key of subsets) {
+            if (comboStats[key]) {
+                for (let [code, cnt] of Object.entries(comboStats[key])) {
+                    scores[code] = (scores[code] || 0) + cnt;
+                }
+            }
+        }
+        const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
+        return sorted.map(([code]) => code);
+    }
+
+    function updateComboStats(allTagsStr, selectedCodes) {
+        if (!allTagsStr || !selectedCodes.length) return;
+        let tags = allTagsStr.split(/[,;]+/).map(t => t.trim());
+        tags.sort();
+        const key = tags.join('|');
+        if (!comboStats[key]) comboStats[key] = {};
+        for (let code of selectedCodes) {
+            const c = cleanCode(code);
+            if (c) comboStats[key][c] = (comboStats[key][c] || 0) + 1;
+        }
+        localStorage.setItem('comboStats', JSON.stringify(comboStats));
+    }
+
+    loadBtn.addEventListener('click', () => {
+        const csvFile = csvFileInput.files[0];
+        const statsFile = comboStatsFileInput.files[0];
+        const codesFile = codesFileInput.files[0];
+        if (!csvFile || !statsFile || !codesFile) {
+            alert('Выберите все три файла: CSV, JSON со статистикой и TXT со списком кодов');
+            return;
+        }
+
+        const readerCodes = new FileReader();
+        readerCodes.onload = (e) => {
+            const content = e.target.result;
+            allCodesList = content.split(/\r?\n/).map(line => line.trim()).filter(line => line && !line.includes('✖'));
+            console.log('Загружено кодов:', allCodesList.length);
+
+            const readerStats = new FileReader();
+            readerStats.onload = (e2) => {
+                try {
+                    comboStats = JSON.parse(e2.target.result);
+                    console.log('Статистика сочетаний тегов загружена');
+                    Papa.parse(csvFile, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: (res) => {
+                            fragments = res.data.map(row => ({
+                                fragment_id: row.fragment_id,
+                                text: row.text,
+                                interview_code: row.interview_code,
+                                minute: parseFloat(row.minute),
+                                all_tags: row.all_tags
+                            }));
+                            const groups = {};
+                            fragments.forEach(f => {
+                                if (!groups[f.interview_code]) groups[f.interview_code] = [];
+                                groups[f.interview_code].push(f);
+                            });
+                            const grouped = [];
+                            for (let code in groups) {
+                                groups[code].sort((a,b) => a.minute - b.minute);
+                                grouped.push(...groups[code]);
+                            }
+                            fragments = grouped;
+                            loadProgress();
+                            updateUI();
+                            mainArea.style.display = 'block';
+                            exportBtn.disabled = false;
+                            resetBtn.disabled = false;
+                            exportStatsBtn.disabled = false;
+                            populateFragmentSelect();
+                            updateNavButtons();
+                        },
+                        error: (err) => alert('Ошибка парсинга CSV: ' + err.message)
+                    });
+                } catch (err) {
+                    alert('Ошибка парсинга JSON: ' + err.message);
+                }
+            };
+            readerStats.readAsText(statsFile);
+        };
+        readerCodes.readAsText(codesFile);
+    });
+
+    function renderFragment() {
+        if (currentIndex < 0 || currentIndex >= fragments.length) return;
+        const frag = fragments[currentIndex];
+        const existing = results[frag.fragment_id] || { codes: [], memos: '' };
+        const suggested = suggestCodesByTags(frag.all_tags);
+
+        let html = `<div class="fragment-card">
+                        <div class="fragment-meta">
+                            <strong>${escapeHtml(frag.interview_code)}</strong> | минута ${frag.minute} | ID: ${frag.fragment_id}
+                        </div>
+                        <div class="fragment-text">${escapeHtml(frag.text)}</div>
+                        <div class="primary-tags"><strong>Первичные теги:</strong> ${frag.all_tags || '—'}</div>
+                        <div class="suggestions"><strong>Предложенные коды:</strong><br>`;
+        if (suggested.length) {
+            suggested.forEach(code => {
+                const checked = existing.codes.includes(code) ? 'checked' : '';
+                html += `<label><input type="checkbox" class="suggest-checkbox" value="${code}" ${checked}> ${code}</label> `;
+            });
+        } else {
+            html += '<em>нет предложений</em>';
+        }
+        html += `</div><div class="manual-codes"><strong>Добавить вручную:</strong><br>
+                 <select id="manualSelect" multiple size="5">
+                    ${allCodesList.map(code => `<option value="${code}">${code}</option>`).join('')}
+                 </select><br>
+                 <button id="addManualBtn">Добавить выбранные</button>
+                 <div id="manualTags" style="margin-top:5px;">${existing.codes.map(c => `<span class="tag" data-code="${c}">${c} ✖</span>`).join(' ')}</div>
+                 </div>
+                 <div><strong>Заметки:</strong><br>
+                 <textarea id="memoField" placeholder="Заметки к фрагменту...">${escapeHtml(existing.memos)}</textarea>
+                 </div>
+                 </div>`;
+        fragmentContainer.innerHTML = html;
+
+        document.getElementById('addManualBtn').onclick = () => addManualCodes();
+
+        document.querySelectorAll('#manualTags .tag').forEach(tag => {
+            tag.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const codeToRemove = tag.dataset.code;
+                if (confirm(`Удалить код "${codeToRemove}"?`)) {
+                    let current = results[frag.fragment_id] || { codes: [], memos: '' };
+                    current.codes = current.codes.filter(c => c !== codeToRemove);
+                    results[frag.fragment_id] = current;
+                    document.getElementById('manualTags').innerHTML = current.codes.map(c => `<span class="tag" data-code="${c}">${c} ✖</span>`).join(' ');
+                    document.querySelectorAll('.suggest-checkbox').forEach(cb => { cb.checked = current.codes.includes(cb.value); });
+                    localStorage.setItem('semanticResults', JSON.stringify(results));
+                }
+            });
+        });
+        window.currentFragmentId = frag.fragment_id;
+    }
+
+    function addManualCodes() {
+        const select = document.getElementById('manualSelect');
+        const selected = Array.from(select.selectedOptions).map(opt => cleanCode(opt.value));
+        if (selected.length === 0) return;
+        const frag = fragments[currentIndex];
+        const existing = results[frag.fragment_id] || { codes: [], memos: '' };
+        const newCodes = [...new Set([...existing.codes, ...selected])];
+        results[frag.fragment_id] = { codes: newCodes, memos: existing.memos };
+        document.getElementById('manualTags').innerHTML = newCodes.map(c => `<span class="tag" data-code="${c}">${c} ✖</span>`).join(' ');
+        document.querySelectorAll('.suggest-checkbox').forEach(cb => { cb.checked = newCodes.includes(cb.value); });
+        localStorage.setItem('semanticResults', JSON.stringify(results));
+    }
+
+    function saveCurrentFragment() {
+        if (currentIndex < 0 || currentIndex >= fragments.length) return;
+        const frag = fragments[currentIndex];
+        const checkboxes = document.querySelectorAll('.suggest-checkbox');
+        let selectedCodes = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cleanCode(cb.value));
+        const manualTagsSpans = document.querySelectorAll('#manualTags .tag');
+        let manualCodes = Array.from(manualTagsSpans).map(span => cleanCode(span.textContent));
+        let allSelected = [...new Set([...selectedCodes, ...manualCodes])];
+        allSelected = allSelected.filter(c => allCodesList.includes(c));
+        const memos = document.getElementById('memoField').value;
+        const oldCodes = results[frag.fragment_id]?.codes || [];
+        results[frag.fragment_id] = { codes: allSelected, memos: memos };
+        processedIds.add(frag.fragment_id);
+        const newCodes = allSelected.filter(c => !oldCodes.includes(c));
+        if (newCodes.length > 0 && frag.all_tags) {
+            updateComboStats(frag.all_tags, newCodes);
+        }
+        localStorage.setItem('semanticResults', JSON.stringify(results));
+        localStorage.setItem('comboStats', JSON.stringify(comboStats));
+    }
+
+    function loadProgress() {
+        const saved = localStorage.getItem('semanticResults');
+        if (saved) {
+            try {
+                results = JSON.parse(saved);
+                for (let fid in results) {
+                    if (results[fid].codes) {
+                        results[fid].codes = results[fid].codes.map(cleanCode).filter(c => allCodesList.includes(c));
+                    }
+                }
+                processedIds = new Set(Object.keys(results));
+            } catch(e) {}
+        }
+        const savedStats = localStorage.getItem('comboStats');
+        if (savedStats) {
+            try {
+                comboStats = JSON.parse(savedStats);
+            } catch(e) {}
+        }
+        let startIndex = 0;
+        while (startIndex < fragments.length && processedIds.has(fragments[startIndex].fragment_id)) startIndex++;
+        currentIndex = startIndex;
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const total = fragments.length;
+        const done = processedIds.size;
+        const percent = total ? (done / total * 100) : 0;
+        progressBar.style.width = percent + '%';
+        statusDiv.innerText = `Обработано: ${done} из ${total} (${Math.round(percent)}%)`;
+    }
+
+    function updateUI() {
+        if (currentIndex >= 0 && currentIndex < fragments.length) {
+            renderFragment();
+            updateNavButtons();
+            if (fragmentSelect) fragmentSelect.value = currentIndex;
+        } else {
+            fragmentContainer.innerHTML = '<p>Нет данных для разметки.</p>';
+        }
+        updateProgress();
+    }
+
+    function populateFragmentSelect() {
+        fragmentSelect.innerHTML = '';
+        fragments.forEach((f, idx) => {
+            const option = document.createElement('option');
+            option.value = idx;
+            option.textContent = `${f.fragment_id} (${f.interview_code}, ${f.minute})`;
+            fragmentSelect.appendChild(option);
+        });
+        fragmentSelect.addEventListener('change', () => {
+            const idx = parseInt(fragmentSelect.value);
+            if (!isNaN(idx) && idx !== currentIndex) {
+                if (currentIndex >= 0) saveCurrentFragment();
+                currentIndex = idx;
+                renderFragment();
+                updateNavButtons();
+                fragmentSelect.value = currentIndex;
+            }
+        });
+    }
+
+    function updateNavButtons() {
+        if (currentIndex === -1) {
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+            return;
+        }
+        prevBtn.disabled = (currentIndex === 0);
+        nextBtn.disabled = (currentIndex === fragments.length - 1);
+        fragmentCounterSpan.innerText = `Фрагмент ${currentIndex+1} из ${fragments.length} (ID: ${fragments[currentIndex].fragment_id})`;
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            saveCurrentFragment();
+            currentIndex--;
+            renderFragment();
+            updateNavButtons();
+            fragmentSelect.value = currentIndex;
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < fragments.length - 1) {
+            saveCurrentFragment();
+            currentIndex++;
+            renderFragment();
+            updateNavButtons();
+            fragmentSelect.value = currentIndex;
+        }
+    });
+
+    exportBtn.addEventListener('click', () => {
+        const rows = [];
+        for (let frag of fragments) {
+            const res = results[frag.fragment_id] || { codes: [], memos: '' };
+            rows.push({
+                fragment_id: frag.fragment_id,
+                interview_code: frag.interview_code,
+                minute: frag.minute,
+                text: frag.text,
+                all_tags: frag.all_tags || '',
+                codes: res.codes.join('; '),
+                memos: res.memos
+            });
+        }
+        const csv = Papa.unparse(rows);
+        const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'semantic_results.csv');
+        link.click();
+        URL.revokeObjectURL(url);
+        localStorage.setItem('semanticResults', JSON.stringify(results));
+    });
+
+    resetBtn.addEventListener('click', () => {
+        if (confirm('Сбросить весь прогресс? Все несохранённые данные будут потеряны.')) {
+            localStorage.removeItem('semanticResults');
+            localStorage.removeItem('comboStats');
+            results = {};
+            processedIds.clear();
+            loadProgress();
+            updateUI();
+        }
+    });
+
+    exportStatsBtn.addEventListener('click', () => {
+        const statsJson = JSON.stringify(comboStats, null, 2);
+        const blob = new Blob([statsJson], {type: 'application/json'});
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'combo_stats_updated.json');
+        link.click();
+        URL.revokeObjectURL(url);
+    });
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;'));
+    }
+</script>
+</body>
+</html>
