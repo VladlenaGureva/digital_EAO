@@ -2,8 +2,8 @@ import pandas as pd
 import json
 
 # Указываем engine='openpyxl' для работы с .xlsx
-df_places = pd.read_excel('Датасет(АвтоматическиВосстановлено).xlsx', sheet_name='places', engine='openpyxl')
-df_audio = pd.read_excel('Датасет(АвтоматическиВосстановлено).xlsx', sheet_name='audio', engine='openpyxl')
+df_places = pd.read_excel('Датасет.xlsx', sheet_name='places', engine='openpyxl')
+df_audio = pd.read_excel('Датасет.xlsx', sheet_name='audio', engine='openpyxl')
 
 # Собираем уникальные слои для каждого place_id
 layers_by_place = {}
