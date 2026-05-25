@@ -1,0 +1,1197 @@
+{
+  "Амурзет|Локальный текст|Профессия|Семейная история|Советская еврейская история": {
+    "place_settlement": 1,
+    "process_creation": 1,
+    "relation_work": 1,
+    "temporal_past": 1
+  },
+  "Амурзет|Локальный текст|Советская еврейская история": {
+    "place_settlement": 1,
+    "process_identity": 1,
+    "relation_identity": 1,
+    "relation_work": 1
+  },
+  "Семейная история": {
+    "place_settlement": 4,
+    "relation_event": 1,
+    "relation_family": 3,
+    "symbol_urban": 1,
+    "place_institution": 1,
+    "place_public_space": 1,
+    "relation_identity": 1,
+    "narrative_crossing": 1,
+    "relation_birth": 1
+  },
+  "Амурзет|Локальный текст|Советская еврейская история|Численность евреев": {
+    "place_settlement": 1,
+    "temporal_past": 1
+  },
+  "Амурзет|Образование|Семейная история": {
+    "place_settlement": 1,
+    "temporal_past": 1
+  },
+  "Амурзет|Молитва|Общинная жизнь|Песах|Синагога|Численность евреев": {
+    "place_settlement": 1,
+    "temporal_past": 1
+  },
+  "Амурзет|Локальный текст|Общинная жизнь|Советская еврейская история": {
+    "place_settlement": 1,
+    "temporal_past": 1
+  },
+  "Амурзет|Локальный текст|Профессия": {
+    "myth_emerging": 1,
+    "place_settlement": 1,
+    "relation_identity": 1
+  },
+  "Амурзет|Локальный текст|Советская еврейская история|Топонимика": {
+    "place_settlement": 1,
+    "space_name": 1
+  },
+  "Белая Церковь|Семейная история|Хмельницк": {
+    "narrative_crossing": 1,
+    "place_settlement": 1
+  },
+  "Биробиджан|Идиш|Семейная история": {
+    "place_settlement": 1,
+    "relation_event": 1
+  },
+  "АНГЛИЯ|ИЗРАИЛЬ|КАНАДА|Репатриация в Израиль (алия)|Семейная история|Эмиграция": {
+    "memory_conflict": 1,
+    "place_settlement": 1,
+    "space_own_alien": 1
+  },
+  "Амурзет|Локальный текст|Семейная история|Топонимика": {
+    "narrative_crossing": 1,
+    "place_settlement": 1,
+    "relation_residence": 1
+  },
+  "Добрососедство|Мурманск|Этнические стереотипы": {
+    "place_settlement": 1,
+    "relation_identity": 1,
+    "space_own_alien": 1
+  },
+  "Биробиджан|ИЗРАИЛЬ": {
+    "place_settlement": 1,
+    "temporal_loss": 1
+  },
+  "Биробиджанский проект|Идиш|Семейная история|Языковая политика": {
+    "place_settlement": 1,
+    "process_intensification": 1,
+    "temporal_transformation": 1
+  },
+  "Биробиджанский проект|Идиш|Языковая политика": {
+    "place_settlement": 1,
+    "process_intensification": 1
+  },
+  "Амурзет|Биробиджан|Биробиджанский проект|Общинная жизнь|Синагога|Численность евреев": {
+    "place_settlement": 1,
+    "relation_residence": 1
+  },
+  "Локальный текст|Синагога|Хабаровск": {
+    "place_settlement": 1,
+    "temporal_transformation": 1
+  },
+  "Биробиджан|Семейная история": {
+    "place_settlement": 2,
+    "relation_birth": 2,
+    "place_institution": 1,
+    "relation_study": 1,
+    "relation_work": 1
+  },
+  "Биробиджан|Еврейские школы|Идиш|Региональная идентичность|Семейная история|Синагога": {
+    "place_settlement": 1,
+    "temporal_past": 1
+  },
+  "Биробиджан|Биробиджанский проект|Иврит|Идиш|Семейная история|Языковая политика": {
+    "place_settlement": 1,
+    "process_intensification": 1
+  },
+  "Биробиджан|ИЗРАИЛЬ|Идиш|Языковая политика": {
+    "place_settlement": 1,
+    "process_intensification": 1,
+    "process_liberation": 1,
+    "temporal_loss": 1,
+    "temporal_transformation": 1
+  },
+  "Биробиджан|Вторая мировая война|Семейная история": {
+    "place_settlement": 1,
+    "relation_birth": 1
+  },
+  "Биробиджан|Городской текст|Региональная идентичность|Туризм": {
+    "place_settlement": 1,
+    "relation_identity": 1,
+    "space_own_alien": 1
+  },
+  "Городской текст|Еврейская речь|Идиш": {
+    "place_settlement": 1,
+    "temporal_past": 1
+  },
+  "Биробиджан|ИЗРАИЛЬ|Москва|Общинная жизнь|Семейная история|Синагога": {
+    "place_settlement": 1,
+    "relation_identity": 1,
+    "temporal_present": 1
+  },
+  "Добрососедство|Санкт-Петербург (Ленинград)|Семейная история": {
+    "place_settlement": 1,
+    "process_identity": 1,
+    "relation_identity": 1,
+    "space_own_alien": 1
+  },
+  "Биробиджан|Городской текст|ИЗРАИЛЬ|Локальный текст|Современная еврейская жизнь": {
+    "place_settlement": 1,
+    "process_creation": 1
+  },
+  "Городской текст|КИТАЙ|Локальный текст": {
+    "place_natural": 1
+  },
+  "Городской текст|Семейная история|Топонимика": {
+    "myth_emerging": 1,
+    "place_public_space": 1,
+    "place_street": 1,
+    "relation_leisure": 1,
+    "space_name": 1,
+    "symbol_urban": 1,
+    "temporal_past": 1
+  },
+  "Городской текст": {
+    "place_district": 2,
+    "process_creation": 1,
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_public_space": 3,
+    "process_intensification": 2,
+    "place_institution": 2,
+    "temporal_loss": 4,
+    "temporal_past": 3,
+    "space_name": 1,
+    "place_settlement": 2,
+    "process_identity": 1,
+    "space_own_alien": 2,
+    "place_infrastructure": 2
+  },
+  "Вторая мировая война|Локальный текст|Облучье|Профессия|Холокост": {
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_public_space": 1
+  },
+  "Биробиджанский проект|Вторая мировая война|Городской текст|Топонимика": {
+    "memory_functional": 1,
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_religious": 1,
+    "process_interaction": 1,
+    "space_sacred_profane": 1
+  },
+  "Городской текст|Красноярск": {
+    "place_institution": 1,
+    "temporal_loss": 1
+  },
+  "Биробиджан|Городской текст": {
+    "place_institution": 1,
+    "process_intensification": 1,
+    "temporal_loss": 1
+  },
+  "Городской текст|Добрососедство": {
+    "place_institution": 1,
+    "place_settlement": 1,
+    "temporal_loss": 1,
+    "temporal_transformation": 1
+  },
+  "ИЗРАИЛЬ|Идиш|Семейная история": {
+    "place_settlement": 1,
+    "relation_residence": 1
+  },
+  "Амурзет|Биробиджан|Профессия|Семейная история|Топонимика": {
+    "place_institution": 1,
+    "temporal_past": 1,
+    "temporal_preservation": 1
+  },
+  "Биробиджанский проект|Репрессии": {
+    "place_institution": 1,
+    "space_name": 1,
+    "temporal_loss": 1
+  },
+  "Биробиджанский проект|Советская еврейская история": {
+    "place_institution": 1,
+    "process_creation": 1,
+    "process_identity": 1,
+    "process_intensification": 1
+  },
+  "Идиш|Религиозное образование": {
+    "place_institution": 1,
+    "process_interaction": 1,
+    "relation_study": 1
+  },
+  "Биробиджанский проект|Идиш|Численность евреев": {
+    "place_infrastructure": 1,
+    "place_public_space": 1,
+    "place_settlement": 1,
+    "process_intensification": 1
+  },
+  "Биробиджанский проект": {
+    "place_institution": 1,
+    "process_interaction": 1,
+    "temporal_past": 1,
+    "place_public_space": 1,
+    "place_infrastructure": 1,
+    "process_intensification": 1,
+    "place_settlement": 1
+  },
+  "Культурная жизнь|Образование": {
+    "memory_functional": 1,
+    "memory_symbolic": 1,
+    "place_institution": 1
+  },
+  "Биробиджан|Профессия": {
+    "place_institution": 1,
+    "relation_work": 1
+  },
+  "Вторая мировая война|Семейная история": {
+    "place_institution": 1,
+    "temporal_past": 1
+  },
+  "Идиш|Профессия|Языковая политика": {
+    "place_institution": 1,
+    "temporal_loss": 1
+  },
+  "Идиш|Образование|Профессия|Языковая политика": {
+    "place_institution": 1,
+    "process_intensification": 1,
+    "temporal_loss": 1
+  },
+  "АВСТРАЛИЯ|Биробиджан|Кладбище|Локальный текст|Репатриация в Израиль (алия)|Семейная история|Эмиграция": {
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_memorial": 1,
+    "place_public_space": 1,
+    "place_religious": 1,
+    "place_settlement": 1,
+    "relation_family": 1,
+    "relation_identity": 1
+  },
+  "Кладбище|Семейная история": {
+    "memory_functional": 1,
+    "memory_material": 1,
+    "memory_ritual": 1,
+    "place_memorial": 1,
+    "place_public_space": 1,
+    "place_religious": 1
+  },
+  "Городской текст|ЛАТВИЯ|ЛИТВА|МОЛДАВИЯ|Местечко|Семейная история|Топонимика|ЭСТОНИЯ": {
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_memorial": 1,
+    "place_public_space": 1,
+    "place_religious": 1,
+    "process_creation": 1,
+    "process_interaction": 1,
+    "space_name": 1,
+    "symbol_jewish": 1,
+    "temporal_loss": 1,
+    "temporal_past": 1
+  },
+  "Вторая мировая война|Городской текст|Культурная жизнь|Местечко|Топонимика": {
+    "memory_break": 1,
+    "place_memorial": 1,
+    "place_public_space": 1,
+    "place_religious": 1,
+    "process_creation": 1,
+    "process_identity": 1,
+    "process_interaction": 1,
+    "process_liberation": 1,
+    "relation_leisure": 1,
+    "space_name": 1,
+    "space_sacred_profane": 1,
+    "symbol_jewish": 1,
+    "temporal_transformation": 1
+  },
+  "Вторая мировая война|Репрессии|Топонимика": {
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_memorial": 1,
+    "place_public_space": 1,
+    "place_settlement": 1,
+    "temporal_past": 1
+  },
+  "Биробиджан|Биробиджанский проект|ПОЛЬША|Репрессии|Советская еврейская история|Туризм": {
+    "memory_functional": 1,
+    "memory_material": 1,
+    "memory_symbolic": 1
+  },
+  "Биробиджанский проект|Городской текст|Репрессии": {
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_memorial": 1,
+    "place_religious": 1
+  },
+  "Биробиджан|Еврейская автономная область|Культурная жизнь|Туризм": {
+    "place_public_space": 1,
+    "process_interaction": 1,
+    "temporal_loss": 1,
+    "temporal_past": 1
+  },
+  "Биробиджан|Городской текст|Дальний Восток": {
+    "place_district": 1,
+    "space_name": 1
+  },
+  "Идиш": {
+    "memory_functional": 1,
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_institution": 1,
+    "process_intensification": 1
+  },
+  "Биробиджанский проект|Топонимика": {
+    "place_district": 1,
+    "place_public_space": 1,
+    "space_name": 1
+  },
+  "Биробиджанский проект|Идиш|Кошерная/некошерная еда|Образование|Повседневная еда": {
+    "place_infrastructure": 1,
+    "place_public_space": 1,
+    "process_intensification": 1,
+    "process_interaction": 1,
+    "relation_work": 1
+  },
+  "Биробиджан|Идиш|Региональная идентичность": {
+    "place_infrastructure": 1,
+    "process_interaction": 1
+  },
+  "Биробиджан|Пища|Региональная идентичность|Семейная история|Туризм": {
+    "place_infrastructure": 1,
+    "place_public_space": 1,
+    "process_interaction": 1,
+    "relation_leisure": 1
+  },
+  "Еврейская автономная область|Региональная идентичность": {
+    "place_infrastructure": 1,
+    "place_public_space": 1,
+    "process_interaction": 1,
+    "place_settlement": 1,
+    "space_own_alien": 1
+  },
+  "Профессия|Репрезентация еврейской истории в музее|Синагога": {
+    "process_interaction": 1
+  },
+  "Общинная жизнь|Синагога": {
+    "place_public_space": 1,
+    "place_religious": 2,
+    "process_intensification": 1,
+    "process_interaction": 1,
+    "temporal_past": 1
+  },
+  "Общинная жизнь": {
+    "place_public_space": 1,
+    "place_religious": 1,
+    "process_interaction": 1
+  },
+  "Синагога": {
+    "place_public_space": 1,
+    "place_religious": 2,
+    "temporal_transformation": 1
+  },
+  "Синагога|Советская еврейская история": {
+    "place_public_space": 1,
+    "place_religious": 1,
+    "temporal_past": 1
+  },
+  "Локальный текст|Синагога": {
+    "place_religious": 1,
+    "process_creation": 1
+  },
+  "Биробиджан|Йом Кипур|Раввин|Синагога|Суббота": {
+    "place_public_space": 1,
+    "place_religious": 1,
+    "process_interaction": 1
+  },
+  "Городской текст|Топонимика|Туризм": {
+    "memory_material": 3,
+    "memory_symbolic": 3,
+    "place_public_space": 3,
+    "process_intensification": 1,
+    "process_realization": 1,
+    "place_memorial": 2,
+    "place_street": 1,
+    "process_creation": 1,
+    "place_natural": 1
+  },
+  "Городской текст|Семейная история": {
+    "place_district": 1,
+    "space_name": 1,
+    "temporal_past": 1
+  },
+  "Городской текст|Топонимика": {
+    "place_street": 1,
+    "process_liberation": 1,
+    "temporal_transformation": 2,
+    "place_natural": 1,
+    "place_settlement": 1,
+    "temporal_past": 1
+  },
+  "Городской текст|Семейная история|Синагога": {
+    "place_street": 1,
+    "process_intensification": 1,
+    "relation_identity": 1,
+    "relation_residence": 1
+  },
+  "Топонимика": {
+    "place_street": 1,
+    "process_liberation": 1,
+    "temporal_transformation": 1
+  },
+  "Биробиджан|Локальный текст|Региональная идентичность|Репатриация в Израиль (алия)|Хабаровск|Эмиграция": {
+    "place_infrastructure": 1,
+    "place_settlement": 1,
+    "process_interaction": 1,
+    "temporal_loss": 1
+  },
+  "Городской текст|Культурная жизнь|Топонимика": {
+    "place_infrastructure": 1,
+    "place_public_space": 1,
+    "process_interaction": 1,
+    "relation_event": 1,
+    "relation_leisure": 1,
+    "temporal_past": 1
+  },
+  "Городской текст|Репрессии|Советская еврейская история|Топонимика": {
+    "place_infrastructure": 1,
+    "place_institution": 1,
+    "process_creation": 1,
+    "temporal_past": 1
+  },
+  "Городской текст|Идиш|Локальный текст|Туризм": {
+    "place_infrastructure": 1,
+    "place_public_space": 1,
+    "place_street": 1,
+    "process_creation": 1,
+    "process_intensification": 1,
+    "process_interaction": 1,
+    "temporal_past": 1
+  },
+  "Биробиджанский проект|Добрососедство|Культурная жизнь|Повседневная еда": {
+    "place_infrastructure": 1,
+    "place_public_space": 1,
+    "process_interaction": 1,
+    "temporal_past": 1
+  },
+  "Праздничная еда": {
+    "place_infrastructure": 1,
+    "place_public_space": 1,
+    "process_interaction": 1
+  },
+  "Городской текст|Дом и быт|Профессия|Семейная история": {
+    "place_district": 1,
+    "place_street": 1,
+    "relation_family": 1,
+    "relation_residence": 1
+  },
+  "Биракан|Еврейские колхозы|Профессия|Семейная история": {
+    "place_settlement": 1,
+    "temporal_past": 1
+  },
+  "Биракан|Дом и быт|Устройство дома": {
+    "place_infrastructure": 1,
+    "symbol_urban": 1,
+    "temporal_past": 1
+  },
+  "Городской текст|Профессия|Топонимика": {
+    "place_district": 1,
+    "place_institution": 1,
+    "place_settlement": 1,
+    "relation_work": 1,
+    "space_name": 1,
+    "temporal_past": 1
+  },
+  "Добрососедство|Семейная история": {
+    "place_institution": 1,
+    "place_settlement": 1,
+    "temporal_past": 1
+  },
+  "Семейная история|Советская еврейская история": {
+    "place_institution": 1,
+    "place_settlement": 1,
+    "relation_identity": 1
+  },
+  "АВСТРИЯ|Семейная история": {
+    "place_settlement": 1,
+    "relation_birth": 1,
+    "relation_identity": 1,
+    "relation_study": 1,
+    "temporal_past": 1
+  },
+  "БЕЛАРУСЬ|Биробиджанский проект|Вторая мировая война|Еврейская автономная область|Семейная история|Советская еврейская история": {
+    "narrative_crossing": 1,
+    "place_settlement": 1
+  },
+  "Биробиджанский проект|Вторая мировая война|Семейная история": {
+    "narrative_crossing": 1,
+    "place_settlement": 1
+  },
+  "Еврейская автономная область|Этнические стереотипы": {
+    "place_settlement": 1,
+    "process_identity": 1
+  },
+  "АЗЕРБАЙДЖАН|Биробиджан|Еврейская автономная область|Кавказ": {
+    "place_settlement": 1,
+    "space_name": 1
+  },
+  "ИЗРАИЛЬ|Новосибирск|Общинная жизнь|Омск|РОССИЯ|Семейная история": {
+    "place_settlement": 1,
+    "space_center_periphery": 1,
+    "temporal_past": 1
+  },
+  "Биробиджан|Биробиджанский проект|Еврейская автономная область|Региональная идентичность|Хабаровск": {
+    "place_settlement": 1,
+    "relation_identity": 1,
+    "space_own_alien": 1
+  },
+  "ИЗРАИЛЬ|Общинная жизнь|Репатриация в Израиль (алия)|Синагога|Хабаровск": {
+    "place_settlement": 1,
+    "temporal_loss": 1
+  },
+  "Биробиджан|Региональная идентичность|Семейная история": {
+    "place_settlement": 1,
+    "space_own_alien": 1
+  },
+  "Биробиджан|Локальный текст|Региональная идентичность|Этнические стереотипы": {
+    "place_settlement": 1,
+    "space_own_alien": 1
+  },
+  "Биробиджанский проект|Добрососедство|Кавказ|Общинная жизнь|Семейная история|Хабаровск|Численность евреев": {
+    "place_settlement": 1,
+    "space_own_alien": 1
+  },
+  "Биробиджан|Региональная идентичность": {
+    "place_settlement": 1,
+    "space_name": 1
+  },
+  "Еврейская автономная область": {
+    "place_settlement": 1,
+    "process_intensification": 1
+  },
+  "Идиш|Языковая политика": {
+    "place_settlement": 1,
+    "process_intensification": 1
+  },
+  "Региональная идентичность": {
+    "place_settlement": 6,
+    "process_identity": 3,
+    "space_own_alien": 2,
+    "process_intensification": 2
+  },
+  "Региональная идентичность|Современная еврейская жизнь|Хабаровск|Эмиграция": {
+    "place_settlement": 1,
+    "space_inside_outside": 1,
+    "temporal_loss": 1,
+    "temporal_present": 1
+  },
+  "Дом и быт|Еврейская автономная область|Современная еврейская жизнь": {
+    "place_settlement": 1,
+    "temporal_transformation": 1
+  },
+  "БЕЛАРУСЬ|Гомель|Дальний Восток|Облучье|Семейная история|Холокост": {
+    "narrative_crossing": 1,
+    "place_settlement": 1
+  },
+  "Еврейские колхозы|Образование|Профессия|Региональная идентичность|Советская еврейская история|Хабаровск": {
+    "place_institution": 1,
+    "place_settlement": 1,
+    "relation_work": 1,
+    "space_own_alien": 1,
+    "temporal_past": 1
+  },
+  "Региональная идентичность|Хабаровск": {
+    "place_settlement": 1,
+    "space_own_alien": 1,
+    "temporal_past": 1
+  },
+  "Биробиджан|Образование|Профессия|Хабаровск": {
+    "place_institution": 1,
+    "relation_study": 1,
+    "relation_work": 1,
+    "temporal_past": 1
+  },
+  "Биробиджан|Благовещенск|Комсомольск-на-Амуре|Образование|Семейная история": {
+    "place_institution": 1,
+    "place_settlement": 1,
+    "relation_residence": 1,
+    "relation_study": 1
+  },
+  "Образование|Хабаровск": {
+    "place_institution": 1,
+    "relation_study": 1
+  },
+  "Амурзет|Вторая мировая война|Могилёв-Подольский|Семейная история": {
+    "narrative_crossing": 1,
+    "place_settlement": 1,
+    "relation_birth": 1
+  },
+  "Николаев|Семейная история|Феодосия": {
+    "narrative_crossing": 1,
+    "place_institution": 1,
+    "place_settlement": 1,
+    "relation_residence": 1,
+    "relation_study": 1
+  },
+  "Биробиджанский проект|Облучье|Пища|Семейная история": {
+    "narrative_crossing": 1,
+    "place_institution": 1,
+    "place_settlement": 1,
+    "relation_residence": 1
+  },
+  "Культурная жизнь|Региональная идентичность|Туризм": {
+    "place_natural": 1,
+    "place_public_space": 1,
+    "place_street": 1,
+    "process_interaction": 1,
+    "relation_family": 1
+  },
+  "ЛАТВИЯ|Рига|Семейная история": {
+    "narrative_crossing": 1,
+    "place_settlement": 1
+  },
+  "Биробиджан|Иврит|Идиш|Локальный текст|Облучье|Семейная история|Соцгородок": {
+    "place_settlement": 1,
+    "temporal_loss": 1,
+    "temporal_past": 1
+  },
+  "Биробиджанский проект|Профессия": {
+    "place_settlement": 1,
+    "temporal_past": 1
+  },
+  "Владивосток Vladivostok|Образование|Профессия": {
+    "place_settlement": 1,
+    "relation_study": 1,
+    "temporal_past": 1
+  },
+  "Вязьма|Профессия|Семейная история|Хабаровск|Эмиграция": {
+    "place_settlement": 1,
+    "process_identity": 1,
+    "relation_work": 1,
+    "temporal_past": 1
+  },
+  "Еврейские колхозы|Жёлтый Яр|Профессия|Семейная история|Советская еврейская история": {
+    "place_settlement": 1,
+    "temporal_transformation": 1
+  },
+  "Валдгейм|Общинная жизнь|Синагога|Суббота": {
+    "place_settlement": 1,
+    "temporal_loss": 1
+  },
+  "Валдгейм|Профессия|Семейная история": {
+    "place_settlement": 1,
+    "relation_birth": 1,
+    "relation_residence": 1,
+    "relation_study": 1,
+    "relation_work": 1
+  },
+  "ИЗРАИЛЬ|Современная еврейская жизнь|Численность евреев|Эмиграция": {
+    "place_settlement": 1,
+    "process_identity": 1
+  },
+  "Еврейские колхозы|Семейная история|Смешанные браки|Эмиграция": {
+    "place_settlement": 1,
+    "temporal_transformation": 1
+  },
+  "Валдгейм|Еврейские колхозы|Профессия|Семейная история|Советская еврейская история|Эмиграция": {
+    "narrative_crossing": 1,
+    "place_institution": 1,
+    "place_settlement": 1,
+    "relation_residence": 1,
+    "relation_work": 1,
+    "temporal_past": 1
+  },
+  "Валдгейм|Еврейские колхозы|Москва|Семейная история|Советская еврейская история": {
+    "place_agricultural": 1,
+    "place_institution": 1,
+    "process_liberation": 1,
+    "symbol_soviet": 1,
+    "temporal_past": 1
+  },
+  "Валдгейм|Еврейские колхозы|Идиш|Семейная история|Советская еврейская история|Численность евреев": {
+    "place_agricultural": 1,
+    "place_institution": 1,
+    "temporal_past": 1
+  },
+  "Добрососедство|Еврейские колхозы|Ленинское|Советская еврейская история": {
+    "place_agricultural": 1,
+    "place_institution": 1,
+    "temporal_past": 1
+  },
+  "Биробиджан|Валдгейм|Еврейские колхозы|Орёл|Профессия|Семейная история": {
+    "place_agricultural": 1,
+    "place_institution": 1,
+    "relation_family": 1,
+    "relation_work": 1
+  },
+  "Валдгейм|Еврейские колхозы|Численность евреев": {
+    "place_agricultural": 1,
+    "place_institution": 1,
+    "place_settlement": 1,
+    "process_interaction": 1,
+    "temporal_past": 1
+  },
+  "Биробиджан|Биробиджанский проект|Валдгейм|Магадан|Общинная жизнь|Семейная история": {
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_institution": 1
+  },
+  "Биробиджанский проект|Валдгейм|Общинная жизнь|Песах|Синагога": {
+    "place_religious": 1,
+    "temporal_loss": 1
+  },
+  "Биробиджан|Бирофельд|Валдгейм|Йом Кипур|Общинная жизнь|Синагога": {
+    "place_religious": 1,
+    "temporal_past": 1
+  },
+  "Биробиджан|ИЗРАИЛЬ|Иврит|Идиш|Телевидение и пресса|Языковая политика": {
+    "place_institution": 1,
+    "symbol_urban": 1
+  },
+  "Биробиджан|Семейная история|Хабаровск": {
+    "place_institution": 1,
+    "place_settlement": 1,
+    "relation_study": 1,
+    "relation_work": 1
+  },
+  "Образование|Профессия|Семейная история|Хабаровск": {
+    "place_institution": 1,
+    "relation_study": 1
+  },
+  "Биробиджан|Биробиджанский проект|Еврейский театр|Идиш|Языковая политика": {
+    "place_institution": 1,
+    "place_public_space": 1,
+    "process_creation": 1,
+    "process_interaction": 1,
+    "temporal_past": 1
+  },
+  "Еврейский театр|Идиш|Семейная история": {
+    "place_institution": 1,
+    "place_public_space": 1,
+    "temporal_transformation": 1
+  },
+  "Биробиджанский проект|Житомир|Николаев|Семейная история|Советская еврейская история|Херсон": {
+    "narrative_crossing": 1,
+    "place_settlement": 1
+  },
+  "Еврейская речь|Идиш|Семейная история|УКРАИНА": {
+    "narrative_crossing": 1,
+    "place_settlement": 1
+  },
+  "Биробиджанский проект|Культурная жизнь|Туризм": {
+    "place_institution": 1,
+    "process_interaction": 1
+  },
+  "Культурная жизнь|Языковая политика": {
+    "place_institution": 1,
+    "process_intensification": 1,
+    "process_liberation": 1
+  },
+  "Репрезентация еврейской истории в музее|Туризм|Хабаровск": {
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_institution": 1,
+    "place_natural": 1,
+    "process_interaction": 1,
+    "symbol_urban": 1
+  },
+  "Туризм": {
+    "place_public_space": 1,
+    "place_settlement": 1,
+    "relation_leisure": 1,
+    "temporal_loss": 1
+  },
+  "ИЗРАИЛЬ|Репатриация в Израиль (алия)": {
+    "myth_emerging": 1,
+    "narrative_crossing": 1,
+    "place_settlement": 1
+  },
+  "ИЗРАИЛЬ|Репатриация в Израиль (алия)|Семейная история": {
+    "narrative_crossing": 1,
+    "place_settlement": 1
+  },
+  "Культурная жизнь|Мемориализация|Холокост": {
+    "memory_functional": 2,
+    "memory_material": 2,
+    "memory_symbolic": 2,
+    "place_memorial": 2
+  },
+  "Культурная жизнь": {
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_memorial": 1
+  },
+  "Мемориализация": {
+    "memory_functional": 1,
+    "memory_material": 1,
+    "place_memorial": 1,
+    "process_interaction": 1
+  },
+  "Биробиджан|Еврейская речь|Еврейский театр|Идиш|Культурная жизнь": {
+    "place_institution": 1,
+    "place_public_space": 1,
+    "process_interaction": 1
+  },
+  "Городской текст|Локальный текст|Профессия|Региональная идентичность|Суббота|Хабаровск": {
+    "place_infrastructure": 1,
+    "symbol_urban": 1
+  },
+  "Городской текст|Локальный текст|Туризм": {
+    "place_infrastructure": 1,
+    "process_interaction": 2,
+    "symbol_urban": 1,
+    "temporal_transformation": 1,
+    "place_institution": 1,
+    "place_public_space": 1,
+    "process_creation": 1,
+    "relation_leisure": 1,
+    "temporal_past": 1
+  },
+  "Городской текст|Культурная жизнь|Локальный текст|Туризм": {
+    "place_infrastructure": 1,
+    "place_public_space": 1,
+    "process_interaction": 1,
+    "relation_leisure": 1
+  },
+  "Берди́чев (Бердичів)|Семейная история|УКРАИНА": {
+    "narrative_crossing": 1,
+    "place_settlement": 1
+  },
+  "Берди́чев (Бердичів)|Биробиджанский проект|Семейная история|Советская еврейская история": {
+    "narrative_crossing": 1,
+    "place_settlement": 1
+  },
+  "Нижний Новгород|Образование|Профессия|Семейная история|Хабаровск|Эмиграция": {
+    "place_institution": 1,
+    "relation_study": 1
+  },
+  "ИЗРАИЛЬ|Образование|Профессия|Репатриация в Израиль (алия)|Семейная история|Хабаровск": {
+    "place_institution": 1,
+    "relation_study": 1
+  },
+  "Культурная жизнь|Локальный текст|Общинная жизнь|Семейная история": {
+    "place_settlement": 1,
+    "place_institution": 1,
+    "relation_birth": 1,
+    "relation_study": 1
+  },
+  "Биробиджанский проект|Городской текст|Локальный текст|Семейная история|Этнические стереотипы": {
+    "place_settlement": 1,
+    "space_own_alien": 1
+  },
+  "Биробиджанский проект|Городской текст|Этнические стереотипы": {
+    "place_settlement": 1,
+    "process_identity": 1
+  },
+  "Биробиджанский проект|Городской текст|Идиш|Суббота|Этнические стереотипы": {
+    "place_settlement": 1,
+    "process_identity": 1
+  },
+  "Биробиджанский проект|Городской текст|Локальный текст": {
+    "place_settlement": 1,
+    "space_own_alien": 1,
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_memorial": 1,
+    "place_institution": 1,
+    "place_public_space": 1,
+    "process_interaction": 1
+  },
+  "Культурная жизнь|Локальный текст|Общинная жизнь|Рош-ха-Шана|Семейная история": {
+    "place_settlement": 1,
+    "process_intensification": 1,
+    "process_realization": 1
+  },
+  "Идиш|Культурная жизнь|Локальный текст|Общинная жизнь|Рош-ха-Шана": {
+    "place_institution": 1,
+    "process_identity": 1,
+    "process_intensification": 1,
+    "process_interaction": 1,
+    "relation_study": 1
+  },
+  "Биробиджанский проект|Идиш|Культурная жизнь|Локальный текст|Общинная жизнь": {
+    "place_settlement": 1,
+    "process_intensification": 1,
+    "space_name": 1
+  },
+  "Биробиджанский проект|Культурная жизнь|Локальный текст|Общинная жизнь": {
+    "place_settlement": 1,
+    "process_identity": 1
+  },
+  "Биробиджанский проект|Локальный текст": {
+    "place_settlement": 1,
+    "symbol_urban": 1
+  },
+  "Биробиджанский проект|Иврит|Культурная жизнь|Локальный текст|Общинная жизнь": {
+    "place_settlement": 1,
+    "symbol_urban": 1
+  },
+  "Биробиджанский проект|Культурная жизнь|Локальный текст": {
+    "place_public_space": 1,
+    "place_institution": 1,
+    "process_liberation": 1,
+    "process_intensification": 1
+  },
+  "Культурная жизнь|Локальный текст": {
+    "place_street": 1,
+    "process_interaction": 1
+  },
+  "Биробиджанский проект|Численность евреев|Этнические стереотипы": {
+    "place_settlement": 1,
+    "space_own_alien": 1,
+    "temporal_present": 1
+  },
+  "Городской текст|Культурная жизнь|Локальный текст|Общинная жизнь|Ханука": {
+    "place_public_space": 1,
+    "place_street": 1,
+    "process_intensification": 1
+  },
+  "Биробиджанский проект|Локальный текст|Этнические стереотипы": {
+    "place_settlement": 1,
+    "process_intensification": 1
+  },
+  "Биробиджанский проект|Общинная жизнь": {
+    "place_settlement": 2,
+    "process_identity": 1,
+    "space_own_alien": 1,
+    "conflicting_narrative": 1
+  },
+  "Идиш|Региональная идентичность": {
+    "place_settlement": 1,
+    "process_identity": 1,
+    "temporal_transformation": 1
+  },
+  "Идиш|Переезд|Семейная история": {
+    "temporal_past": 1,
+    "place_settlement": 1,
+    "narrative_crossing": 1
+  },
+  "Переезд|Холокост": {
+    "place_settlement": 2,
+    "narrative_crossing": 2,
+    "temporal_past": 2,
+    "conflicting_narrative": 1
+  },
+  "Еврейские школы|Идиш|Общинная жизнь|Телевидение и пресса": {
+    "place_institution": 1,
+    "relation_study": 1
+  },
+  "Репатриация в Израиль (алия)": {
+    "narrative_crossing": 1,
+    "place_settlement": 1
+  },
+  "Идиш|Репатриация в Израиль (алия)": {
+    "narrative_crossing": 2,
+    "space_own_alien": 1,
+    "place_settlement": 1,
+    "temporal_loss": 1,
+    "temporal_past": 1
+  },
+  "Общинная жизнь|Региональная идентичность": {
+    "place_settlement": 1,
+    "process_identity": 1,
+    "space_own_alien": 1
+  },
+  "Еврейские организации|Региональная идентичность": {
+    "place_institution": 1,
+    "place_public_space": 1,
+    "relation_identity": 1,
+    "process_interaction": 1
+  },
+  "Еврейские организации|Синагога": {
+    "place_religious": 1,
+    "process_liberation": 1
+  },
+  "Региональная идентичность|Туризм": {
+    "place_settlement": 3,
+    "symbol_urban": 1,
+    "place_public_space": 1,
+    "space_own_alien": 2
+  },
+  "Вторая мировая война|Кладбище": {
+    "place_memorial": 1,
+    "memory_ritual": 1,
+    "memory_material": 1
+  },
+  "Добрососедство|Региональная идентичность": {
+    "place_settlement": 2
+  },
+  "Региональная идентичность|Репрессии|Топонимика": {
+    "place_settlement": 1,
+    "process_identity": 1
+  },
+  "Добрососедство|Региональная идентичность|Репатриация в Израиль (алия)|Численность евреев|Этнические стереотипы": {
+    "space_own_alien": 1,
+    "place_settlement": 1,
+    "process_identity": 1
+  },
+  "Городской текст|Идиш|Образование": {
+    "symbol_jewish": 1,
+    "process_intensification": 1
+  },
+  "Переезд|Региональная идентичность|Символика": {
+    "place_settlement": 1
+  },
+  "Переезд|Региональная идентичность|Численность евреев": {
+    "place_settlement": 1,
+    "process_identity": 1
+  },
+  "Репатриация в Израиль (алия)|Численность евреев": {
+    "narrative_crossing": 1
+  },
+  "Городской текст|Региональная идентичность|Репатриация в Израиль (алия)|Синагога": {
+    "process_identity": 1
+  },
+  "Городской текст|Культурная жизнь|Региональная идентичность": {
+    "place_settlement": 2
+  },
+  "Культурная жизнь|Региональная идентичность|Репрезентация еврейской истории в музее|Туризм": {
+    "place_settlement": 1
+  },
+  "Еврейский театр|Идиш|Культурная жизнь|Образование|Советская еврейская история": {
+    "place_institution": 1,
+    "temporal_past": 1
+  },
+  "Вторая мировая война|Семейная история|Эвакуация": {
+    "place_settlement": 1,
+    "narrative_crossing": 1,
+    "relation_residence": 1,
+    "temporal_past": 1
+  },
+  "Семейная история|Топонимика": {
+    "place_settlement": 1,
+    "narrative_crossing": 1,
+    "temporal_past": 1
+  },
+  "Биробиджанский проект|Городской текст|Локальный текст|Семейная история|Топонимика": {
+    "place_settlement": 1,
+    "temporal_past": 1
+  },
+  "Биробиджанский проект|Локальный текст|Первые переселенцы": {
+    "place_institution": 1,
+    "place_district": 1,
+    "relation_residence": 1
+  },
+  "Вторая мировая война|Культурная жизнь|Семейная история|Эвакуация": {
+    "relation_family": 1,
+    "place_institution": 1,
+    "relation_work": 1,
+    "temporal_past": 1,
+    "temporal_transformation": 1,
+    "process_liberation": 1
+  },
+  "Первые переселенцы|Репрессии|Семейная история": {
+    "place_settlement": 1,
+    "narrative_crossing": 1,
+    "temporal_past": 1
+  },
+  "Биробиджанский проект|Первые переселенцы|Численность евреев": {
+    "temporal_past": 1,
+    "place_settlement": 1,
+    "temporal_present": 1,
+    "narrative_crossing": 1
+  },
+  "Региональная идентичность|Топонимика|Этнические стереотипы": {
+    "place_settlement": 1,
+    "space_name": 1
+  },
+  "Репатриация в Израиль (алия)|Семейная история": {
+    "place_settlement": 1,
+    "relation_family": 1,
+    "relation_identity": 1,
+    "space_own_alien": 1
+  },
+  "Еврейские колхозы|Семейная история": {
+    "place_settlement": 2,
+    "temporal_loss": 1,
+    "temporal_transformation": 2,
+    "relation_work": 1
+  },
+  "Культурная жизнь|Общинная жизнь|Предприятия региона|Семейная история|Синагога|Туризм": {
+    "place_public_space": 1,
+    "place_religious": 1,
+    "relation_leisure": 1,
+    "place_institution": 1
+  },
+  "Идиш|Семейная история|Телевидение и пресса": {
+    "relation_family": 1,
+    "place_institution": 1,
+    "relation_study": 1,
+    "temporal_past": 1
+  },
+  "Еврейские школы|Неевреи в синагоге|Общинная жизнь|Синагога": {
+    "temporal_transformation": 1,
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_institution": 1,
+    "process_liberation": 1
+  },
+  "Культурная жизнь|Семейная история|Туризм": {
+    "place_settlement": 1,
+    "process_creation": 1,
+    "temporal_present": 1,
+    "process_intensification": 1
+  },
+  "Региональная идентичность|Семейная история": {
+    "place_settlement": 2,
+    "relation_family": 1,
+    "relation_identity": 1,
+    "relation_residence": 1,
+    "space_own_alien": 1
+  },
+  "Биробиджанский проект|Первые переселенцы|Региональная идентичность": {
+    "place_settlement": 1,
+    "narrative_crossing": 1
+  },
+  "Биробиджанский проект|Добрососедство|Первые переселенцы|Региональная идентичность|Синагога": {
+    "place_settlement": 1,
+    "process_identity": 1,
+    "temporal_past": 1
+  },
+  "Биробиджанский проект|Численность евреев": {
+    "place_settlement": 1,
+    "myth_emerging": 1,
+    "process_identity": 1
+  },
+  "Городской текст|Локальный текст": {
+    "place_settlement": 2,
+    "relation_identity": 1,
+    "relation_residence": 1,
+    "temporal_transformation": 1
+  },
+  "Городской текст|Предприятия региона": {
+    "temporal_past": 1,
+    "place_settlement": 1
+  },
+  "Региональная идентичность|Советская еврейская история|Численность евреев": {
+    "place_settlement": 1,
+    "place_institution": 1,
+    "relation_identity": 1,
+    "temporal_past": 1,
+    "temporal_transformation": 1
+  },
+  "Биробиджанский проект|Городской текст|Семейная история": {
+    "place_institution": 1,
+    "temporal_past": 1
+  },
+  "Городской текст|Локальный текст|Первые переселенцы|Пища|Региональная идентичность": {
+    "place_public_space": 1,
+    "place_infrastructure": 1,
+    "temporal_transformation": 1
+  },
+  "Еврейские организации|Общинная жизнь|Региональная идентичность|Синагога": {
+    "place_religious": 1,
+    "process_interaction": 1,
+    "place_institution": 1
+  },
+  "Городской текст|Легенды|Региональная идентичность": {
+    "memory_material": 1,
+    "memory_symbolic": 1,
+    "place_memorial": 1
+  },
+  "Легенды|Региональная идентичность": {
+    "memory_symbolic": 1,
+    "memory_material": 1,
+    "place_memorial": 1
+  }
+}
