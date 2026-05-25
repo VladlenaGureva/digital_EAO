@@ -3,8 +3,8 @@ import json
 from collections import defaultdict
 
 # Загружаем листы
-df_places = pd.read_excel('Датасет(АвтоматическиВосстановлено).xlsx', sheet_name='places', engine='openpyxl')
-df_routes = pd.read_excel('Датасет(АвтоматическиВосстановлено).xlsx', sheet_name='routes', engine='openpyxl')
+df_places = pd.read_excel('Датасет.xlsx', sheet_name='places', engine='openpyxl')
+df_routes = pd.read_excel('Датасет.xlsx', sheet_name='routes', engine='openpyxl')
 
 # Словарь координат: place_id -> (lon, lat)
 coords = {}
