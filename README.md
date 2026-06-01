@@ -58,42 +58,41 @@ Python-скрипты автоматически генерируют:
 **Структура репозитория**
 
 digital_EAO/
+├── index.html                      # Основная страница с интерактивной картой
+├── Dataset.xlsx                    # Основная Excel-база данных (places, audio, photo, routes)
+├── places.geojson                  # Точки маршрута (генерируется скриптом)
+├── routes.geojson                  # Линии миграционных волн (генерируется скриптом)
 │
-├── index.html # Основная страница с интерактивной картой
-├── Dataset.xlsx # Основная Excel-база данных (places, audio, photo, routes)
-├── places.geojson # Точки маршрута (генерируется скриптом)
-├── routes.geojson # Линии миграционных волн (генерируется скриптом)
+├── places/                         # JSON-файлы с детальной информацией о каждом месте
+│   ├── bir.json
+│   ├── dalselmash.json
+│   └── ...
 │
-├── places/ # JSON-файлы с детальной информацией о каждом месте
-│ ├── bir.json
-│ ├── dalselmash.json
-│ └── ...
+├── routes/                         # JSON-файлы с детальной информацией о каждом маршруте
+│   ├── bir_to_israel_aliyah.json
+│   ├── berdichev_to_bir_first_settlers.json
+│   └── ...
 │
-├── routes/ # JSON-файлы с детальной информацией о каждом маршруте
-│ ├── bir_to_israel_aliyah.json
-│ ├── berdichev_to_bir_first_settlers.json
-│ └── ...
+├── scripts/                        # Python-скрипты для генерации данных
+│   ├── places.py                   # Создаёт places.geojson из Dataset.xlsx
+│   ├── place.py                    # Создаёт JSON для каждого места (папка places/)
+│   ├── routes.py                   # Генерирует routes.geojson и JSON для маршрутов
+│   └── utils.py                    # Общие функции (загрузка Excel, работа с путями)
 │
-├── scripts/ # Python-скрипты для генерации данных
-│ ├── places.py # Создаёт places.geojson из Dataset.xlsx
-│ ├── place.py # Создаёт JSON для каждого места (папка places/)
-│ ├── routes.py # Генерирует routes.geojson и JSON для маршрутов
-│ └── utils.py # Общие функции (загрузка Excel, работа с путями)
+├── audio/                          # Аудиофрагменты интервью (нарезанные)
+│   ├── EAO_25_11_Bb_52.mp3
+│   ├── EAO_25_12_Bb_15.mp3
+│   └── ...
 │
-├── audio/ # Аудиофрагменты интервью (нарезанные)
-│ ├── EAO_25_11_Bb_52.mp3
-│ ├── EAO_25_12_Bb_15.mp3
-│ └── ...
+├── images/                         # Фотографии для карты
+│   ├── bir_dalselmash_1.jpg
+│   ├── bir_memorial_holocaust_2.jpg
+│   └── ...
 │
-├── images/ # Фотографии для карты
-│ ├── bir_dalselmash_1.jpg
-│ ├── bir_memorial_holocaust_2.jpg
-│ └── ...
-│
-├── Codebook.xlsx # Содержание кодбука для семантической разметки
-├── Инструкция по разметке (ЕАО).docx # Инструкция по первичной тематической разметке
-├── 2026-05-22 Тестирование интерактивной карты.xlsx # Результаты UX-тестирования
-├── semantic_coder.html # Веб-инструмент для полуавтоматической разметки
+├── Codebook.xlsx                   # Содержание кодбука для семантической разметки
+├── Инструкция по разметке (ЕАО).docx  # Инструкция по первичной тематической разметке
+├── 2026-05-22 Тестирование интерактивной карты.xlsx  # Результаты UX-тестирования
+├── semantic_coder.html             # Веб-инструмент для полуавтоматической разметки
 ├── .gitignore
 └── README.md
 
