@@ -57,6 +57,7 @@ Python-скрипты автоматически генерируют:
 
 **Структура репозитория**
 
+```text
 digital_EAO/
 ├── index.html                      # Основная страница с интерактивной картой
 ├── Dataset.xlsx                    # Основная Excel-база данных (places, audio, photo, routes)
@@ -111,6 +112,7 @@ digital_EAO/
 *  HTML5/CSS3/Flexbox – интерфейс
 *  OpenStreetMap – картографическая подложка
 *  GitHub Pages – хостинг демо-версии
+```
 
 **Лицензия и права**
 
