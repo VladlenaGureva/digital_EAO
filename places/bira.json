@@ -1,0 +1,45 @@
+{
+  "place_id": "bira",
+  "name": "Бира",
+  "short_history": "",
+  "layers": [
+    "identity_of_place"
+  ],
+  "default_tab": "identity_of_place",
+  "tabs": {
+    "identity_of_place": {
+      "label": "Identity Of Place",
+      "historical_note": "",
+      "narratives": [
+        {
+          "speaker": "Мужчина, 1989 г.р., житель Биробиджана",
+          "subtitle": "О поселке Бира как претенденте на роль центра ЕАО",
+          "quote": "вот Бира, чем она знаменита — в период Великой Отечественной войны в Бире находился районный центр. И вот как раз вы изучаете историю становления Еврейской автономной области, когда вот был еврейский проект и планировали создать Еврейскую автономную область, в том числе рассматривалась как одна из альтернатив Биробиджану именно поселок Бира, чтобы поселок Бира сделать именно центром Еврейской автономной области, потому что он был более развит поселок, он появился много раньше станции Тихонькая.",
+          "audio_url": "audio/EAO_25_32_Bb_6.mp3"
+        }
+      ]
+    }
+  },
+  "photos": [
+    {
+      "caption": "Бира. 1913 год",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/No-nb_bldsa_3f211.jpg/1280px-No-nb_bldsa_3f211.jpg",
+      "url": "images/bira_1.jpg"
+    },
+    {
+      "caption": "Железнодорожная станция Бира. Фото: Artem Svetlov",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Bira_2024-08_1724617405.jpg/1920px-Bira_2024-08_1724617405.jpg",
+      "url": "images/bira_2.jpg"
+    },
+    {
+      "caption": "Станция Бира. Улица. 1929 год",
+      "source": "http://humus.livejournal.com/3599445.html",
+      "url": "images/bira_3.webp"
+    },
+    {
+      "caption": "На субботнике. 1985-1995 года",
+      "source": "https://www.bankgorodov.ru/place/bira/photos",
+      "url": "images/bira_4.webp"
+    }
+  ]
+}
