@@ -1,0 +1,50 @@
+{
+  "place_id": "bir_brodvey",
+  "name": "Бродвей",
+  "short_history": "",
+  "layers": [
+    "toponymy"
+  ],
+  "default_tab": "toponymy",
+  "tabs": {
+    "toponymy": {
+      "label": "Toponymy",
+      "historical_note": "",
+      "narratives": [
+        {
+          "speaker": "Мужчина, 1951 г.р., житель Биробиджана",
+          "subtitle": "О молодежных гуляниях на «броде»",
+          "quote": "В Биробиджане было такое понятие — «пойти на брод». Бродвей. Брод. Это улица Октябрьская и улица Горького. И вот в моё детство было так. Я сам ходил на брод. Парни шли по одной улице, скажем, по Октябрьской. Девушки шли по Горькому, по параллельной. Встречались у вокзала. А на вокзале был фонтан круглый, и считалось нормальным способом макнуть мальчишку в фонтан.",
+          "audio_url": "audio/EAO_25_11_Bb_48.mp3"
+        }
+      ]
+    }
+  },
+  "photos": [
+    {
+      "caption": "Улица Октябрьская в Биробиджане. Фото: Евгений Карпов",
+      "source": "https://eaomedia.ru/f/big/1358/1357993.jpg ",
+      "url": "images/bir_brodvey_1.jpg"
+    },
+    {
+      "caption": "Строительство на ул. Горького. Фото: Госархив ЕАО",
+      "source": "https://eaomedia.ru/f/big/2707/2706141.png?154d2ff34009e49fe5c9f2ee29fbe005",
+      "url": "images/bir_brodvey_2.png"
+    },
+    {
+      "caption": "Ресторан «Биробиджан» на ул. Горького. Фото: Госархив ЕАО",
+      "source": "https://eaomedia.ru/f/big/2707/2706143.png?154d2ff34009e49fe5c9f2ee29fbe005",
+      "url": "images/bir_brodvey_3.png"
+    },
+    {
+      "caption": "Улица Октябрьская. 1935-1936 года",
+      "source": "https://riabir.ru/photo",
+      "url": "images/bir_brodvey_4.jpg"
+    },
+    {
+      "caption": "Табличка ул. Горького на русском и идише",
+      "source": "https://img-fotki.yandex.ru/get/51809/199172168.6b/0_1461f5_b475db4e_orig",
+      "url": "images/bir_brodvey_5.jpg"
+    }
+  ]
+}
