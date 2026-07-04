@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
     <title>Цифровой маршрут по ЕАО</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -95,6 +96,93 @@
         .lightbox .close-lightbox { position: absolute; top: 20px; right: 35px; color: white; font-size: 40px; cursor: pointer; background: none; border: none; }
         .lightbox .counter { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; color: white; font-size: 16px; background: rgba(0,0,0,0.5); display: inline-block; margin: 0 auto; width: fit-content; padding: 5px 12px; border-radius: 20px; }
         .leaflet-control-attribution a:first-child { display: none; }
+
+        /* МОБИЛЬНАЯ АДАПТАЦИЯ */
+        @media (max-width: 768px) {
+            .top-section { flex-direction: column; }
+            .panel-left {
+                width: 100%;
+                max-height: 40vh;
+                border-right: none;
+                border-bottom: 1px solid #ccc;
+                padding: 10px 15px;
+                overflow-y: auto;
+                flex-shrink: 0;
+            }
+            .panel-left h2 { font-size: 1.1rem; margin-bottom: 10px; }
+            .filter-group summary { font-size: 0.9rem; }
+            .filter-item label, .simple-filter label { font-size: 0.85rem; }
+            .map-wrapper { flex: 1; min-height: 60vh; }
+            .bottom-panel {
+                left: 0 !important;
+                height: 80vh;
+                transform: translateY(100%);
+            }
+            .bottom-panel.open { transform: translateY(0); }
+            .panel-header h3 { font-size: 1.1rem; }
+            .place-content { flex-direction: column; }
+            .left-column, .right-column {
+                flex: 1 1 auto;
+                min-width: unset;
+                max-width: 100%;
+            }
+            .photo-frame { height: 200px; }
+            .custom-marker {
+                width: 24px !important;
+                height: 24px !important;
+                line-height: 22px !important;
+                font-size: 12px !important;
+            }
+            .zoom-control {
+                top: 10px;
+                right: 10px;
+                width: 36px;
+            }
+            .zoom-control button {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+            .info-buttons {
+                top: 10px;
+                left: 10px;
+                gap: 6px;
+                flex-wrap: wrap;
+            }
+            .info-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            .legend-route-symbol img {
+                width: 20px;
+                height: 20px;
+            }
+            .tabs .tab-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            .narrative-item { padding-left: 10px; margin-bottom: 16px; }
+            audio { width: 100%; height: 36px; }
+            .short-history { font-size: 0.9rem; padding: 10px; }
+            .logos img { max-width: 100px; }
+            .layer-tooltip { max-width: 200px; font-size: 0.8rem; }
+        }
+        @media (max-width: 480px) {
+            .panel-left { max-height: 30vh; padding: 8px 10px; }
+            .filter-item, .simple-filter { gap: 4px; margin: 4px 0; }
+            .filter-item input, .simple-filter input { width: 16px; height: 16px; }
+            .bottom-panel { height: 85vh; }
+            .photo-frame { height: 150px; }
+            .info-btn { font-size: 0.7rem; padding: 4px 10px; }
+            .custom-marker {
+                width: 20px !important;
+                height: 20px !important;
+                line-height: 18px !important;
+                font-size: 10px !important;
+            }
+            .zoom-control { width: 30px; }
+            .zoom-control button { width: 30px; height: 30px; font-size: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -238,7 +326,7 @@
                     style: () => ({ color: waveColors[wave] || defaultLineColor, weight: 4, dashArray: '8,12', opacity: 0.8 })
                 });
                 routesLayer.addLayer(line);
-                // Невидимая линия для увеличения области клика
+                // Невидимая линия-обманка для увеличения области клика
                 const hitLine = L.geoJSON(feature, {
                     style: () => ({ color: 'transparent', weight: 12, opacity: 0, interactive: true }),
                     onEachFeature: (f, layer) => {
@@ -557,6 +645,87 @@
         return url + '.mp3';
     }
 
+    // ---------- ГРУППИРОВКА АУДИО ----------
+    function createNarrativeElement(nar) {
+        const div = document.createElement('div');
+        div.className = 'narrative-item';
+        if (nar.speaker) {
+            const sp = document.createElement('div');
+            sp.className = 'narrative-speaker';
+            sp.textContent = `Информант: ${nar.speaker}`;
+            div.appendChild(sp);
+        }
+        if (nar.subtitle) {
+            const sub = document.createElement('div');
+            sub.style.fontStyle = 'italic';
+            sub.style.marginBottom = '4px';
+            sub.textContent = nar.subtitle;
+            div.appendChild(sub);
+        }
+        if (nar.audio_url) {
+            const aud = document.createElement('audio');
+            aud.controls = true;
+            aud.src = fixAudioUrl(nar.audio_url);
+            div.appendChild(aud);
+        }
+        if (nar.quote) {
+            const toggle = document.createElement('button');
+            toggle.textContent = '📄 Показать транскрипт';
+            toggle.className = 'transcript-toggle';
+            const quoteDiv = document.createElement('div');
+            quoteDiv.className = 'narrative-quote';
+            quoteDiv.textContent = nar.quote;
+            toggle.onclick = () => {
+                if (quoteDiv.style.display === 'none') {
+                    quoteDiv.style.display = 'block';
+                    toggle.textContent = '📄 Скрыть транскрипт';
+                } else {
+                    quoteDiv.style.display = 'none';
+                    toggle.textContent = '📄 Показать транскрипт';
+                }
+            };
+            div.appendChild(toggle);
+            div.appendChild(quoteDiv);
+        }
+        return div;
+    }
+
+    function renderNarrativesWithGrouping(narratives, container) {
+        if (!narratives || narratives.length === 0) {
+            const empty = document.createElement('div');
+            empty.className = 'empty-message';
+            empty.textContent = 'Нет аудиозаписей';
+            container.appendChild(empty);
+            return;
+        }
+
+        const groups = new Map();
+        narratives.forEach(nar => {
+            const key = nar.subtitle || '';
+            if (!groups.has(key)) groups.set(key, []);
+            groups.get(key).push(nar);
+        });
+
+        for (const [subtitle, items] of groups.entries()) {
+            if (subtitle && items.length > 1) {
+                const details = document.createElement('details');
+                const summary = document.createElement('summary');
+                summary.textContent = subtitle;
+                details.appendChild(summary);
+                items.forEach(nar => {
+                    const elem = createNarrativeElement(nar);
+                    details.appendChild(elem);
+                });
+                container.appendChild(details);
+            } else {
+                items.forEach(nar => {
+                    const elem = createNarrativeElement(nar);
+                    container.appendChild(elem);
+                });
+            }
+        }
+    }
+
     function showRouteInfo(routeData) {
         let startRu = routeData.start_name_ru || routeData.start_id || '?';
         let endRu = routeData.end_name_ru || routeData.end_id || '?';
@@ -568,21 +737,10 @@
             const hist = document.createElement('div'); hist.className='short-history'; hist.innerHTML = `<strong>Историческая справка</strong><br><p>${routeData.short_history}</p>`;
             leftCol.appendChild(hist);
         }
-        if (routeData.audio_fragments && routeData.audio_fragments.length) {
-            routeData.audio_fragments.forEach(frag => {
-                const div = document.createElement('div'); div.className='narrative-item';
-                if (frag.speaker) { const sp = document.createElement('div'); sp.className='narrative-speaker'; sp.textContent = `Информант: ${frag.speaker}`; div.appendChild(sp); }
-                if (frag.subtitle) { const sub = document.createElement('div'); sub.style.fontStyle='italic'; sub.style.marginBottom='4px'; sub.textContent = frag.subtitle; div.appendChild(sub); }
-                if (frag.audio_url) { const aud = document.createElement('audio'); aud.controls = true; aud.src = fixAudioUrl(frag.audio_url); div.appendChild(aud); }
-                if (frag.quote) {
-                    const toggle = document.createElement('button'); toggle.textContent='📄 Показать транскрипт'; toggle.className='transcript-toggle';
-                    const quoteDiv = document.createElement('div'); quoteDiv.className='narrative-quote'; quoteDiv.textContent = frag.quote;
-                    toggle.onclick = () => { if (quoteDiv.style.display === 'none') { quoteDiv.style.display='block'; toggle.textContent='📄 Скрыть транскрипт'; } else { quoteDiv.style.display='none'; toggle.textContent='📄 Показать транскрипт'; } };
-                    div.appendChild(toggle); div.appendChild(quoteDiv);
-                }
-                leftCol.appendChild(div);
-            });
-        } else leftCol.innerHTML += '<div class="empty-message">Нет аудиозаписей</div>';
+        const audioContainer = document.createElement('div');
+        renderNarrativesWithGrouping(routeData.audio_fragments, audioContainer);
+        leftCol.appendChild(audioContainer);
+
         const rightCol = document.createElement('div'); rightCol.className='right-column';
         if (routeData.photos && routeData.photos.length) {
             const carousel = createPhotoCarousel(routeData.photos);
@@ -626,21 +784,9 @@
                 const btn=document.createElement('button'); btn.className='tab-btn'+(idx===0?' active':''); btn.textContent=layerCatalog[layer]?.label||tabData.label||layer;
                 const contentDiv=document.createElement('div'); contentDiv.className='tab-content'+(idx===0?' active':'');
                 if(tabData.historical_note){ const note=document.createElement('div'); note.className='historical-note'; note.textContent=tabData.historical_note; contentDiv.appendChild(note); }
-                if(tabData.narratives && tabData.narratives.length){
-                    tabData.narratives.forEach(nar => {
-                        const narrDiv = document.createElement('div'); narrDiv.className='narrative-item';
-                        if(nar.speaker){ const sp=document.createElement('div'); sp.className='narrative-speaker'; sp.textContent=`Информант: ${nar.speaker}`; narrDiv.appendChild(sp); }
-                        if(nar.subtitle){ const sub=document.createElement('div'); sub.style.fontStyle='italic'; sub.style.marginBottom='4px'; sub.textContent=nar.subtitle; narrDiv.appendChild(sub); }
-                        if(nar.audio_url){ const aud=document.createElement('audio'); aud.controls=true; aud.src=fixAudioUrl(nar.audio_url); narrDiv.appendChild(aud); }
-                        if(nar.quote){
-                            const toggle=document.createElement('button'); toggle.textContent='📄 Показать транскрипт'; toggle.className='transcript-toggle';
-                            const quoteDiv=document.createElement('div'); quoteDiv.className='narrative-quote'; quoteDiv.textContent=nar.quote;
-                            toggle.onclick=()=>{ if(quoteDiv.style.display==='none'){ quoteDiv.style.display='block'; toggle.textContent='📄 Скрыть транскрипт'; } else { quoteDiv.style.display='none'; toggle.textContent='📄 Показать транскрипт'; } };
-                            narrDiv.appendChild(toggle); narrDiv.appendChild(quoteDiv);
-                        }
-                        contentDiv.appendChild(narrDiv);
-                    });
-                } else contentDiv.innerHTML+='<div class="empty-message">Нет аудиозаписей</div>';
+                const audioContainer = document.createElement('div');
+                renderNarrativesWithGrouping(tabData.narratives, audioContainer);
+                contentDiv.appendChild(audioContainer);
                 btn.onclick=()=>{ tabsDiv.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); contentsDiv.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); contentDiv.classList.add('active'); };
                 tabsDiv.appendChild(btn); contentsDiv.appendChild(contentDiv);
             });
@@ -692,7 +838,7 @@
         setTimeout(()=>{ document.addEventListener('click', function onClickOutside(e){ if(!tooltipDiv.contains(e.target) && !e.target.classList.contains('info-icon')){ tooltipDiv.style.display='none'; document.removeEventListener('click', onClickOutside); } }); }, 10);
     }
 
-    // Контент проекта и инструкции
+    // ---------- О проекте и помощь ----------
     function showProjectInfo() {
         document.getElementById('place-title').textContent = 'О проекте';
         const container = document.getElementById('place-content');
@@ -711,6 +857,11 @@
                     <div class="project-block"><strong>Благодарности</strong>
                         <ul><li>Всем собеседникам, которые поделились своими историями во время экспедиции.</li><li>Участникам экспедиции, волонтерам и практикантам Центра «Сэфер», выполнившим расшифровку, тематическую разметку и загрузку корпуса интервью в онлайн-архив SFIRA.</li><li>Федерации еврейских организаций Еврейской автономной области.</li><li>Местной религиозной организации ортодоксального иудаизма "Биробиджанская еврейская религиозная община «Фрейд»".</li><li>Местной религиозной организации ортодоксального иудаизма г.Хабаровска «Мизрах».</li><li>МУП «Транспортная компания» г.Биробиджан.</li></ul>
                     </div>
+                    <div class="project-block">
+                        <strong>👤 Об авторе</strong>
+                        <p>Проект выполнен в рамках магистерской диссертации Гурьевой Владленой на образовательной программе «Цифровые методы в гуманитарных науках» НИУ ВШЭ.</p>
+                        <p><sup>*</sup> Настоящий цифровой маршрут является пополняющимся.</p>
+                    </div>
                     <div class="project-block"><strong>Контакты</strong><p>Гурьева Владлена: <a href="mailto:vgureva@hse.ru">vgureva@hse.ru</a><br>Центр «Сэфер»: <a href="mailto:sefer@sefer.ru">sefer@sefer.ru</a></p></div>
                     <div class="cross-link" id="cross-to-help">Как читать карту</div>
                 </div>
@@ -721,7 +872,6 @@
             </div>
             <div class="right-column" id="project-carousel-container"></div>
         `;
-        // Карусель с фотографиями экспедиции (правый столбец)
         const expoPhotos = [];
         for (let i = 1; i <= 12; i++) {
             expoPhotos.push({ url: `images/exp_${i}.jpg`, caption: "", source: "" });
@@ -742,8 +892,27 @@
         openBottomPanel();
     }
 
-    // Инициализация карты
-    map = L.map('map', { zoomControl: false }).setView([48.78, 132.92], 10);
+    // ---------- Остановка аудио при старте нового ----------
+    document.getElementById('panel-body').addEventListener('play', function(e) {
+        if (e.target.tagName === 'AUDIO') {
+            const allAudio = this.querySelectorAll('audio');
+            allAudio.forEach(audio => {
+                if (audio !== e.target) {
+                    audio.pause();
+                }
+            });
+        }
+    }, true);
+
+    // ---------- Инициализация карты ----------
+    map = L.map('map', {
+        zoomControl: false,
+        tap: true,
+        tapTolerance: 15,
+        fadeAnimation: true,
+        zoomAnimation: true,
+        markerZoomAnimation: true
+    }).setView([48.78, 132.92], 10);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }).addTo(map);
     L.control.scale({ metric: true, imperial: false, position: 'bottomright' }).addTo(map);
     document.getElementById('zoom-in').addEventListener('click',()=>map.zoomIn());
