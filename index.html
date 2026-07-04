@@ -97,6 +97,37 @@
         .lightbox .counter { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; color: white; font-size: 16px; background: rgba(0,0,0,0.5); display: inline-block; margin: 0 auto; width: fit-content; padding: 5px 12px; border-radius: 20px; }
         .leaflet-control-attribution a:first-child { display: none; }
 
+        /* Стили для группировки аудио */
+        .audio-group {
+            margin-bottom: 12px;
+        }
+        .audio-group summary {
+            font-weight: bold;
+            cursor: pointer;
+            color: #2c3e50;
+            padding: 6px 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+        .audio-group summary::-webkit-details-marker {
+            display: none;
+        }
+        .audio-group summary::before {
+            content: "▶";
+            font-size: 0.8rem;
+            margin-right: 8px;
+            transition: transform 0.2s;
+        }
+        .audio-group[open] summary::before {
+            transform: rotate(90deg);
+        }
+        .narrative-subtitle {
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #2c3e50;
+        }
+
         /* МОБИЛЬНАЯ АДАПТАЦИЯ */
         @media (max-width: 768px) {
             .top-section { flex-direction: column; }
@@ -166,13 +197,24 @@
             .short-history { font-size: 0.9rem; padding: 10px; }
             .logos img { max-width: 100px; }
             .layer-tooltip { max-width: 200px; font-size: 0.8rem; }
+            .audio-group summary { font-size: 0.9rem; padding: 4px 0; }
+            .narrative-subtitle { font-size: 0.85rem; }
+            /* уплотнение панели */
+            .panel-body { padding: 10px !important; }
+            .left-column, .right-column { padding: 0 5px; }
+            .short-history, .collapsible-block { font-size: 0.9rem; padding: 8px; }
+            .narrative-item { padding-left: 8px; margin-bottom: 12px; }
+            .narrative-speaker { font-size: 0.85rem; }
+            .photo-frame { height: 150px; }
+            .tabs .tab-btn { padding: 4px 10px; font-size: 0.75rem; }
+            audio { height: 30px; margin-top: 4px; }
         }
         @media (max-width: 480px) {
             .panel-left { max-height: 30vh; padding: 8px 10px; }
             .filter-item, .simple-filter { gap: 4px; margin: 4px 0; }
             .filter-item input, .simple-filter input { width: 16px; height: 16px; }
             .bottom-panel { height: 85vh; }
-            .photo-frame { height: 150px; }
+            .photo-frame { height: 120px; }
             .info-btn { font-size: 0.7rem; padding: 4px 10px; }
             .custom-marker {
                 width: 20px !important;
@@ -182,6 +224,12 @@
             }
             .zoom-control { width: 30px; }
             .zoom-control button { width: 30px; height: 30px; font-size: 16px; }
+            .panel-body { padding: 6px !important; }
+            .short-history, .collapsible-block { font-size: 0.8rem; padding: 6px; }
+            .narrative-item { padding-left: 5px; margin-bottom: 8px; }
+            .photo-frame { height: 120px; }
+            .tabs .tab-btn { padding: 3px 8px; font-size: 0.7rem; }
+            audio { height: 28px; }
         }
     </style>
 </head>
@@ -645,22 +693,21 @@
         return url + '.mp3';
     }
 
-    // ---------- ГРУППИРОВКА АУДИО ----------
-    function createNarrativeElement(nar) {
+    // ---------- НОВЫЕ ФУНКЦИИ ДЛЯ ГРУППИРОВКИ (с сортировкой и флагом) ----------
+    function createNarrativeElement(nar, showSubtitle = true) {
         const div = document.createElement('div');
         div.className = 'narrative-item';
+        if (showSubtitle && nar.subtitle) {
+            const sub = document.createElement('div');
+            sub.className = 'narrative-subtitle';
+            sub.textContent = nar.subtitle;
+            div.appendChild(sub);
+        }
         if (nar.speaker) {
             const sp = document.createElement('div');
             sp.className = 'narrative-speaker';
             sp.textContent = `Информант: ${nar.speaker}`;
             div.appendChild(sp);
-        }
-        if (nar.subtitle) {
-            const sub = document.createElement('div');
-            sub.style.fontStyle = 'italic';
-            sub.style.marginBottom = '4px';
-            sub.textContent = nar.subtitle;
-            div.appendChild(sub);
         }
         if (nar.audio_url) {
             const aud = document.createElement('audio');
@@ -699,6 +746,7 @@
             return;
         }
 
+        // Группировка по подзаголовку (пустая строка – отдельная группа)
         const groups = new Map();
         narratives.forEach(nar => {
             const key = nar.subtitle || '';
@@ -706,26 +754,38 @@
             groups.get(key).push(nar);
         });
 
-        for (const [subtitle, items] of groups.entries()) {
-            if (subtitle && items.length > 1) {
+        // Сортировка ключей: по алфавиту, русская локаль, пустые в конце
+        const sortedKeys = Array.from(groups.keys()).sort((a, b) => {
+            if (a === '') return 1;
+            if (b === '') return -1;
+            return a.localeCompare(b, 'ru');
+        });
+
+        for (const key of sortedKeys) {
+            const items = groups.get(key);
+            if (key && items.length > 1) {
+                // Группа с одинаковым подзаголовком – раскрывающийся блок
                 const details = document.createElement('details');
+                details.className = 'audio-group';
                 const summary = document.createElement('summary');
-                summary.textContent = subtitle;
+                summary.textContent = key;
                 details.appendChild(summary);
                 items.forEach(nar => {
-                    const elem = createNarrativeElement(nar);
+                    const elem = createNarrativeElement(nar, false);
                     details.appendChild(elem);
                 });
                 container.appendChild(details);
             } else {
+                // Уникальный подзаголовок или пустая строка – выводим каждый элемент с подзаголовком
                 items.forEach(nar => {
-                    const elem = createNarrativeElement(nar);
+                    const elem = createNarrativeElement(nar, true);
                     container.appendChild(elem);
                 });
             }
         }
     }
 
+    // ---------- Остальные функции ----------
     function showRouteInfo(routeData) {
         let startRu = routeData.start_name_ru || routeData.start_id || '?';
         let endRu = routeData.end_name_ru || routeData.end_id || '?';
@@ -766,7 +826,11 @@
         const container = document.getElementById('place-content');
         container.innerHTML = '';
         const leftCol = document.createElement('div'); leftCol.className='left-column';
-        if(data.short_history){ const hd=document.createElement('div'); hd.className='short-history'; hd.innerHTML=`<strong>Историческая справка</strong><br>${data.short_history.replace(/\n/g,'<br>')}`; leftCol.appendChild(hd); }
+        if(data.short_history){ 
+            const hd=document.createElement('div'); hd.className='short-history'; 
+            hd.innerHTML=`<strong>Историческая справка</strong><br>${data.short_history.replace(/\n/g,'<br>')}`; 
+            leftCol.appendChild(hd); 
+        }
         const allPlaceLayers = data.layers||[];
         const tabsData = data.tabs||{};
         const selectedLayers = allPlaceLayers.filter(l=>activeFilters.has(l));
