@@ -97,7 +97,7 @@
         .lightbox .counter { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; color: white; font-size: 16px; background: rgba(0,0,0,0.5); display: inline-block; margin: 0 auto; width: fit-content; padding: 5px 12px; border-radius: 20px; }
         .leaflet-control-attribution a:first-child { display: none; }
 
-        /* Стили для группировки аудио */
+        /* Стили для аудио-групп и уникальных подзаголовков */
         .audio-group {
             margin-bottom: 12px;
         }
@@ -122,10 +122,13 @@
         .audio-group[open] summary::before {
             transform: rotate(90deg);
         }
-        .narrative-subtitle {
-            font-weight: bold;
+
+        /* Уникальный подзаголовок – курсив, как было изначально */
+        .narrative-subtitle-unique {
+            font-style: italic;
+            font-weight: normal;
+            color: #555;
             margin-bottom: 4px;
-            color: #2c3e50;
         }
 
         /* МОБИЛЬНАЯ АДАПТАЦИЯ */
@@ -198,11 +201,11 @@
             .logos img { max-width: 100px; }
             .layer-tooltip { max-width: 200px; font-size: 0.8rem; }
             .audio-group summary { font-size: 0.9rem; padding: 4px 0; }
-            .narrative-subtitle { font-size: 0.85rem; }
+            .narrative-subtitle-unique { font-size: 0.85rem; }
             /* уплотнение панели */
             .panel-body { padding: 10px !important; }
             .left-column, .right-column { padding: 0 5px; }
-            .short-history, .collapsible-block { font-size: 0.9rem; padding: 8px; }
+            .short-history { font-size: 0.9rem; padding: 8px; }
             .narrative-item { padding-left: 8px; margin-bottom: 12px; }
             .narrative-speaker { font-size: 0.85rem; }
             .photo-frame { height: 150px; }
@@ -225,7 +228,7 @@
             .zoom-control { width: 30px; }
             .zoom-control button { width: 30px; height: 30px; font-size: 16px; }
             .panel-body { padding: 6px !important; }
-            .short-history, .collapsible-block { font-size: 0.8rem; padding: 6px; }
+            .short-history { font-size: 0.8rem; padding: 6px; }
             .narrative-item { padding-left: 5px; margin-bottom: 8px; }
             .photo-frame { height: 120px; }
             .tabs .tab-btn { padding: 3px 8px; font-size: 0.7rem; }
@@ -693,13 +696,13 @@
         return url + '.mp3';
     }
 
-    // ---------- НОВЫЕ ФУНКЦИИ ДЛЯ ГРУППИРОВКИ (с сортировкой и флагом) ----------
+    // ---------- ФУНКЦИИ ДЛЯ ГРУППИРОВКИ АУДИО (новая логика) ----------
     function createNarrativeElement(nar, showSubtitle = true) {
         const div = document.createElement('div');
         div.className = 'narrative-item';
         if (showSubtitle && nar.subtitle) {
             const sub = document.createElement('div');
-            sub.className = 'narrative-subtitle';
+            sub.className = 'narrative-subtitle-unique';
             sub.textContent = nar.subtitle;
             div.appendChild(sub);
         }
@@ -746,43 +749,48 @@
             return;
         }
 
-        // Группировка по подзаголовку (пустая строка – отдельная группа)
-        const groups = new Map();
+        // Подсчёт частоты подзаголовков (пустая строка – отдельный ключ)
+        const freq = new Map();
         narratives.forEach(nar => {
             const key = nar.subtitle || '';
-            if (!groups.has(key)) groups.set(key, []);
-            groups.get(key).push(nar);
+            freq.set(key, (freq.get(key) || 0) + 1);
         });
 
-        // Сортировка ключей: по алфавиту, русская локаль, пустые в конце
-        const sortedKeys = Array.from(groups.keys()).sort((a, b) => {
-            if (a === '') return 1;
-            if (b === '') return -1;
-            return a.localeCompare(b, 'ru');
-        });
-
-        for (const key of sortedKeys) {
-            const items = groups.get(key);
-            if (key && items.length > 1) {
-                // Группа с одинаковым подзаголовком – раскрывающийся блок
-                const details = document.createElement('details');
-                details.className = 'audio-group';
-                const summary = document.createElement('summary');
-                summary.textContent = key;
-                details.appendChild(summary);
-                items.forEach(nar => {
-                    const elem = createNarrativeElement(nar, false);
-                    details.appendChild(elem);
-                });
-                container.appendChild(details);
+        // Разделяем на уникальные (частота 1) и повторяющиеся
+        const uniqueItems = [];
+        const groupMap = new Map(); // key -> [nar, ...]
+        narratives.forEach(nar => {
+            const key = nar.subtitle || '';
+            if (freq.get(key) === 1) {
+                uniqueItems.push(nar);
             } else {
-                // Уникальный подзаголовок или пустая строка – выводим каждый элемент с подзаголовком
-                items.forEach(nar => {
-                    const elem = createNarrativeElement(nar, true);
-                    container.appendChild(elem);
-                });
+                if (!groupMap.has(key)) groupMap.set(key, []);
+                groupMap.get(key).push(nar);
             }
-        }
+        });
+
+        // 1. Выводим уникальные элементы (в исходном порядке) – подзаголовок курсивом
+        uniqueItems.forEach(nar => {
+            const elem = createNarrativeElement(nar, true);
+            container.appendChild(elem);
+        });
+
+        // 2. Выводим группы (повторяющиеся подзаголовки) – жирный заголовок, раскрывающийся список
+        // Сортируем ключи групп по алфавиту (русская локаль)
+        const sortedGroupKeys = Array.from(groupMap.keys()).sort((a, b) => a.localeCompare(b, 'ru'));
+        sortedGroupKeys.forEach(key => {
+            const items = groupMap.get(key);
+            const details = document.createElement('details');
+            details.className = 'audio-group';
+            const summary = document.createElement('summary');
+            summary.textContent = key;
+            details.appendChild(summary);
+            items.forEach(nar => {
+                const elem = createNarrativeElement(nar, false); // без подзаголовка
+                details.appendChild(elem);
+            });
+            container.appendChild(details);
+        });
     }
 
     // ---------- Остальные функции ----------
