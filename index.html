@@ -156,23 +156,24 @@
 
         /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
         @media (max-width: 768px) {
-            .top-section { flex-direction: row; } /* горизонтальное расположение */
+            /* вертикальное расположение легенды и карты */
+            .top-section { flex-direction: column; }
             .panel-left {
-                width: 40%;
-                max-height: 100vh;
-                border-right: 1px solid #ccc;
-                border-bottom: none;
-                padding: 10px 12px;
+                width: 100%;
+                max-height: 40vh;
+                border-right: none;
+                border-bottom: 1px solid #ccc;
+                padding: 10px 15px;
                 overflow-y: auto;
                 flex-shrink: 0;
             }
-            .panel-left h2 { font-size: 1rem; margin-bottom: 8px; }
-            .filter-group summary { font-size: 0.8rem; }
-            .filter-item label, .simple-filter label { font-size: 0.75rem; }
-            .map-wrapper { flex: 1; min-height: auto; }
+            .panel-left h2 { font-size: 1.1rem; margin-bottom: 10px; }
+            .filter-group summary { font-size: 0.9rem; }
+            .filter-item label, .simple-filter label { font-size: 0.85rem; }
+            .map-wrapper { flex: 1; min-height: 60vh; }
             .bottom-panel {
                 left: 0 !important;
-                height: 85vh;
+                height: 80vh;
                 transform: translateY(100%);
             }
             .bottom-panel.open { transform: translateY(0); }
@@ -183,22 +184,22 @@
             }
             .left-column  { min-width: unset; max-width: 100%; }
             .right-column { min-width: unset; max-width: 100%; }
-            .photo-frame { height: 180px; }
+            .photo-frame { height: 200px; }
             .custom-marker {
-                width: 22px !important;
-                height: 22px !important;
-                line-height: 20px !important;
-                font-size: 11px !important;
+                width: 24px !important;
+                height: 24px !important;
+                line-height: 22px !important;
+                font-size: 12px !important;
             }
             .zoom-control {
                 top: 10px;
                 right: 10px;
-                width: 34px;
+                width: 36px;
             }
             .zoom-control button {
-                width: 34px;
-                height: 34px;
-                font-size: 16px;
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
             }
             .info-buttons {
                 top: 10px;
@@ -207,68 +208,67 @@
                 flex-wrap: wrap;
             }
             .info-btn {
-                padding: 4px 10px;
-                font-size: 0.7rem;
+                padding: 6px 12px;
+                font-size: 0.8rem;
             }
             .legend-route-symbol img {
-                width: 18px;
-                height: 18px;
+                width: 20px;
+                height: 20px;
             }
             .tabs .tab-btn {
-                padding: 4px 10px;
-                font-size: 0.7rem;
+                padding: 6px 12px;
+                font-size: 0.8rem;
             }
+            .narrative-item { padding-left: 10px; margin-bottom: 16px; }
+            audio { width: 100%; height: 36px; }
+            .short-history { font-size: 0.9rem; padding: 10px; }
+            .logos img { max-width: 100px; }
+            .layer-tooltip { max-width: 200px; font-size: 0.8rem; }
+            .audio-group summary { font-size: 0.9rem; padding: 4px 0; }
+            .narrative-subtitle-unique { font-size: 0.85rem; }
+            .panel-body { padding: 10px !important; }
+            .left-column, .right-column { padding: 0 5px; }
+            .short-history { font-size: 0.9rem; padding: 8px; }
             .narrative-item { padding-left: 8px; margin-bottom: 12px; }
-            audio { width: 100%; height: 32px; }
-            .short-history { font-size: 0.85rem; padding: 8px; }
-            .logos img { max-width: 80px; }
-            .layer-tooltip { max-width: 180px; font-size: 0.7rem; }
-            .audio-group summary { font-size: 0.8rem; padding: 4px 0; }
-            .narrative-subtitle-unique { font-size: 0.8rem; }
-            .panel-body { padding: 8px !important; }
-            .left-column, .right-column { padding: 0 4px; }
-            .short-history { font-size: 0.85rem; padding: 6px; }
-            .narrative-item { padding-left: 6px; margin-bottom: 10px; }
-            .narrative-speaker { font-size: 0.8rem; }
-            .photo-frame { height: 130px; }
-            .tabs .tab-btn { padding: 3px 8px; font-size: 0.65rem; }
-            audio { height: 28px; margin-top: 4px; }
+            .narrative-speaker { font-size: 0.85rem; }
+            .photo-frame { height: 150px; }
+            .tabs .tab-btn { padding: 4px 10px; font-size: 0.75rem; }
+            audio { height: 30px; margin-top: 4px; }
             #scroll-top {
-                bottom: 70px;
-                right: 8px;
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
+                bottom: 80px;
+                right: 10px;
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
             }
         }
         @media (max-width: 480px) {
-            .panel-left { width: 35%; padding: 6px 8px; }
-            .panel-left h2 { font-size: 0.9rem; }
-            .filter-item, .simple-filter { gap: 3px; margin: 3px 0; }
-            .filter-item input, .simple-filter input { width: 14px; height: 14px; }
-            .bottom-panel { height: 90vh; }
-            .photo-frame { height: 100px; }
-            .info-btn { font-size: 0.6rem; padding: 3px 8px; }
+            .panel-left { max-height: 35vh; padding: 8px 10px; }
+            .filter-item, .simple-filter { gap: 4px; margin: 4px 0; }
+            .filter-item input, .simple-filter input { width: 16px; height: 16px; }
+            .bottom-panel { height: 85vh; }
+            .photo-frame { height: 120px; }
+            .info-btn { font-size: 0.7rem; padding: 4px 10px; }
             .custom-marker {
-                width: 18px !important;
-                height: 18px !important;
-                line-height: 16px !important;
-                font-size: 9px !important;
+                width: 20px !important;
+                height: 20px !important;
+                line-height: 18px !important;
+                font-size: 10px !important;
             }
-            .zoom-control { width: 28px; }
-            .zoom-control button { width: 28px; height: 28px; font-size: 14px; }
-            .panel-body { padding: 4px !important; }
-            .short-history { font-size: 0.75rem; padding: 4px; }
-            .narrative-item { padding-left: 4px; margin-bottom: 6px; }
-            .photo-frame { height: 100px; }
-            .tabs .tab-btn { padding: 2px 6px; font-size: 0.6rem; }
-            audio { height: 24px; }
+            .zoom-control { width: 30px; }
+            .zoom-control button { width: 30px; height: 30px; font-size: 16px; }
+            .panel-body { padding: 6px !important; }
+            .short-history { font-size: 0.8rem; padding: 6px; }
+            .narrative-item { padding-left: 5px; margin-bottom: 8px; }
+            .photo-frame { height: 120px; }
+            .tabs .tab-btn { padding: 3px 8px; font-size: 0.7rem; }
+            audio { height: 28px; }
             #scroll-top {
-                bottom: 60px;
-                right: 6px;
-                width: 34px;
-                height: 34px;
-                font-size: 16px;
+                bottom: 70px;
+                right: 8px;
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
             }
         }
         @media (min-width: 769px) {
