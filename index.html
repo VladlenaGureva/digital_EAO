@@ -66,6 +66,37 @@
         .empty-message { color: #95a5a6; font-style: italic; }
         .custom-marker { background: white; border-radius: 50%; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3); border: 2px solid #2c3e50; width: 30px; height: 30px; line-height: 26px; font-size: 14px; color: #2c3e50; }
         .short-history { background: #fff4e0; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 1rem; line-height: 1.5; flex: 1; }
+        .short-history .history-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background: none;
+            border: none;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #2c3e50;
+            cursor: pointer;
+            padding: 0;
+            margin-bottom: 8px;
+        }
+        .short-history .history-toggle .toggle-icon {
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+        .short-history .history-toggle .toggle-icon.expanded {
+            transform: rotate(180deg);
+        }
+        .short-history .history-preview {
+            /* краткий текст */;
+        }
+        .short-history .history-full {
+            display: none;
+            margin-top: 8px;
+        }
+        .short-history .history-full.open {
+            display: block;
+        }
         .short-history p { margin-bottom: 10px; }
         .project-block { margin-bottom: 24px; }
         .project-block strong { color: #2c3e50; display: block; margin-bottom: 6px; font-size: 1.05rem; }
@@ -123,50 +154,51 @@
         }
         #scroll-top:hover { background: #2c3e50; }
 
+        /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
         @media (max-width: 768px) {
-            .top-section { flex-direction: column; }
+            .top-section { flex-direction: row; } /* горизонтальное расположение */
             .panel-left {
-                width: 100%;
-                max-height: 35vh;
-                border-right: none;
-                border-bottom: 1px solid #ccc;
-                padding: 10px 15px;
+                width: 40%;
+                max-height: 100vh;
+                border-right: 1px solid #ccc;
+                border-bottom: none;
+                padding: 10px 12px;
                 overflow-y: auto;
                 flex-shrink: 0;
             }
-            .panel-left h2 { font-size: 1.1rem; margin-bottom: 10px; }
-            .filter-group summary { font-size: 0.9rem; }
-            .filter-item label, .simple-filter label { font-size: 0.85rem; }
-            .map-wrapper { flex: 1; min-height: 65vh; }
+            .panel-left h2 { font-size: 1rem; margin-bottom: 8px; }
+            .filter-group summary { font-size: 0.8rem; }
+            .filter-item label, .simple-filter label { font-size: 0.75rem; }
+            .map-wrapper { flex: 1; min-height: auto; }
             .bottom-panel {
                 left: 0 !important;
                 height: 85vh;
                 transform: translateY(100%);
             }
             .bottom-panel.open { transform: translateY(0); }
-            .panel-header h3 { font-size: 1.1rem; }
+            .panel-header h3 { font-size: 1rem; }
             .place-content {
                 flex-direction: column;
-                gap: 20px;
+                gap: 15px;
             }
             .left-column  { min-width: unset; max-width: 100%; }
             .right-column { min-width: unset; max-width: 100%; }
-            .photo-frame { height: 200px; }
+            .photo-frame { height: 180px; }
             .custom-marker {
-                width: 24px !important;
-                height: 24px !important;
-                line-height: 22px !important;
-                font-size: 12px !important;
+                width: 22px !important;
+                height: 22px !important;
+                line-height: 20px !important;
+                font-size: 11px !important;
             }
             .zoom-control {
                 top: 10px;
                 right: 10px;
-                width: 36px;
+                width: 34px;
             }
             .zoom-control button {
-                width: 36px;
-                height: 36px;
-                font-size: 18px;
+                width: 34px;
+                height: 34px;
+                font-size: 16px;
             }
             .info-buttons {
                 top: 10px;
@@ -175,67 +207,68 @@
                 flex-wrap: wrap;
             }
             .info-btn {
-                padding: 6px 12px;
-                font-size: 0.8rem;
+                padding: 4px 10px;
+                font-size: 0.7rem;
             }
             .legend-route-symbol img {
-                width: 20px;
-                height: 20px;
+                width: 18px;
+                height: 18px;
             }
             .tabs .tab-btn {
-                padding: 6px 12px;
-                font-size: 0.8rem;
+                padding: 4px 10px;
+                font-size: 0.7rem;
             }
-            .narrative-item { padding-left: 10px; margin-bottom: 16px; }
-            audio { width: 100%; height: 36px; }
-            .short-history { font-size: 0.9rem; padding: 10px; }
-            .logos img { max-width: 100px; }
-            .layer-tooltip { max-width: 200px; font-size: 0.8rem; }
-            .audio-group summary { font-size: 0.9rem; padding: 4px 0; }
-            .narrative-subtitle-unique { font-size: 0.85rem; }
-            .panel-body { padding: 10px !important; }
-            .left-column, .right-column { padding: 0 5px; }
-            .short-history { font-size: 0.9rem; padding: 8px; }
             .narrative-item { padding-left: 8px; margin-bottom: 12px; }
-            .narrative-speaker { font-size: 0.85rem; }
-            .photo-frame { height: 150px; }
-            .tabs .tab-btn { padding: 4px 10px; font-size: 0.75rem; }
-            audio { height: 30px; margin-top: 4px; }
-            #scroll-top {
-                bottom: 80px;
-                right: 10px;
-                width: 44px;
-                height: 44px;
-                font-size: 20px;
-            }
-        }
-        @media (max-width: 480px) {
-            .panel-left { max-height: 30vh; padding: 8px 10px; }
-            .filter-item, .simple-filter { gap: 4px; margin: 4px 0; }
-            .filter-item input, .simple-filter input { width: 16px; height: 16px; }
-            .bottom-panel { height: 90vh; }
-            .photo-frame { height: 120px; }
-            .info-btn { font-size: 0.7rem; padding: 4px 10px; }
-            .custom-marker {
-                width: 20px !important;
-                height: 20px !important;
-                line-height: 18px !important;
-                font-size: 10px !important;
-            }
-            .zoom-control { width: 30px; }
-            .zoom-control button { width: 30px; height: 30px; font-size: 16px; }
-            .panel-body { padding: 6px !important; }
-            .short-history { font-size: 0.8rem; padding: 6px; }
-            .narrative-item { padding-left: 5px; margin-bottom: 8px; }
-            .photo-frame { height: 120px; }
-            .tabs .tab-btn { padding: 3px 8px; font-size: 0.7rem; }
-            audio { height: 28px; }
+            audio { width: 100%; height: 32px; }
+            .short-history { font-size: 0.85rem; padding: 8px; }
+            .logos img { max-width: 80px; }
+            .layer-tooltip { max-width: 180px; font-size: 0.7rem; }
+            .audio-group summary { font-size: 0.8rem; padding: 4px 0; }
+            .narrative-subtitle-unique { font-size: 0.8rem; }
+            .panel-body { padding: 8px !important; }
+            .left-column, .right-column { padding: 0 4px; }
+            .short-history { font-size: 0.85rem; padding: 6px; }
+            .narrative-item { padding-left: 6px; margin-bottom: 10px; }
+            .narrative-speaker { font-size: 0.8rem; }
+            .photo-frame { height: 130px; }
+            .tabs .tab-btn { padding: 3px 8px; font-size: 0.65rem; }
+            audio { height: 28px; margin-top: 4px; }
             #scroll-top {
                 bottom: 70px;
                 right: 8px;
-                width: 38px;
-                height: 38px;
+                width: 40px;
+                height: 40px;
                 font-size: 18px;
+            }
+        }
+        @media (max-width: 480px) {
+            .panel-left { width: 35%; padding: 6px 8px; }
+            .panel-left h2 { font-size: 0.9rem; }
+            .filter-item, .simple-filter { gap: 3px; margin: 3px 0; }
+            .filter-item input, .simple-filter input { width: 14px; height: 14px; }
+            .bottom-panel { height: 90vh; }
+            .photo-frame { height: 100px; }
+            .info-btn { font-size: 0.6rem; padding: 3px 8px; }
+            .custom-marker {
+                width: 18px !important;
+                height: 18px !important;
+                line-height: 16px !important;
+                font-size: 9px !important;
+            }
+            .zoom-control { width: 28px; }
+            .zoom-control button { width: 28px; height: 28px; font-size: 14px; }
+            .panel-body { padding: 4px !important; }
+            .short-history { font-size: 0.75rem; padding: 4px; }
+            .narrative-item { padding-left: 4px; margin-bottom: 6px; }
+            .photo-frame { height: 100px; }
+            .tabs .tab-btn { padding: 2px 6px; font-size: 0.6rem; }
+            audio { height: 24px; }
+            #scroll-top {
+                bottom: 60px;
+                right: 6px;
+                width: 34px;
+                height: 34px;
+                font-size: 16px;
             }
         }
         @media (min-width: 769px) {
@@ -811,6 +844,60 @@
         });
     }
 
+    // ---------- Создание блока истории с toggle ----------
+    function createHistoryBlock(historyText) {
+        const container = document.createElement('div');
+        container.className = 'short-history';
+        if (!historyText) return container;
+
+        const trimmed = historyText.trim();
+        const previewLength = 150;
+        let preview = trimmed.slice(0, previewLength);
+        if (trimmed.length > previewLength) {
+            preview = preview.slice(0, preview.lastIndexOf(' ')) + '…';
+        } else {
+            preview = trimmed;
+        }
+
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'history-toggle';
+        const labelSpan = document.createElement('span');
+        labelSpan.textContent = 'Историческая справка';
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'toggle-icon';
+        iconSpan.textContent = '▼';
+        toggleBtn.appendChild(labelSpan);
+        toggleBtn.appendChild(iconSpan);
+
+        const previewDiv = document.createElement('div');
+        previewDiv.className = 'history-preview';
+        previewDiv.innerHTML = `<p>${preview}</p>`;
+
+        const fullDiv = document.createElement('div');
+        fullDiv.className = 'history-full';
+        fullDiv.innerHTML = `<p>${trimmed}</p>`;
+
+        container.appendChild(toggleBtn);
+        container.appendChild(previewDiv);
+        container.appendChild(fullDiv);
+
+        let expanded = false;
+        toggleBtn.addEventListener('click', () => {
+            expanded = !expanded;
+            if (expanded) {
+                fullDiv.classList.add('open');
+                iconSpan.textContent = '▲';
+                previewDiv.style.display = 'none';
+            } else {
+                fullDiv.classList.remove('open');
+                iconSpan.textContent = '▼';
+                previewDiv.style.display = 'block';
+            }
+        });
+
+        return container;
+    }
+
     // ---------- Отображение маршрутов и мест ----------
     function showRouteInfo(routeData) {
         let startRu = routeData.start_name_ru || routeData.start_id || '?';
@@ -820,17 +907,8 @@
         container.innerHTML = '';
         const leftCol = document.createElement('div'); leftCol.className='left-column';
         if (routeData.short_history) {
-            const hist = document.createElement('details');
-            hist.className = 'short-history';
-            const summary = document.createElement('summary');
-            summary.textContent = 'Историческая справка';
-            summary.style.fontWeight = 'bold';
-            summary.style.cursor = 'pointer';
-            hist.appendChild(summary);
-            const p = document.createElement('p');
-            p.innerHTML = routeData.short_history.replace(/\n/g, '<br>');
-            hist.appendChild(p);
-            leftCol.appendChild(hist);
+            const histBlock = createHistoryBlock(routeData.short_history);
+            leftCol.appendChild(histBlock);
         }
         const audioContainer = document.createElement('div');
         renderNarrativesWithGrouping(routeData.audio_fragments, audioContainer);
@@ -861,17 +939,8 @@
         container.innerHTML = '';
         const leftCol = document.createElement('div'); leftCol.className='left-column';
         if(data.short_history){ 
-            const details = document.createElement('details');
-            details.className = 'short-history';
-            const summary = document.createElement('summary');
-            summary.textContent = 'Историческая справка';
-            summary.style.fontWeight = 'bold';
-            summary.style.cursor = 'pointer';
-            details.appendChild(summary);
-            const p = document.createElement('p');
-            p.innerHTML = data.short_history.replace(/\n/g, '<br>');
-            details.appendChild(p);
-            leftCol.appendChild(details);
+            const histBlock = createHistoryBlock(data.short_history);
+            leftCol.appendChild(histBlock);
         }
         const allPlaceLayers = data.layers||[];
         const tabsData = data.tabs||{};
@@ -926,8 +995,27 @@
         return container;
     }
 
-    function openBottomPanel(){ document.getElementById('bottom-panel').classList.add('open'); }
-    function closeBottomPanel(){ document.getElementById('bottom-panel').classList.remove('open'); document.getElementById('place-title').textContent='Информация о месте'; document.getElementById('place-content').innerHTML=''; currentPlaceId=null; showingAllLayers=false; }
+    function openBottomPanel(){
+        document.getElementById('bottom-panel').classList.add('open');
+        // Скрываем кнопки управления на мобильных (ширина <= 768px)
+        if (window.innerWidth <= 768) {
+            document.querySelector('.info-buttons').style.display = 'none';
+            document.querySelector('.zoom-control').style.display = 'none';
+        }
+    }
+    function closeBottomPanel(){
+        document.getElementById('bottom-panel').classList.remove('open');
+        document.getElementById('place-title').textContent='Информация о месте';
+        document.getElementById('place-content').innerHTML='';
+        currentPlaceId=null;
+        showingAllLayers=false;
+        // Показываем кнопки управления обратно
+        if (window.innerWidth <= 768) {
+            document.querySelector('.info-buttons').style.display = 'flex';
+            document.querySelector('.zoom-control').style.display = 'flex';
+        }
+    }
+
     function showLayerTooltip(text,event){
         const tooltipDiv = document.getElementById('layer-tooltip');
         tooltipDiv.innerHTML = `<span class="tooltip-close">✕</span><p>${text}</p>`;
