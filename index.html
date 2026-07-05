@@ -98,7 +98,6 @@
         .lightbox .counter { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; color: white; font-size: 16px; background: rgba(0,0,0,0.5); display: inline-block; margin: 0 auto; width: fit-content; padding: 5px 12px; border-radius: 20px; }
         .leaflet-control-attribution a:first-child { display: none; }
 
-        /* Аудио-группы */
         .audio-group { margin-bottom: 12px; }
         .audio-group summary { font-weight: bold; cursor: pointer; color: #2c3e50; padding: 6px 0; list-style: none; display: flex; align-items: center; }
         .audio-group summary::-webkit-details-marker { display: none; }
@@ -106,7 +105,6 @@
         .audio-group[open] summary::before { transform: rotate(90deg); }
         .narrative-subtitle-unique { font-style: italic; font-weight: normal; color: #555; margin-bottom: 4px; }
 
-        /* Кнопка "Наверх" */
         #scroll-top {
             display: none;
             position: fixed;
@@ -125,7 +123,6 @@
         }
         #scroll-top:hover { background: #2c3e50; }
 
-        /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
         @media (max-width: 768px) {
             .top-section { flex-direction: column; }
             .panel-left {
@@ -686,6 +683,28 @@
         imgEl.alt = photo.caption || '';
         counterEl.textContent = `${currentLightboxIndex+1} / ${currentLightboxPhotos.length}`;
     }
+
+    // Поддержка свайпов в лайтбоксе
+    let touchStartX = 0;
+    let touchStartY = 0;
+    const lightboxEl = document.getElementById('lightbox');
+    lightboxEl.addEventListener('touchstart', function(e) {
+        if (!this.classList.contains('active')) return;
+        const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+    }, { passive: true });
+    lightboxEl.addEventListener('touchend', function(e) {
+        if (!this.classList.contains('active')) return;
+        const touch = e.changedTouches[0];
+        const diffX = touch.clientX - touchStartX;
+        const diffY = touch.clientY - touchStartY;
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+            if (diffX < 0) nextPhoto();
+            else prevPhoto();
+        }
+    }, { passive: true });
+
     document.getElementById('lightbox').addEventListener('click', (e) => {
         if (e.target.classList.contains('close-lightbox') || e.target === document.getElementById('lightbox')) closeLightbox();
     });
@@ -951,9 +970,7 @@
                     </div>
                     <div class="project-block">
                         <strong><i class="fab fa-github"></i> Исходный код</strong>
-                        <p>Репозиторий проекта: 
-                            <a href="https://github.com/VladlenaGureva/digital_EAO" target="_blank">github.com/VladlenaGureva/digital_EAO</a>
-                        </p>
+                        <p><a href="https://github.com/VladlenaGureva/digital_EAO" target="_blank">Репозиторий проекта на GitHub</a></p>
                     </div>
                     <div class="project-block"><strong>Контакты</strong><p>Гурьева Владлена: <a href="mailto:vgureva@hse.ru">vgureva@hse.ru</a><br>Центр «Сэфер»: <a href="mailto:sefer@sefer.ru">sefer@sefer.ru</a></p></div>
                     <div class="cross-link" id="cross-to-help">Как читать карту</div>
