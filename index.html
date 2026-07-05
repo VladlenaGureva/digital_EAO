@@ -98,39 +98,13 @@
         .lightbox .counter { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; color: white; font-size: 16px; background: rgba(0,0,0,0.5); display: inline-block; margin: 0 auto; width: fit-content; padding: 5px 12px; border-radius: 20px; }
         .leaflet-control-attribution a:first-child { display: none; }
 
-        /* Стили для аудио-групп и уникальных подзаголовков */
-        .audio-group {
-            margin-bottom: 12px;
-        }
-        .audio-group summary {
-            font-weight: bold;
-            cursor: pointer;
-            color: #2c3e50;
-            padding: 6px 0;
-            list-style: none;
-            display: flex;
-            align-items: center;
-        }
-        .audio-group summary::-webkit-details-marker {
-            display: none;
-        }
-        .audio-group summary::before {
-            content: "▶";
-            font-size: 0.8rem;
-            margin-right: 8px;
-            transition: transform 0.2s;
-        }
-        .audio-group[open] summary::before {
-            transform: rotate(90deg);
-        }
-
-        /* Уникальный подзаголовок – курсив, как было изначально */
-        .narrative-subtitle-unique {
-            font-style: italic;
-            font-weight: normal;
-            color: #555;
-            margin-bottom: 4px;
-        }
+        /* Аудио-группы */
+        .audio-group { margin-bottom: 12px; }
+        .audio-group summary { font-weight: bold; cursor: pointer; color: #2c3e50; padding: 6px 0; list-style: none; display: flex; align-items: center; }
+        .audio-group summary::-webkit-details-marker { display: none; }
+        .audio-group summary::before { content: "▶"; font-size: 0.8rem; margin-right: 8px; transition: transform 0.2s; }
+        .audio-group[open] summary::before { transform: rotate(90deg); }
+        .narrative-subtitle-unique { font-style: italic; font-weight: normal; color: #555; margin-bottom: 4px; }
 
         /* Кнопка "Наверх" */
         #scroll-top {
@@ -151,12 +125,12 @@
         }
         #scroll-top:hover { background: #2c3e50; }
 
-        /* МОБИЛЬНАЯ АДАПТАЦИЯ */
+        /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
         @media (max-width: 768px) {
             .top-section { flex-direction: column; }
             .panel-left {
                 width: 100%;
-                max-height: 40vh;
+                max-height: 35vh;
                 border-right: none;
                 border-bottom: 1px solid #ccc;
                 padding: 10px 15px;
@@ -166,20 +140,20 @@
             .panel-left h2 { font-size: 1.1rem; margin-bottom: 10px; }
             .filter-group summary { font-size: 0.9rem; }
             .filter-item label, .simple-filter label { font-size: 0.85rem; }
-            .map-wrapper { flex: 1; min-height: 60vh; }
+            .map-wrapper { flex: 1; min-height: 65vh; }
             .bottom-panel {
                 left: 0 !important;
-                height: 80vh;
+                height: 85vh;
                 transform: translateY(100%);
             }
             .bottom-panel.open { transform: translateY(0); }
             .panel-header h3 { font-size: 1.1rem; }
-            .place-content { flex-direction: column; }
-            .left-column, .right-column {
-                flex: 1 1 auto;
-                min-width: unset;
-                max-width: 100%;
+            .place-content {
+                flex-direction: column;
+                gap: 20px;
             }
+            .left-column  { min-width: unset; max-width: 100%; }
+            .right-column { min-width: unset; max-width: 100%; }
             .photo-frame { height: 200px; }
             .custom-marker {
                 width: 24px !important;
@@ -222,7 +196,6 @@
             .layer-tooltip { max-width: 200px; font-size: 0.8rem; }
             .audio-group summary { font-size: 0.9rem; padding: 4px 0; }
             .narrative-subtitle-unique { font-size: 0.85rem; }
-            /* уплотнение панели */
             .panel-body { padding: 10px !important; }
             .left-column, .right-column { padding: 0 5px; }
             .short-history { font-size: 0.9rem; padding: 8px; }
@@ -243,7 +216,7 @@
             .panel-left { max-height: 30vh; padding: 8px 10px; }
             .filter-item, .simple-filter { gap: 4px; margin: 4px 0; }
             .filter-item input, .simple-filter input { width: 16px; height: 16px; }
-            .bottom-panel { height: 85vh; }
+            .bottom-panel { height: 90vh; }
             .photo-frame { height: 120px; }
             .info-btn { font-size: 0.7rem; padding: 4px 10px; }
             .custom-marker {
@@ -369,7 +342,6 @@
         "Идентификация с местом": "степень привязанности, вовлеченности и заботы, которую человек или группа испытывает к конкретному месту."
     };
 
-    // Сохранение и загрузка фильтров с версионированием
     const FILTERS_VERSION = '2';
     function saveFiltersToStorage() {
         localStorage.setItem('map_filters', JSON.stringify(Array.from(activeFilters)));
@@ -390,7 +362,7 @@
         }
     }
 
-    // Фильтрация маркеров и маршрутов
+    // ---------- Фильтрация ----------
     function applyFilterToMarkers() {
         if (!geoJSONLayer || !routesLayer) return;
         geoJSONLayer.clearLayers();
@@ -410,12 +382,10 @@
         allRouteFeatures.forEach(feature => {
             const wave = feature.properties?.wave;
             if (activeFilters.size === 0 || (wave && activeFilters.has(wave))) {
-                // Видимая линия
                 const line = L.geoJSON(feature, {
                     style: () => ({ color: waveColors[wave] || defaultLineColor, weight: 4, dashArray: '8,12', opacity: 0.8 })
                 });
                 routesLayer.addLayer(line);
-                // Невидимая линия-обманка для увеличения области клика
                 const hitLine = L.geoJSON(feature, {
                     style: () => ({ color: 'transparent', weight: 12, opacity: 0, interactive: true }),
                     onEachFeature: (f, layer) => {
@@ -504,7 +474,7 @@
         });
     }
 
-    // Построение панели фильтров
+    // ---------- Построение панели фильтров ----------
     function buildFilterPanel() {
         const container = document.getElementById('filters-container');
         container.innerHTML = '';
@@ -599,7 +569,7 @@
         });
     }
 
-    // Загрузка маршрутов и точек
+    // ---------- Загрузка данных ----------
     async function loadRoutes() {
         try {
             const response = await fetch('routes.geojson');
@@ -674,7 +644,7 @@
         return `<div class="custom-tooltip"><strong>${name}</strong>${iconsHtml}</div>`;
     }
 
-    // Lightbox
+    // ---------- Lightbox ----------
     function openLightbox(photos, startIndex) {
         if (!photos || photos.length === 0) return;
         currentLightboxPhotos = photos;
@@ -734,25 +704,22 @@
         return url + '.mp3';
     }
 
-    // ---------- ФУНКЦИИ ДЛЯ ГРУППИРОВКИ АУДИО ----------
+    // ---------- Группировка аудио ----------
     function createNarrativeElement(nar, showSubtitle = true) {
         const div = document.createElement('div');
         div.className = 'narrative-item';
-        // Сначала спикер
         if (nar.speaker) {
             const sp = document.createElement('div');
             sp.className = 'narrative-speaker';
             sp.textContent = `Информант: ${nar.speaker}`;
             div.appendChild(sp);
         }
-        // Потом подзаголовок (только для уникальных элементов)
         if (showSubtitle && nar.subtitle) {
             const sub = document.createElement('div');
             sub.className = 'narrative-subtitle-unique';
             sub.textContent = nar.subtitle;
             div.appendChild(sub);
         }
-        // Аудио и транскрипт
         if (nar.audio_url) {
             const aud = document.createElement('audio');
             aud.controls = true;
@@ -789,17 +756,13 @@
             container.appendChild(empty);
             return;
         }
-
-        // Подсчёт частоты подзаголовков (пустая строка – отдельный ключ)
         const freq = new Map();
         narratives.forEach(nar => {
             const key = nar.subtitle || '';
             freq.set(key, (freq.get(key) || 0) + 1);
         });
-
-        // Разделяем на уникальные (частота 1) и повторяющиеся
         const uniqueItems = [];
-        const groupMap = new Map(); // key -> [nar, ...]
+        const groupMap = new Map();
         narratives.forEach(nar => {
             const key = nar.subtitle || '';
             if (freq.get(key) === 1) {
@@ -809,15 +772,10 @@
                 groupMap.get(key).push(nar);
             }
         });
-
-        // 1. Выводим уникальные элементы (в исходном порядке) – спикер, подзаголовок курсивом
         uniqueItems.forEach(nar => {
             const elem = createNarrativeElement(nar, true);
             container.appendChild(elem);
         });
-
-        // 2. Выводим группы (повторяющиеся подзаголовки) – жирный заголовок, раскрывающийся список
-        // Сортируем ключи групп по алфавиту (русская локаль)
         const sortedGroupKeys = Array.from(groupMap.keys()).sort((a, b) => a.localeCompare(b, 'ru'));
         sortedGroupKeys.forEach(key => {
             const items = groupMap.get(key);
@@ -827,14 +785,14 @@
             summary.textContent = key;
             details.appendChild(summary);
             items.forEach(nar => {
-                const elem = createNarrativeElement(nar, false); // без подзаголовка
+                const elem = createNarrativeElement(nar, false);
                 details.appendChild(elem);
             });
             container.appendChild(details);
         });
     }
 
-    // ---------- Остальные функции ----------
+    // ---------- Отображение маршрутов и мест ----------
     function showRouteInfo(routeData) {
         let startRu = routeData.start_name_ru || routeData.start_id || '?';
         let endRu = routeData.end_name_ru || routeData.end_id || '?';
@@ -843,13 +801,21 @@
         container.innerHTML = '';
         const leftCol = document.createElement('div'); leftCol.className='left-column';
         if (routeData.short_history) {
-            const hist = document.createElement('div'); hist.className='short-history'; hist.innerHTML = `<strong>Историческая справка</strong><br><p>${routeData.short_history}</p>`;
+            const hist = document.createElement('details');
+            hist.className = 'short-history';
+            const summary = document.createElement('summary');
+            summary.textContent = 'Историческая справка';
+            summary.style.fontWeight = 'bold';
+            summary.style.cursor = 'pointer';
+            hist.appendChild(summary);
+            const p = document.createElement('p');
+            p.innerHTML = routeData.short_history.replace(/\n/g, '<br>');
+            hist.appendChild(p);
             leftCol.appendChild(hist);
         }
         const audioContainer = document.createElement('div');
         renderNarrativesWithGrouping(routeData.audio_fragments, audioContainer);
         leftCol.appendChild(audioContainer);
-
         const rightCol = document.createElement('div'); rightCol.className='right-column';
         if (routeData.photos && routeData.photos.length) {
             const carousel = createPhotoCarousel(routeData.photos);
@@ -876,9 +842,17 @@
         container.innerHTML = '';
         const leftCol = document.createElement('div'); leftCol.className='left-column';
         if(data.short_history){ 
-            const hd=document.createElement('div'); hd.className='short-history'; 
-            hd.innerHTML=`<strong>Историческая справка</strong><br>${data.short_history.replace(/\n/g,'<br>')}`; 
-            leftCol.appendChild(hd); 
+            const details = document.createElement('details');
+            details.className = 'short-history';
+            const summary = document.createElement('summary');
+            summary.textContent = 'Историческая справка';
+            summary.style.fontWeight = 'bold';
+            summary.style.cursor = 'pointer';
+            details.appendChild(summary);
+            const p = document.createElement('p');
+            p.innerHTML = data.short_history.replace(/\n/g, '<br>');
+            details.appendChild(p);
+            leftCol.appendChild(details);
         }
         const allPlaceLayers = data.layers||[];
         const tabsData = data.tabs||{};
@@ -975,6 +949,12 @@
                         <p>Проект выполнен в рамках магистерской диссертации Гурьевой Владленой на образовательной программе «Цифровые методы в гуманитарных науках» НИУ ВШЭ.</p>
                         <p><sup>*</sup><em>Настоящий цифровой маршрут является пополняющимся</em></p>
                     </div>
+                    <div class="project-block">
+                        <strong><i class="fab fa-github"></i> Исходный код</strong>
+                        <p>Репозиторий проекта: 
+                            <a href="https://github.com/VladlenaGureva/digital_EAO" target="_blank">github.com/VladlenaGureva/digital_EAO</a>
+                        </p>
+                    </div>
                     <div class="project-block"><strong>Контакты</strong><p>Гурьева Владлена: <a href="mailto:vgureva@hse.ru">vgureva@hse.ru</a><br>Центр «Сэфер»: <a href="mailto:sefer@sefer.ru">sefer@sefer.ru</a></p></div>
                     <div class="cross-link" id="cross-to-help">Как читать карту</div>
                 </div>
@@ -1001,7 +981,6 @@
             <div class="left-column">
                 <div class="short-history">
                     <div style="position:relative;padding-bottom:56.25%;height:0;margin-bottom:20px;">
-                        <!-- Вставьте свой iframe с видеоинструкцией (YouTube, RuTube и т.п.) -->
                         <iframe src="https://www.youtube.com/embed/ЗАМЕНИТЕ_НА_ВАШ_ИД" 
                             style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:8px;" 
                             allowfullscreen loading="lazy">
@@ -1026,7 +1005,7 @@
         openBottomPanel();
     }
 
-    // ---------- Остановка аудио при старте нового ----------
+    // ---------- Остановка аудио ----------
     document.getElementById('panel-body').addEventListener('play', function(e) {
         if (e.target.tagName === 'AUDIO') {
             const allAudio = this.querySelectorAll('audio');
