@@ -103,22 +103,24 @@
         .project-block p, .project-block ul { margin-left: 0; margin-top: 4px; line-height: 1.45; }
         .project-block ul { padding-left: 20px; }
         hr.sep { margin: 16px 0; border: 0; height: 1px; background: #e0d7b0; }
-        .logos {
+        /* Логотипы вынесены в отдельный блок на всю ширину */
+        .logos-container {
+            width: 100%;
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 40px;
-            margin-top: 20px;
             align-items: center;
-            flex-wrap: nowrap; /* логотипы в один ряд */
-            overflow-x: auto; /* прокрутка при переполнении */
-            padding-bottom: 4px;
+            gap: 40px;
+            margin-top: 24px;
+            padding: 8px 0;
+            flex-wrap: nowrap;
+            overflow-x: auto; /* прокрутка, если не влезают (но подобрано так, чтобы влезали) */
         }
-        .logos img {
-            width: auto; /* убрали 50% */
+        .logos-container img {
+            width: auto;
             max-width: 150px;
             height: auto;
-            flex-shrink: 0; /* не сжимаются */
+            flex-shrink: 0;
         }
         .layer-tooltip { position: absolute; background: #fffef7; color: #1e2a36; padding: 12px 16px; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); font-size: 0.85rem; line-height: 1.45; max-width: 280px; z-index: 2000; border: 1px solid #e0d7b0; pointer-events: auto; display: none; }
         .layer-tooltip .tooltip-close { float: right; cursor: pointer; font-weight: bold; font-size: 1.2rem; line-height: 1; margin-left: 12px; color: #8b7a5c; }
@@ -171,7 +173,6 @@
 
         /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
         @media (max-width: 768px) {
-            /* вертикальное расположение легенды и карты */
             .top-section { flex-direction: column; }
             .panel-left {
                 width: 100%;
@@ -237,11 +238,12 @@
             .narrative-item { padding-left: 10px; margin-bottom: 16px; }
             audio { width: 100%; height: 36px; }
             .short-history { font-size: 0.9rem; padding: 10px; }
-            .logos {
+            .logos-container {
                 gap: 20px;
-                flex-wrap: nowrap;
+                justify-content: flex-start;
+                overflow-x: auto;
             }
-            .logos img {
+            .logos-container img {
                 max-width: 100px;
             }
             .layer-tooltip { max-width: 200px; font-size: 0.8rem; }
@@ -291,11 +293,10 @@
                 height: 38px;
                 font-size: 18px;
             }
-            .logos {
+            .logos-container {
                 gap: 12px;
-                flex-wrap: nowrap;
             }
-            .logos img {
+            .logos-container img {
                 max-width: 70px;
             }
         }
@@ -1091,16 +1092,16 @@
                     <div class="project-block"><strong>Контакты</strong><p>Гурьева Владлена: <a href="mailto:vgureva@hse.ru">vgureva@hse.ru</a><br>Центр «Сэфер»: <a href="mailto:sefer@sefer.ru">sefer@sefer.ru</a></p></div>
                     <div class="cross-link" id="cross-to-help">Как читать карту</div>
                 </div>
-                <div class="logos">
-                    <img src="images/hse_logo.png" alt="НИУ ВШЭ" onerror="console.warn('Логотип ВШЭ не найден')">
-                    <img src="images/logo_sefer.png" alt="Сэфер" onerror="console.warn('Логотип Сэфер не найден')">
-                    <img src="images/logo_rgo.png" alt="РГО" onerror="console.warn('Логотип РГО не найден')">
-                    <img src="images/logo_rsv.png" alt="РСВ" onerror="console.warn('Логотип РСВ не найден')">
-                    <img src="images/logo_bchp.svg" alt="БЧП" onerror="console.warn('Логотип БЧП не найден')">
-                    <img src="images/logo_rzo.jpeg" alt="РЗО" onerror="console.warn('Логотип РЗО не найден')">
-                </div>
             </div>
             <div class="right-column" id="project-carousel-container"></div>
+            <div class="logos-container">
+                <img src="images/hse_logo.png" alt="НИУ ВШЭ" onerror="console.warn('Логотип ВШЭ не найден')">
+                <img src="images/logo_sefer.png" alt="Сэфер" onerror="console.warn('Логотип Сэфер не найден')">
+                <img src="images/logo_rgo.png" alt="РГО" onerror="console.warn('Логотип РГО не найден')">
+                <img src="images/logo_rsv.png" alt="РСВ" onerror="console.warn('Логотип РСВ не найден')">
+                <img src="images/logo_bchp.svg" alt="БЧП" onerror="console.warn('Логотип БЧП не найден')">
+                <img src="images/logo_rzo.jpeg" alt="РЗО" onerror="console.warn('Логотип РЗО не найден')">
+            </div>
         `;
         const expoPhotos = [];
         for (let i = 1; i <= 12; i++) {
